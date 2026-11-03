@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Galatasaray × Stuttgart | Canlı Skor</title>
 
 <style>
@@ -14,17 +15,15 @@
   --yellow: #ffdc35;
   --red: #e50932;
   --dark: #100b12;
-  --panel: #21151f;
-  --white: #fff;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(ellipse at top left, #631425 0%, transparent 48%),
-    radial-gradient(ellipse at bottom right, #674313 0%, transparent 48%),
-    var(--dark);
+    radial-gradient(ellipse at top left, #631425, transparent 48%),
+    radial-gradient(ellipse at bottom right, #674313, transparent 48%),
+    #100b12;
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   display: flex;
@@ -55,7 +54,8 @@ body {
   margin-bottom: 30px;
 }
 
-.teams {
+.teams,
+.result-teams {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   gap: 8px;
@@ -68,6 +68,7 @@ body {
   overflow-wrap: anywhere;
 }
 
+/* Ekranda hareketli sarı-kırmızı yazı */
 .galatasaray {
   background: linear-gradient(
     110deg,
@@ -80,19 +81,25 @@ body {
   background-size: 300% 100%;
   -webkit-background-clip: text;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
   color: transparent;
   animation: shine 2s linear infinite;
   filter: drop-shadow(0 0 9px #ffbd2444);
 }
 
 .stuttgart {
-  color: #fff;
+  color: white;
   text-shadow: 0 0 12px #ffffff65;
 }
 
 @keyframes shine {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 300% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 300% 50%;
+  }
 }
 
 .vs {
@@ -146,7 +153,7 @@ button {
   font-size: 15px;
   font-weight: 900;
   cursor: pointer;
-  transition: transform .15s, opacity .15s;
+  transition: transform .15s;
 }
 
 button:active {
@@ -155,7 +162,12 @@ button:active {
 
 .stop-btn {
   width: 100%;
-  background: linear-gradient(110deg, #ffdf42, #ff922c, #e8193b);
+  background: linear-gradient(
+    110deg,
+    #ffdf42,
+    #ff922c,
+    #e8193b
+  );
   color: #180c0e;
   box-shadow: 0 7px 25px #ff4a2440;
 }
@@ -195,8 +207,8 @@ button:active {
 .capture {
   position: relative;
   background:
-    radial-gradient(circle at 0% 0%, #7c202e 0%, transparent 45%),
-    radial-gradient(circle at 100% 100%, #745018 0%, transparent 45%),
+    radial-gradient(circle at 0% 0%, #7c202e, transparent 45%),
+    radial-gradient(circle at 100% 100%, #745018, transparent 45%),
     linear-gradient(150deg, #28141e, #100c14);
   border: 2px solid #c18a39;
   border-radius: 22px;
@@ -212,7 +224,13 @@ button:active {
   right: 12%;
   top: 0;
   height: 3px;
-  background: linear-gradient(90deg, transparent, #ffe05b, #e50932, transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #ffe05b,
+    #e50932,
+    transparent
+  );
 }
 
 .result-label {
@@ -229,10 +247,6 @@ button:active {
 }
 
 .result-teams {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 8px;
   margin-top: 25px;
 }
 
@@ -365,6 +379,7 @@ button:active {
 <body>
 
 <main class="app">
+
   <div class="match-card">
 
     <div class="date">
@@ -372,15 +387,27 @@ button:active {
     </div>
 
     <div class="teams">
-      <div class="team galatasaray">GALATASARAY</div>
+
+      <div class="team galatasaray">
+        GALATASARAY
+      </div>
+
       <div class="vs">X</div>
-      <div class="team stuttgart">STUTTGART</div>
+
+      <div class="team stuttgart">
+        STUTTGART
+      </div>
+
     </div>
 
     <div class="score">
+
       <span class="home-score" id="homeScore">1</span>
+
       <span class="separator">:</span>
+
       <span class="away-score" id="awayScore">1</span>
+
     </div>
 
     <div class="status" id="status">
@@ -396,12 +423,14 @@ button:active {
     </button>
 
   </div>
+
 </main>
 
 <div class="overlay" id="overlay">
+
   <div class="popup">
 
-    <!-- PNG olarak kaydedilecek alan -->
+    <!-- Yalnızca bu alan PNG olarak kaydedilir. -->
     <div class="capture" id="capture">
 
       <div class="result-label">
@@ -413,9 +442,17 @@ button:active {
       </div>
 
       <div class="result-teams">
-        <div class="team galatasaray">GALATASARAY</div>
+
+        <div class="team galatasaray">
+          GALATASARAY
+        </div>
+
         <div class="vs">X</div>
-        <div class="team stuttgart">STUTTGART</div>
+
+        <div class="team stuttgart">
+          STUTTGART
+        </div>
+
       </div>
 
       <div class="result-score" id="resultScore">
@@ -423,20 +460,35 @@ button:active {
       </div>
 
       <div class="events">
+
         <div class="event-column">
-          <div class="event-title">🟡 GALATASARAY</div>
+
+          <div class="event-title">
+            🟡 GALATASARAY
+          </div>
+
           <div id="homeEvents"></div>
+
         </div>
 
         <div class="event-column">
-          <div class="event-title">⚪ STUTTGART</div>
+
+          <div class="event-title">
+            ⚪ STUTTGART
+          </div>
+
           <div id="awayEvents"></div>
+
         </div>
+
       </div>
 
       <div class="analysis">
+
         <h3>🎙️ MAÇ ANALİZİ</h3>
+
         <p id="analysisText"></p>
+
       </div>
 
     </div>
@@ -458,32 +510,33 @@ button:active {
     </div>
 
   </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <script>
 
-// Oyuncular örnek simülasyon havuzudur.
+// Oyuncular simülasyon için örnek havuzdur.
 // Resmî maç kadrosu değildir.
 
 const galatasarayPlayers = [
   "Victor Osimhen",
-  "Mauro Icardi",
+  "Rafael Leao",
   "Barış Alper Yılmaz",
   "Leroy Sané",
   "Yunus Akgün",
   "Gabriel Sara",
   "Lucas Torreira",
   "Roland Sallai",
-  "İlkay Gündoğan",
-  "Eren Elmalı",
-  "Abdülkerim Bardakcı",
+  "Aleksei Batrakov",
+  "Ismael Jacobs",
+  "Deniz Gül",
   "Davinson Sánchez"
 ];
 
 const stuttgartPlayers = [
-  "Deniz Undav",
+
   "Ermedin Demirović",
   "Jamie Leweling",
   "Chris Führich",
@@ -513,7 +566,7 @@ function pick(array) {
   return array[random(0, array.length - 1)];
 }
 
-// 10 milisaniyede bir değişim
+// Skorlar 10 milisaniyede bir değişir.
 function startScores() {
 
   clearInterval(timer);
@@ -534,7 +587,6 @@ function generateGoals(score, players) {
 
   const minutes = [];
 
-  // Gol dakikaları kronolojik sıralanır.
   for (let i = 0; i < score; i++) {
     minutes.push(random(1, 90));
   }
@@ -545,7 +597,6 @@ function generateGoals(score, players) {
 
     const scorer = pick(players);
 
-    // Golcü ile asist yapan farklı kişiler.
     const assistants = players.filter(
       player => player !== scorer
     );
@@ -577,8 +628,8 @@ function renderGoals(goals) {
       <div class="assist">
         ${
           goal.assist
-          ? "🅰️ Asist: " + goal.assist
-          : "Asistsiz gol"
+            ? "🅰️ Asist: " + goal.assist
+            : "Asistsiz gol"
         }
       </div>
 
@@ -593,8 +644,12 @@ function getAnalysis(home, away, homeGoals, awayGoals) {
   const difference = Math.abs(home - away);
 
   const homeTopScorer = homeGoals.reduce((result, goal) => {
-    result[goal.scorer] = (result[goal.scorer] || 0) + 1;
+
+    result[goal.scorer] =
+      (result[goal.scorer] || 0) + 1;
+
     return result;
+
   }, {});
 
   const topScorer = Object.entries(homeTopScorer)
@@ -607,6 +662,7 @@ function getAnalysis(home, away, homeGoals, awayGoals) {
   if (home > away) {
 
     comments = [
+
       `Galatasaray sahaya futbol oynamaya değil, Stuttgart'ın moralini bozmaya çıkmış! ${home} golün ardından Alman savunması navigasyondan çıkış arıyor. 😂`,
 
       `${star} bugün Stuttgart savunmasına zor anlar yaşattı. Alman ekibi maç sonunda savunma hattı için teknik servis çağırabilir! 🦁`,
@@ -614,35 +670,43 @@ function getAnalysis(home, away, homeGoals, awayGoals) {
       `RAMS Park'ta gol yağmuru! Stuttgart kalecisi maçtan sonra eldivenlerini satışa çıkarırsa şaşırmayın. 😂`,
 
       `Galatasaray hücumu öyle hızlıydı ki Stuttgart savunması pozisyonları ancak maç özetinden izleyebildi! 🔥`
+
     ];
 
     if (difference >= 5) {
+
       comments.push(
         `Bu artık galibiyet değil, futbol tarihine geçecek bir stres testi! Stuttgart savunması toplu izin dilekçesi hazırlıyor. 🤣`
       );
+
     }
 
   } else if (away > home) {
 
     comments = [
+
       `Galatasaray savunması bugün Stuttgart oyuncularına VIP geçiş kartı vermiş gibi! O kadar rahat geçtiler ki güvenlik kontrolü bile yapılmadı. 😂`,
 
       `Stuttgart ${away} gol attı. Galatasaray teknik heyeti savunmanın maç saatinden haberi olup olmadığını araştırıyor. 🤣`,
 
       `Galatasaray taraftarı bu skordan sonra televizyon kumandasını transfer listesine koyabilir. 😭`,
 
-      `Stuttgart hücumcuları bugün İstanbul'da gol turizmine çıkmış. Galatasaray savunması da rehberlik yapmış! 😂`
+      `Stuttgart hücumcuları bugün İstanbul'da gol turizmine çıkmış. Galatasaray savunması da rehberlik yapmış!`
+
     ];
 
     if (difference >= 5) {
+
       comments.push(
         `Galatasaray savunması için acil durum toplantısı! Toplantının ilk gündemi: Rakip oyuncular neden bu kadar yalnız kaldı? 😭`
       );
+
     }
 
   } else {
 
     comments = [
+
       `İki takım da savunma yapmamaya yemin etmiş! Kaleciler maç sonunda birbirlerine geçmiş olsun mesajı gönderdi. 😂`,
 
       `Bu maçta futbol değil, gol festivali vardı. Savunmacılar ise festivale katılmamayı tercih etti! 🤣`,
@@ -650,12 +714,15 @@ function getAnalysis(home, away, homeGoals, awayGoals) {
       `Galatasaray ve Stuttgart birbirine gol hediye etmekten maçı bitiremedi. Tam bir karşılıklı ikramlaşma! ⚽`,
 
       `Beraberlik çıktı ama kalecilerin psikolojisi berabere kalmadı. İkisi de maçın bitiş düdüğünü bekliyordu! 😂`
+
     ];
 
     if (home >= 6) {
+
       comments.push(
         `${home}-${away} biten maçta skor tabelası fazla mesaiden şikâyetçi! Kaleciler için psikolojik destek hattı açılabilir. 🤣`
       );
+
     }
 
   }
@@ -669,6 +736,7 @@ function stopMatch() {
   if (stopped) return;
 
   stopped = true;
+
   clearInterval(timer);
 
   document.getElementById("status").textContent =
@@ -722,32 +790,79 @@ function closePopup() {
 
 }
 
-// Popup'ın orijinal tasarımını PNG'ye dönüştür.
+// DÜZELTİLMİŞ PNG OLUŞTURMA FONKSİYONU
+// Galatasaray yazısı görselde kaybolmaz.
+
 async function createImageBlob() {
 
   if (typeof html2canvas === "undefined") {
+
     throw new Error(
       "Görsel oluşturma kütüphanesi yüklenemedi. İnternet bağlantını kontrol et."
     );
+
   }
 
   const capture = document.getElementById("capture");
 
-  // Ekranda popup küçük olsa bile tam içerik yakalanır.
+  await document.fonts.ready;
+
   const canvas = await html2canvas(capture, {
-    backgroundColor: null,
-    scale: 2,
+
+    backgroundColor: "#100c14",
+    scale: 3,
     useCORS: true,
     logging: false,
     scrollX: 0,
     scrollY: 0,
-    windowWidth: document.documentElement.clientWidth,
-    onclone: clonedDocument => {
+
+    onclone: (clonedDocument) => {
+
       const clonedCapture =
         clonedDocument.getElementById("capture");
 
-      clonedCapture.style.animation = "none";
+      // PNG'de animasyonları durdur.
+      clonedCapture.querySelectorAll("*").forEach(el => {
+        el.style.animation = "none";
+      });
+
+      // Galatasaray yazısını görünür yap.
+      clonedCapture
+        .querySelectorAll(".galatasaray")
+        .forEach(el => {
+
+          el.style.background = "none";
+          el.style.backgroundImage = "none";
+
+          el.style.color = "#ffcf32";
+          el.style.webkitTextFillColor = "#ffcf32";
+
+          el.style.webkitBackgroundClip = "initial";
+          el.style.backgroundClip = "initial";
+
+          el.style.opacity = "1";
+          el.style.visibility = "visible";
+
+          el.style.textShadow =
+            "1px 1px 0 #e50932, 0 0 12px #ffca35";
+
+          el.style.filter = "none";
+
+        });
+
+      // Stuttgart yazısını beyaz tut.
+      clonedCapture
+        .querySelectorAll(".stuttgart")
+        .forEach(el => {
+
+          el.style.color = "#ffffff";
+          el.style.webkitTextFillColor = "#ffffff";
+          el.style.opacity = "1";
+
+        });
+
     }
+
   });
 
   return new Promise((resolve, reject) => {
@@ -771,12 +886,16 @@ function downloadBlob(blob) {
   const url = URL.createObjectURL(blob);
 
   const link = document.createElement("a");
+
   link.href = url;
+
   link.download =
     `Galatasaray-Stuttgart-${home}-${away}.png`;
 
   document.body.appendChild(link);
+
   link.click();
+
   link.remove();
 
   setTimeout(() => {
@@ -808,28 +927,34 @@ async function shareTelegram() {
     const blob = await createImageBlob();
 
     const file = new File(
+
       [blob],
+
       `Galatasaray-Stuttgart-${home}-${away}.png`,
+
       { type: "image/png" }
+
     );
 
-    // Mobil cihazlarda Telegram'a doğrudan
-    // görsel göndermek için paylaşım menüsü.
+    // Desteklenen telefonlarda doğrudan görsel paylaş.
     if (
       navigator.canShare &&
       navigator.canShare({ files: [file] })
     ) {
 
       await navigator.share({
+
         files: [file],
+
         title: "Galatasaray × Stuttgart",
+
         text: `Galatasaray ${home} - ${away} Stuttgart`
+
       });
 
     } else {
 
-      // Tarayıcı dosya paylaşımını desteklemiyorsa
-      // görsel indirilir ve Telegram açılır.
+      // Dosya paylaşımı desteklenmiyorsa PNG'yi indir.
       downloadBlob(blob);
 
       const text = encodeURIComponent(
@@ -842,14 +967,13 @@ async function shareTelegram() {
       );
 
       alert(
-        "Görsel PNG olarak kaydedildi. Telegram'da paylaşmak için kaydedilen görseli seç."
+        "Görsel kaydedildi. Telegram'da paylaşmak için PNG dosyasını seç."
       );
 
     }
 
   } catch (error) {
 
-    // Kullanıcı paylaşımı iptal ederse hata gösterme.
     if (error.name !== "AbortError") {
       alert(error.message);
     }
@@ -858,7 +982,7 @@ async function shareTelegram() {
 
 }
 
-// Sayfa açıldığında skorlar değişmeye başlar.
+// Sayfa açılınca skor simülasyonu başlar.
 startScores();
 
 </script>
