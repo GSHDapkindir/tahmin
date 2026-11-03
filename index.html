@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Galatasaray × Stuttgart | Canlı Skor</title>
+<title>Galatasaray × Stuttgart</title>
 
 <style>
 * {
@@ -14,22 +13,21 @@
 :root {
   --yellow: #ffdc35;
   --red: #e50932;
-  --dark: #100b12;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
   background:
     radial-gradient(ellipse at top left, #631425, transparent 48%),
     radial-gradient(ellipse at bottom right, #674313, transparent 48%),
     #100b12;
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
 }
 
 .app {
@@ -38,68 +36,79 @@ body {
 }
 
 .match-card {
-  background: linear-gradient(145deg, #301822, #130e15);
-  border: 1px solid #70402f;
-  border-radius: 24px;
   padding: 28px 18px;
   text-align: center;
+  border-radius: 24px;
+  border: 1px solid #70402f;
+  background: linear-gradient(145deg, #301822, #130e15);
   box-shadow: 0 20px 60px #0008;
 }
 
 .date {
+  margin-bottom: 30px;
   color: #ffdc91;
   font-size: 13px;
   font-weight: bold;
   letter-spacing: 2px;
-  margin-bottom: 30px;
 }
 
 .teams,
 .result-teams {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: minmax(0,1fr) auto minmax(0,1fr);
   gap: 8px;
   align-items: center;
 }
 
 .team {
-  font-size: clamp(15px, 4vw, 22px);
+  min-width: 0;
+  font-size: clamp(13px, 3.6vw, 21px);
   font-weight: 900;
   overflow-wrap: anywhere;
 }
 
-/* Ekranda hareketli sarı-kırmızı yazı */
+/*
+  GALATASARAY YAZISI
+
+  CSS background-clip:text kullanılmıyor.
+  Her harf gerçek metin olarak renklendiriliyor.
+
+  Böylece html2canvas'ın renkli dikdörtgen
+  oluşturma problemi önleniyor.
+*/
+
 .galatasaray {
-  background: linear-gradient(
-    110deg,
-    #ffdc35,
-    #ff4a3d,
-    #fff2a2,
-    #d40032,
-    #ffdc35
-  );
-  background-size: 300% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  animation: shine 2s linear infinite;
-  filter: drop-shadow(0 0 9px #ffbd2444);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  font-size: clamp(10px, 2.65vw, 18px);
+  letter-spacing: -0.45px;
+  filter: drop-shadow(0 0 7px #ffb52b66);
+}
+
+.galatasaray span {
+  display: inline-block;
+  color: var(--letter-color);
+  -webkit-text-fill-color: var(--letter-color);
+  animation: letterGlow 1.8s ease-in-out infinite alternate;
+  animation-delay: var(--delay);
+}
+
+@keyframes letterGlow {
+  from {
+    text-shadow: 0 0 2px #ffcb3533;
+  }
+
+  to {
+    text-shadow: 0 0 9px #ffca35aa;
+  }
 }
 
 .stuttgart {
   color: white;
   text-shadow: 0 0 12px #ffffff65;
-}
-
-@keyframes shine {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  100% {
-    background-position: 300% 50%;
-  }
 }
 
 .vs {
@@ -130,7 +139,7 @@ body {
 }
 
 .home-score {
-  color: var(--yellow);
+  color: #ffdc35;
   text-shadow: 0 0 25px #ffbb3444;
 }
 
@@ -140,10 +149,10 @@ body {
 
 .status {
   display: inline-block;
+  margin-bottom: 25px;
   color: #ffdc35;
   font-size: 12px;
   letter-spacing: 2px;
-  margin-bottom: 25px;
 }
 
 button {
@@ -162,34 +171,34 @@ button:active {
 
 .stop-btn {
   width: 100%;
+  color: #180c0e;
   background: linear-gradient(
     110deg,
     #ffdf42,
     #ff922c,
     #e8193b
   );
-  color: #180c0e;
   box-shadow: 0 7px 25px #ff4a2440;
 }
 
 .restart-btn {
   width: 100%;
   margin-top: 12px;
-  background: #35232b;
   color: white;
+  background: #35232b;
   border: 1px solid #69404a;
 }
 
 .overlay {
   position: fixed;
   inset: 0;
-  background: #000c;
   z-index: 10;
   display: none;
   justify-content: center;
   align-items: center;
   padding: 12px;
   overflow-y: auto;
+  background: #000c;
 }
 
 .overlay.active {
@@ -206,15 +215,15 @@ button:active {
 
 .capture {
   position: relative;
+  padding: 27px 17px 23px;
+  text-align: center;
+  overflow: hidden;
+  border: 2px solid #c18a39;
+  border-radius: 22px;
   background:
     radial-gradient(circle at 0% 0%, #7c202e, transparent 45%),
     radial-gradient(circle at 100% 100%, #745018, transparent 45%),
     linear-gradient(150deg, #28141e, #100c14);
-  border: 2px solid #c18a39;
-  border-radius: 22px;
-  padding: 27px 17px 23px;
-  text-align: center;
-  overflow: hidden;
 }
 
 .capture::before {
@@ -241,9 +250,9 @@ button:active {
 }
 
 .result-date {
+  margin-top: 9px;
   color: #c5aeb3;
   font-size: 12px;
-  margin-top: 9px;
 }
 
 .result-teams {
@@ -251,10 +260,10 @@ button:active {
 }
 
 .result-score {
-  font-size: clamp(58px, 14vw, 82px);
-  font-weight: 900;
   margin: 12px 0 20px;
   color: white;
+  font-size: clamp(58px, 14vw, 82px);
+  font-weight: 900;
   text-shadow: 0 0 25px #e5093255;
 }
 
@@ -264,27 +273,27 @@ button:active {
 
 .events {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
   gap: 10px;
-  text-align: left;
   margin-top: 20px;
+  text-align: left;
 }
 
 .event-column {
   min-width: 0;
-  background: #ffffff09;
+  padding: 12px 9px;
   border: 1px solid #ffffff16;
   border-radius: 13px;
-  padding: 12px 9px;
+  background: #ffffff09;
 }
 
 .event-title {
+  margin-bottom: 12px;
+  padding-bottom: 9px;
+  color: #ffdb6b;
   font-size: 12px;
   font-weight: 900;
-  color: #ffdb6b;
-  margin-bottom: 12px;
   border-bottom: 1px solid #ffffff20;
-  padding-bottom: 9px;
 }
 
 .event {
@@ -304,8 +313,8 @@ button:active {
 }
 
 .scorer {
-  font-weight: bold;
   color: white;
+  font-weight: bold;
 }
 
 .assist {
@@ -314,12 +323,12 @@ button:active {
 }
 
 .analysis {
-  text-align: left;
   margin-top: 18px;
-  background: #ffce3210;
+  padding: 15px;
+  text-align: left;
   border: 1px solid #ffce3240;
   border-radius: 13px;
-  padding: 15px;
+  background: #ffce3210;
 }
 
 .analysis h3 {
@@ -330,9 +339,9 @@ button:active {
 
 .analysis p {
   margin: 0;
+  color: #f5e8e6;
   font-size: 13px;
   line-height: 1.7;
-  color: #f5e8e6;
 }
 
 .popup-buttons {
@@ -342,18 +351,18 @@ button:active {
 }
 
 .save-btn {
-  background: linear-gradient(110deg, #ffdd43, #ff9e2d);
   color: #1c1010;
+  background: linear-gradient(110deg, #ffdd43, #ff9e2d);
 }
 
 .telegram-btn {
-  background: #229ed9;
   color: white;
+  background: #229ed9;
 }
 
 .close-btn {
-  background: #37252d;
   color: white;
+  background: #37252d;
 }
 
 @media (max-width: 380px) {
@@ -379,7 +388,6 @@ button:active {
 <body>
 
 <main class="app">
-
   <div class="match-card">
 
     <div class="date">
@@ -387,27 +395,15 @@ button:active {
     </div>
 
     <div class="teams">
-
-      <div class="team galatasaray">
-        GALATASARAY
-      </div>
-
+      <div class="team galatasaray">GALATASARAY</div>
       <div class="vs">X</div>
-
-      <div class="team stuttgart">
-        STUTTGART
-      </div>
-
+      <div class="team stuttgart">STUTTGART</div>
     </div>
 
     <div class="score">
-
       <span class="home-score" id="homeScore">1</span>
-
       <span class="separator">:</span>
-
       <span class="away-score" id="awayScore">1</span>
-
     </div>
 
     <div class="status" id="status">
@@ -423,14 +419,12 @@ button:active {
     </button>
 
   </div>
-
 </main>
 
 <div class="overlay" id="overlay">
-
   <div class="popup">
 
-    <!-- Yalnızca bu alan PNG olarak kaydedilir. -->
+    <!-- PNG olarak kaydedilecek bölüm -->
     <div class="capture" id="capture">
 
       <div class="result-label">
@@ -442,17 +436,9 @@ button:active {
       </div>
 
       <div class="result-teams">
-
-        <div class="team galatasaray">
-          GALATASARAY
-        </div>
-
+        <div class="team galatasaray">GALATASARAY</div>
         <div class="vs">X</div>
-
-        <div class="team stuttgart">
-          STUTTGART
-        </div>
-
+        <div class="team stuttgart">STUTTGART</div>
       </div>
 
       <div class="result-score" id="resultScore">
@@ -462,33 +448,24 @@ button:active {
       <div class="events">
 
         <div class="event-column">
-
           <div class="event-title">
             🟡 GALATASARAY
           </div>
-
           <div id="homeEvents"></div>
-
         </div>
 
         <div class="event-column">
-
           <div class="event-title">
             ⚪ STUTTGART
           </div>
-
           <div id="awayEvents"></div>
-
         </div>
 
       </div>
 
       <div class="analysis">
-
         <h3>🎙️ MAÇ ANALİZİ</h3>
-
         <p id="analysisText"></p>
-
       </div>
 
     </div>
@@ -510,33 +487,83 @@ button:active {
     </div>
 
   </div>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <script>
 
-// Oyuncular simülasyon için örnek havuzdur.
+// Galatasaray yazısını gerçek renkli harflere dönüştür.
+// Böylece PNG'de background-clip sorunu oluşmaz.
+
+function setupGalatasarayText() {
+
+  const colors = [
+    "#ffdc35",
+    "#ffd13c",
+    "#ffbb38",
+    "#ff993b",
+    "#ff7140",
+    "#ff4c42",
+    "#ed3041",
+    "#d7193d",
+    "#f04a3e",
+    "#ff9a3b",
+    "#ffdc35"
+  ];
+
+  document.querySelectorAll(".galatasaray").forEach(el => {
+
+    const text = "GALATASARAY";
+
+    el.textContent = "";
+
+    [...text].forEach((letter, index) => {
+
+      const span = document.createElement("span");
+
+      span.textContent = letter;
+
+      span.style.setProperty(
+        "--letter-color",
+        colors[index % colors.length]
+      );
+
+      span.style.setProperty(
+        "--delay",
+        `${index * 0.1}s`
+      );
+
+      el.appendChild(span);
+
+    });
+
+  });
+
+}
+
+setupGalatasarayText();
+
+// Oyuncular örnek simülasyon havuzudur.
 // Resmî maç kadrosu değildir.
 
 const galatasarayPlayers = [
   "Victor Osimhen",
-  "Rafael Leao",
+  "Mauro Icardi",
   "Barış Alper Yılmaz",
   "Leroy Sané",
   "Yunus Akgün",
   "Gabriel Sara",
   "Lucas Torreira",
   "Roland Sallai",
-  "Aleksei Batrakov",
-  "Ismael Jacobs",
-  "Deniz Gül",
+  "İlkay Gündoğan",
+  "Eren Elmalı",
+  "Abdülkerim Bardakcı",
   "Davinson Sánchez"
 ];
 
 const stuttgartPlayers = [
-
+  "Deniz Undav",
   "Ermedin Demirović",
   "Jamie Leweling",
   "Chris Führich",
@@ -566,7 +593,7 @@ function pick(array) {
   return array[random(0, array.length - 1)];
 }
 
-// Skorlar 10 milisaniyede bir değişir.
+// Çok hızlı skor değişimi
 function startScores() {
 
   clearInterval(timer);
@@ -643,16 +670,14 @@ function getAnalysis(home, away, homeGoals, awayGoals) {
 
   const difference = Math.abs(home - away);
 
-  const homeTopScorer = homeGoals.reduce((result, goal) => {
+  const scorerCounts = {};
 
-    result[goal.scorer] =
-      (result[goal.scorer] || 0) + 1;
+  homeGoals.forEach(goal => {
+    scorerCounts[goal.scorer] =
+      (scorerCounts[goal.scorer] || 0) + 1;
+  });
 
-    return result;
-
-  }, {});
-
-  const topScorer = Object.entries(homeTopScorer)
+  const topScorer = Object.entries(scorerCounts)
     .sort((a, b) => b[1] - a[1])[0];
 
   const star = topScorer ? topScorer[0] : "Osimhen";
@@ -674,11 +699,9 @@ function getAnalysis(home, away, homeGoals, awayGoals) {
     ];
 
     if (difference >= 5) {
-
       comments.push(
         `Bu artık galibiyet değil, futbol tarihine geçecek bir stres testi! Stuttgart savunması toplu izin dilekçesi hazırlıyor. 🤣`
       );
-
     }
 
   } else if (away > home) {
@@ -691,16 +714,14 @@ function getAnalysis(home, away, homeGoals, awayGoals) {
 
       `Galatasaray taraftarı bu skordan sonra televizyon kumandasını transfer listesine koyabilir. 😭`,
 
-      `Stuttgart hücumcuları bugün İstanbul'da gol turizmine çıkmış. Galatasaray savunması da rehberlik yapmış!`
+      `Stuttgart hücumcuları bugün İstanbul'da gol turizmine çıkmış. Galatasaray savunması da rehberlik yapmış! 😂`
 
     ];
 
     if (difference >= 5) {
-
       comments.push(
         `Galatasaray savunması için acil durum toplantısı! Toplantının ilk gündemi: Rakip oyuncular neden bu kadar yalnız kaldı? 😭`
       );
-
     }
 
   } else {
@@ -718,11 +739,9 @@ function getAnalysis(home, away, homeGoals, awayGoals) {
     ];
 
     if (home >= 6) {
-
       comments.push(
         `${home}-${away} biten maçta skor tabelası fazla mesaiden şikâyetçi! Kaleciler için psikolojik destek hattı açılabilir. 🤣`
       );
-
     }
 
   }
@@ -790,17 +809,16 @@ function closePopup() {
 
 }
 
-// DÜZELTİLMİŞ PNG OLUŞTURMA FONKSİYONU
-// Galatasaray yazısı görselde kaybolmaz.
+// PNG oluşturma
+// Galatasaray harfleri gerçek renkli metin olduğu
+// için renkli dikdörtgen oluşması önlenir.
 
 async function createImageBlob() {
 
   if (typeof html2canvas === "undefined") {
-
     throw new Error(
       "Görsel oluşturma kütüphanesi yüklenemedi. İnternet bağlantını kontrol et."
     );
-
   }
 
   const capture = document.getElementById("capture");
@@ -816,41 +834,42 @@ async function createImageBlob() {
     scrollX: 0,
     scrollY: 0,
 
-    onclone: (clonedDocument) => {
+    onclone: clonedDocument => {
 
       const clonedCapture =
         clonedDocument.getElementById("capture");
 
-      // PNG'de animasyonları durdur.
+      // Görselde animasyonları durdur.
       clonedCapture.querySelectorAll("*").forEach(el => {
         el.style.animation = "none";
+        el.style.transition = "none";
       });
 
-      // Galatasaray yazısını görünür yap.
+      // Galatasaray harflerini görünür tut.
       clonedCapture
-        .querySelectorAll(".galatasaray")
+        .querySelectorAll(".galatasaray span")
         .forEach(el => {
+
+          const color = el.style.getPropertyValue(
+            "--letter-color"
+          ) || "#ffdc35";
 
           el.style.background = "none";
           el.style.backgroundImage = "none";
 
-          el.style.color = "#ffcf32";
-          el.style.webkitTextFillColor = "#ffcf32";
-
-          el.style.webkitBackgroundClip = "initial";
-          el.style.backgroundClip = "initial";
+          el.style.color = color;
+          el.style.webkitTextFillColor = color;
 
           el.style.opacity = "1";
           el.style.visibility = "visible";
+          el.style.filter = "none";
 
           el.style.textShadow =
-            "1px 1px 0 #e50932, 0 0 12px #ffca35";
-
-          el.style.filter = "none";
+            "0 0 4px rgba(255,200,50,0.45)";
 
         });
 
-      // Stuttgart yazısını beyaz tut.
+      // Stuttgart beyaz kalır.
       clonedCapture
         .querySelectorAll(".stuttgart")
         .forEach(el => {
@@ -927,34 +946,24 @@ async function shareTelegram() {
     const blob = await createImageBlob();
 
     const file = new File(
-
       [blob],
-
       `Galatasaray-Stuttgart-${home}-${away}.png`,
-
       { type: "image/png" }
-
     );
 
-    // Desteklenen telefonlarda doğrudan görsel paylaş.
     if (
       navigator.canShare &&
       navigator.canShare({ files: [file] })
     ) {
 
       await navigator.share({
-
         files: [file],
-
         title: "Galatasaray × Stuttgart",
-
         text: `Galatasaray ${home} - ${away} Stuttgart`
-
       });
 
     } else {
 
-      // Dosya paylaşımı desteklenmiyorsa PNG'yi indir.
       downloadBlob(blob);
 
       const text = encodeURIComponent(
@@ -967,7 +976,7 @@ async function shareTelegram() {
       );
 
       alert(
-        "Görsel kaydedildi. Telegram'da paylaşmak için PNG dosyasını seç."
+        "Görsel PNG olarak kaydedildi. Telegram'da paylaşmak için kaydedilen görseli seç."
       );
 
     }
@@ -982,7 +991,7 @@ async function shareTelegram() {
 
 }
 
-// Sayfa açılınca skor simülasyonu başlar.
+// Başlangıç
 startScores();
 
 </script>
