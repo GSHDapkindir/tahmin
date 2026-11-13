@@ -136,7 +136,6 @@ body{top:0!important}
  
  <input id="playerName" maxlength="18" placeholder="Yarışmacı adını gir...">
  <button class="btn" id="startBtn" onclick="enterGame()">YARIŞMAYA BAŞLA</button>
- <div id="connectionStatus" class="status" aria-hidden="true" style="display:none!important"></div>
  <button class="secondary" style="width:100%;margin-top:8px" onclick="showBoard()">🏆 ORTAK PUAN TABLOSU</button>
  <div class="scoreguide"><b style="color:var(--yellow)">PUAN SİSTEMİ</b><br>
 • Doğru cevap: soruya göre <b>100–1.050 puan</b> (ilerledikçe artar).<br>
@@ -309,8 +308,8 @@ let musicTimer=null, musicStep=0, saved=false;
 let jokerUsed={fifty:false,phone:false,bench:false},phoneAnswerPending=false;
 
 function setStatus(message, good=false){
- const el=$("connectionStatus");
- if(el){ el.textContent=message; el.style.display="none"; }
+ // Firebase durum metni kullanıcı arayüzünde gösterilmez.
+ console.info("GSHD Firebase:", message);
 }
 async function initFirebase(){
  try{
