@@ -455,7 +455,7 @@ function usePhone(){
  setTimeout(()=>{$("jokerText").textContent="Telefon çalıyor...";tone(520,.15);},850);
  setTimeout(()=>{$("jokerText").textContent="omerbasgan'a bağlanılıyor...";tone(700,.2);},1750);
  setTimeout(()=>{$("jokerText").innerHTML="<b style='color:#ffd43b'>omerbasgan:</b><br>“Bunun için mi rahatsız ettin beni hocam, söyleyeyim cevabı da arama bir daha ya! :)”";tone(620,.18);},2850);
- setTimeout(()=>{const q=questions[idx];$("jokerText").innerHTML="<b style='color:#ffd43b'>omerbasgan'ın cevabı:</b><br><strong style='font-size:22px;color:#ffd43b'>"+("ABCD"[q.c]+") "+escapeHTML(q.a[q.c])+"</strong>";$("jokerClose").classList.remove("hidden");correctSound();},4800);
+ setTimeout(()=>{const q=questions[idx];const answer="ABCD"[q.c]+") "+escapeHTML(q.a[q.c]);$("jokerText").innerHTML=`<b style="color:#ffd43b">omerbasgan'ın cevabı:</b><br><strong style="font-size:22px;color:#ffd43b">${answer}</strong>`;$("jokerClose").classList.remove("hidden");correctSound();},4800);
 }
 function useBench(){
  if(locked||jokerUsed.bench)return;jokerUsed.bench=true;$("benchBtn").disabled=true;payJoker(100);
