@@ -66,6 +66,20 @@ td{font-weight:700;font-size:14px}
 .goog-te-gadget select{max-width:135px;background:#210006;color:#ffd43b;border:0;padding:5px;font:700 12px Rajdhani}
 .goog-logo-link,.goog-te-gadget span{display:none!important}
 body{top:0!important}
+
+.jokers{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:13px 0}
+.joker{border:1px solid #ffd43b99;border-radius:9px;padding:10px 5px;background:linear-gradient(145deg,#4a0010,#180006);color:#fff;font:800 12px Rajdhani;cursor:pointer;min-height:58px}
+.joker:disabled{opacity:.35;filter:grayscale(1);cursor:not-allowed}
+.joker b{display:block;color:var(--yellow);font-size:17px}
+#jokerStatus{font-size:13px;color:#ffd43b;text-align:center;min-height:18px}
+.poll{display:grid;gap:9px;text-align:left;margin:14px 0}
+.pollrow{display:grid;grid-template-columns:25px 1fr 42px;gap:8px;align-items:center;font-weight:800}
+.polltrack{height:13px;border-radius:20px;background:#ffffff1a;overflow:hidden}
+.pollfill{height:100%;background:linear-gradient(90deg,#b00020,#ffd43b);transition:width 1s}
+.phone-ring{font-size:42px;animation:ring .65s infinite alternate}
+@keyframes ring{to{transform:rotate(18deg) scale(1.08);filter:drop-shadow(0 0 12px #ffd43b)}}
+.scoreguide{background:#0005;border:1px solid #ffd43b44;padding:12px;border-radius:10px;text-align:left;font-size:14px;line-height:1.5}
+@media(max-width:390px){.joker{font-size:11px;padding:8px 2px}.joker b{font-size:15px}}
 </style>
 </head>
 <body>
@@ -124,7 +138,11 @@ body{top:0!important}
  <button class="btn" id="startBtn" onclick="enterGame()">YARIŞMAYA BAŞLA</button>
  <div id="connectionStatus" class="status">Firebase bağlantısı hazırlanıyor…</div>
  <button class="secondary" style="width:100%;margin-top:8px" onclick="showBoard()">🏆 ORTAK PUAN TABLOSU</button>
- <p class="notice">Yanlış cevapta elenmezsin. 20 sorunun tamamını bitir ve puanını gör.</p>
+ <div class="scoreguide"><b style="color:var(--yellow)">PUAN SİSTEMİ</b><br>
+• Doğru cevap: soruya göre <b>100–1.050 puan</b> (ilerledikçe artar).<br>
+• Yanlış cevap veya pas: <b>0 puan</b>, yarışma devam eder.<br>
+• %50 jokeri: <b>−150</b> • Telefon jokeri: <b>−300</b> • Yedek kulübesi: <b>−100 puan</b>.<br>
+• Joker cezaları puandan düşer; puan sıfırın altına inmez. Her joker bir kez kullanılabilir.</div>
 </section>
 
 <section id="game" class="card hidden">
@@ -136,7 +154,13 @@ body{top:0!important}
  <div style="display:flex;justify-content:space-between;color:#aaa"><span id="who"></span><b id="score" style="color:var(--yellow)">0 PUAN</b></div>
  <div class="question" id="question"></div>
  <div class="answers" id="answers"></div>
- <p class="notice center">⚔️ Şıkkını seçtikten sonra son kararını vermelisin.</p>
+ <div class="jokers">
+ <button class="joker" id="fiftyBtn" onclick="useFifty()"><b>50:50</b>İKİ ŞIKKI SİL</button>
+ <button class="joker" id="phoneBtn" onclick="usePhone()"><b>☎</b>TELEFON JOKERİ</button>
+ <button class="joker" id="benchBtn" onclick="useBench()"><b>🪑</b>YEDEK KULÜBESİ</button></div>
+ <div id="jokerStatus">Her joker bir kez kullanılabilir.</div>
+ <button class="secondary" style="width:100%;margin-top:8px" onclick="passQuestion()">⏭ PAS GEÇ</button>
+ <p class="notice center">⚔️ Şıkkını seç, “Emin misin?” ile onayla.</p>
 </section>
 
 <section id="board" class="card hidden">
@@ -158,6 +182,11 @@ body{top:0!important}
  </div>
 </div>
 
+<div id="jokerModal" class="overlay hidden"><div class="modal">
+ <div id="jokerIcon" class="phone-ring">☎</div><h2 id="jokerTitle">TELEFON JOKERİ</h2>
+ <p id="jokerText">Aranıyor...</p><div id="pollGraph" class="poll hidden"></div>
+ <button id="jokerClose" class="btn hidden" onclick="closeJoker()">DEVAM ET</button>
+</div></div>
 <div id="finalPopup" class="overlay hidden">
  <div class="modal">
   <div style="font-size:55px">🏆</div>
@@ -214,55 +243,72 @@ let currentUser = null;
 let firebaseReady = false;
 
 const $ = id => document.getElementById(id);
-const bank=[
-{q:"Galatasaray Spor Kulübü hangi yıl kuruldu?",a:["1903","1905","1907","1911"],c:1},
-{q:"Galatasaray'ın kurucusu ve ilk başkanı kimdir?",a:["Ali Sami Yen","Asım Tevfik Sonumut","Tevfik Fikret","Refik Cevdet Kalpakçıoğlu"],c:0},
-{q:"Galatasaray'ın kuruluşu hangi okulun öğrencileri tarafından gerçekleştirildi?",a:["İstanbul Erkek Lisesi","Darüşşafaka","Mekteb-i Sultani","Robert Kolej"],c:2},
-{q:"Ali Sami Yen'in Galatasaray'ı kurarken açıkladığı temel hedef hangi ifadeyle özetlenir?",a:["Avrupa'da kupa kazanmak","İngilizler gibi toplu oynamak, renk ve isim sahibi olmak","İstanbul'un en büyük kulübü olmak","Milli takıma oyuncu yetiştirmek"],c:1},
-{q:"Metin Oktay Galatasaray'a ilk kez hangi yıl transfer oldu?",a:["1952","1955","1957","1959"],c:1},
-{q:"Metin Oktay'ın Galatasaray formasıyla ilk döneminden sonra İtalya'da oynadığı kulüp hangisiydi?",a:["Roma","Palermo","Napoli","Torino"],c:1},
-{q:"Metin Oktay'ın 1962-63 sezonunda ligde attığı gol sayısı kaçtır?",a:["29","32","38","41"],c:2},
-{q:"Metin Oktay'ın meşhur 'Taçsız Kral' lakabının yanında bilinen lakabı hangisidir?",a:["Büyük Kaptan","Kral","Aslan","Sarı Fırtına"],c:1},
-{q:"Metin Oktay, Galatasaray formasıyla toplam kaç Türkiye Ligi gol kralığı yaşadı?",a:["4","5","6","7"],c:2},
-{q:"Ali Sami Yen Stadı'nın açılışında 20 Aralık 1964'te hangi iki milli takım karşılaştı?",a:["Türkiye-Bulgaristan","Türkiye-Romanya","Türkiye-Yugoslavya","Türkiye-Macaristan"],c:0},
-{q:"Ali Sami Yen Stadı'nda Galatasaray'ın son resmi maç golünü kim attı?",a:["Arda Turan","Kazım Kazım","Milan Baros","Servet Çetin"],c:1},
-{q:"Ali Sami Yen Stadı'nda 1987'de Eskişehirspor'u 2-1 yenerek 14 yıllık lig şampiyonluğu hasretini bitiren Galatasaray'ın teknik direktörü kimdi?",a:["Jupp Derwall","Mustafa Denizli","Brian Birch","Tomislav Ivić"],c:0},
-{q:"Galatasaray, 1988'de Neuchâtel Xamax'ı 5-0 yenerek hangi turda geri dönüş yaptı?",a:["Birinci tur","İkinci tur","Çeyrek final","Yarı final"],c:1},
-{q:"Neuchâtel Xamax karşısındaki 5-0'lık tarihi maç hangi tarihte oynandı?",a:["2 Kasım 1988","9 Kasım 1988","16 Kasım 1988","23 Kasım 1988"],c:1},
-{q:"Galatasaray 1988-89 Şampiyon Kulüpler Kupası yarı finalinde hangi takıma elendi?",a:["Steaua Bükreş","PSV Eindhoven","Milan","Real Madrid"],c:0},
-{q:"Galatasaray'ın 1993-94 sezonunda Manchester United'ı eleyerek Şampiyonlar Ligi gruplarına kaldığı eşleşmenin Old Trafford ayağı kaç kaç bitti?",a:["2-2","3-3","1-1","4-3"],c:1},
-{q:"Manchester United ile Ali Sami Yen'de oynanan 1993 rövanşında maçın skoru neydi?",a:["0-0","1-0","2-1","1-1"],c:0},
-{q:"Galatasaray'ın UEFA Kupası'nı kazandığı 1999-2000 sezonundaki teknik direktörü kimdi?",a:["Mircea Lucescu","Fatih Terim","Gheorghe Hagi","Mustafa Denizli"],c:1},
-{q:"17 Mayıs 2000 UEFA Kupası finalinde Arsenal ile normal süre ve uzatmalar sonunda skor neydi?",a:["0-0","1-0","1-1","2-2"],c:0},
-{q:"UEFA Kupası finalinde Galatasaray adına penaltı atışlarında kupayı getiren son vuruşu kim yaptı?",a:["Ergün Penbe","Gheorghe Popescu","Ümit Davala","Okan Buruk"],c:1},
-{q:"Galatasaray-Arsenal UEFA Kupası finali hangi şehirde oynandı?",a:["Kopenhag","Rotterdam","Dortmund","Monako"],c:0},
-{q:"Galatasaray'ın 2000 UEFA Süper Kupa finalindeki rakibi hangi takımdı?",a:["Barcelona","Real Madrid","Manchester United","Valencia"],c:1},
-{q:"2000 UEFA Süper Kupa finalinde Galatasaray'ın altın golünü kim attı?",a:["Hakan Şükür","Mario Jardel","Gheorghe Hagi","Hasan Şaş"],c:1},
-{q:"2000 UEFA Süper Kupa finalinde Mario Jardel'in altın golü kaçıncı dakikada geldi?",a:["91","98","103","117"],c:2},
-{q:"Galatasaray'ın 2000 UEFA Süper Kupa zaferindeki teknik direktörü kimdi?",a:["Fatih Terim","Mircea Lucescu","Gheorghe Hagi","Jupp Derwall"],c:1},
-{q:"Galatasaray 2012-13 Şampiyonlar Ligi son 16 turunda Schalke'yi toplamda hangi skorla eledi?",a:["4-3","4-2","5-3","3-2"],c:0},
-{q:"2013 Schalke-Galatasaray rövanşında 3-2'lik galibiyet golünü kim attı?",a:["Burak Yılmaz","Umut Bulut","Wesley Sneijder","Didier Drogba"],c:1},
-{q:"2013 Schalke deplasmanında Hamit Altıntop'un yaklaşık 30 metreden attığı gol kaçıncı dakikadaydı?",a:["27","37","42","49"],c:1},
-{q:"2013 Real Madrid-Galatasaray çeyrek final ilk maçında Cristiano Ronaldo'nun golü kaçıncı dakikada geldi?",a:["4","9","14","22"],c:1},
-{q:"2013 Real Madrid rövanşında Emmanuel Eboué'nin golü kaçıncı dakikada geldi?",a:["53","57","63","70"],c:1},
-{q:"Aynı Real Madrid rövanşında Wesley Sneijder'in golü kaçıncı dakikada geldi?",a:["67","70","72","75"],c:1},
-{q:"2013 Real Madrid rövanşında Didier Drogba'nın topuk golü kaçıncı dakikada geldi?",a:["70","71","72","74"],c:2},
-{q:"Galatasaray 2014 Şampiyonlar Ligi son 16 turunda Chelsea'ye iki maç sonunda toplam kaç kaç elendi?",a:["3-1","3-2","4-1","2-1"],c:0},
-{q:"Galatasaray'ın 2023'te Manchester United'ı Old Trafford'da 3-2 yendiği maçta galibiyet golünü kim attı?",a:["Kerem Aktürkoğlu","Mauro Icardi","Wilfried Zaha","Dries Mertens"],c:1},
-{q:"Old Trafford'da 2023'te Galatasaray'ın Manchester United'a karşı ilk golünü kim attı?",a:["Kerem Aktürkoğlu","Wilfried Zaha","Mauro Icardi","Tete"],c:1},
-{q:"Old Trafford'da Mauro Icardi'nin galibiyet golünden önce kaçırdığı penaltı hangi dakikadaydı?",a:["72","75","78","80"],c:2},
-{q:"Galatasaray, 2024-25 sezonunda 25. lig şampiyonluğunu hangi tarihte ilan etti?",a:["11 Mayıs 2025","18 Mayıs 2025","24 Mayıs 2025","1 Haziran 2025"],c:1},
-{q:"25. şampiyonluğu ilan eden Galatasaray-Kayserispor maçının skoru neydi?",a:["2-0","3-0","3-1","4-0"],c:1},
-{q:"Kayserispor maçında Galatasaray'ın 25. şampiyonluğunu getiren ilk golü kim kaçıncı dakikada attı?",a:["Osimhen - 26","Barış Alper - 29","Muslera - 88","Osimhen - 29"],c:0},
-{q:"Kayserispor maçında Barış Alper Yılmaz'ın golü kaçıncı dakikada geldi?",a:["26","27","29","31"],c:2},
-{q:"Galatasaray'ın 25. şampiyonluğunu ilan ettiği maçta penaltıdan gol atan kaleci kimdi?",a:["Günay Güvenç","Fernando Muslera","Bilal Bayazıt","Okan Kocuk"],c:1},
-{q:"Galatasaray'ın 25. şampiyonluğuyla birlikte forma kaç yıldızlı hâle geldi?",a:["3","4","5","6"],c:2},
-{q:"Galatasaray'ın 2024-25 sezonundaki 25. şampiyonluğunu ilan ettiği Kayserispor maçında teknik direktör kimdi?",a:["Fatih Terim","Okan Buruk","Hamza Hamzaoğlu","Roberto Mancini"],c:1}
+const bank = [
+{level:1,q:"Galatasaray Spor Kulübü hangi yıl kuruldu?",a:["1903", "1905", "1907", "1911"],c:1},
+{level:1,q:"Galatasaray hangi okulun öğrencileri tarafından kuruldu?",a:["İstanbul Erkek Lisesi", "Mekteb-i Sultani", "Darüşşafaka", "Robert Kolej"],c:1},
+{level:1,q:"Galatasaray’ın kurucusu kimdir?",a:["Ali Sami Yen", "Metin Oktay", "Tevfik Fikret", "Hasan Şaş"],c:0},
+{level:1,q:"Galatasaray’ın renkleri hangileridir?",a:["Sarı-lacivert", "Kırmızı-beyaz", "Sarı-kırmızı", "Siyah-beyaz"],c:2},
+{level:1,q:"Metin Oktay’ın lakabı nedir?",a:["Büyük Kaptan", "Taçsız Kral", "İmparator", "Kral Hakan"],c:1},
+{level:1,q:"Galatasaray’ın Avrupa’da kazandığı ilk büyük kupa hangisidir?",a:["Şampiyonlar Ligi", "UEFA Kupası", "Kupa Galipleri Kupası", "Intertoto Kupası"],c:1},
+{level:1,q:"Galatasaray 2000 UEFA Kupası finalinde hangi takımı yendi?",a:["Liverpool", "Arsenal", "Leeds United", "Real Madrid"],c:1},
+{level:1,q:"2000 UEFA Süper Kupa finalinde Galatasaray’ın rakibi kimdi?",a:["Barcelona", "Real Madrid", "Manchester United", "Bayern Münih"],c:1},
+{level:1,q:"Galatasaray’ın “Cim Bom” olarak bilinen lakabı hangi kulübe aittir?",a:["Fenerbahçe", "Beşiktaş", "Galatasaray", "Trabzonspor"],c:2},
+{level:1,q:"Ali Sami Yen, Galatasaray’ı hangi okulda kurdu?",a:["Galatasaray Lisesi", "Vefa Lisesi", "Pertevniyal Lisesi", "İstanbul Erkek Lisesi"],c:0},
+{level:2,q:"Ali Sami Yen’in kulübü kurarken hedefini anlattığı meşhur ifade hangi seçenektir?",a:["Avrupa’da kupa kazanmak", "İngilizler gibi toplu oynamak, bir renge ve isme sahip olmak", "Her branşta olimpiyat şampiyonu olmak", "Yalnızca futbol oynamak"],c:1},
+{level:2,q:"Galatasaray’ın ilk başkanı kimdir?",a:["Ali Sami Yen", "Refik Cevdet Kalpakçıoğlu", "Asım Tevfik Sonumut", "Beden Terbiyesi Başkanı"],c:0},
+{level:2,q:"Metin Oktay, Galatasaray’a ilk kez hangi kulüpten transfer oldu?",a:["İzmirspor", "Altay", "Karşıyaka", "Bucaspor"],c:0},
+{level:2,q:"Metin Oktay, Galatasaray kariyeri arasında İtalya’da hangi takımda oynadı?",a:["Roma", "Palermo", "Napoli", "Lazio"],c:1},
+{level:2,q:"Metin Oktay’ın heykeli hangi semtteki Ali Sami Yen Spor Kompleksi çevresinde değil, hangi stadyumun yakınında anılır?",a:["Rams Park", "Nef Stadyumu", "Ali Sami Yen Stadı çevresi", "Türk Telekom Arena"],c:2},
+{level:2,q:"Galatasaray’ın 1988’de Avrupa’da tarihi geri dönüş yaptığı İsviçre takımı hangisiydi?",a:["Grasshoppers", "Neuchâtel Xamax", "Basel", "Young Boys"],c:1},
+{level:2,q:"Galatasaray 1988-89 Şampiyon Kulüpler Kupası’nda hangi aşamaya kadar yükseldi?",a:["Çeyrek final", "Yarı final", "Final", "Son 16"],c:1},
+{level:2,q:"Galatasaray, 1993’te Manchester United’ı eleyerek hangi organizasyonun grup aşamasına kaldı?",a:["UEFA Kupası", "Şampiyonlar Ligi", "Kupa Galipleri Kupası", "Intertoto Kupası"],c:1},
+{level:2,q:"2000 UEFA Kupası finalinde Galatasaray’ın teknik direktörü kimdi?",a:["Mircea Lucescu", "Fatih Terim", "Mustafa Denizli", "Gheorghe Hagi"],c:1},
+{level:2,q:"2000 UEFA Kupası finali hangi şehirde oynandı?",a:["Rotterdam", "Kopenhag", "Dortmund", "Monako"],c:1},
+{level:2,q:"UEFA Kupası finalinde Arsenal’e karşı penaltı atışlarında kupayı getiren son vuruşu kim yaptı?",a:["Ümit Davala", "Gheorghe Popescu", "Okan Buruk", "Ergün Penbe"],c:1},
+{level:2,q:"Galatasaray’ın 2000 UEFA Süper Kupa zaferinde teknik direktör kimdi?",a:["Fatih Terim", "Mircea Lucescu", "Gheorghe Hagi", "Jupp Derwall"],c:1},
+{level:2,q:"Galatasaray’ın 2000 UEFA Süper Kupa finalinde uzatmalarda altın golü kim attı?",a:["Gheorghe Hagi", "Mario Jardel", "Hakan Şükür", "Hasan Şaş"],c:1},
+{level:2,q:"Galatasaray’ın Avrupa kupalarında ilk maçı hangi takıma karşıydı?",a:["Dinamo Bükreş", "Dinamo Moskova", "Rapid Wien", "Milan"],c:0},
+{level:3,q:"Galatasaray’ın 1988-89 Şampiyon Kulüpler Kupası yarı finalindeki rakibi kimdi?",a:["Steaua Bükreş", "PSV Eindhoven", "Milan", "Real Madrid"],c:0},
+{level:3,q:"Galatasaray’ın 1999-2000 sezonunda UEFA Kupası’na uzanan Avrupa yolculuğunda finaldeki rakibi Arsenal dışında yarı finalde kim vardı?",a:["Leeds United", "Bologna", "Dortmund", "Chelsea"],c:1},
+{level:3,q:"2000 UEFA Kupası finalinin normal ve uzatma süresi nasıl sonuçlandı?",a:["1-0", "0-0", "1-1", "2-2"],c:1},
+{level:3,q:"Galatasaray, 2001-02 Şampiyonlar Ligi’nde hangi aşamaya kadar yükseldi?",a:["İlk grup aşaması", "İkinci grup aşaması", "Çeyrek final", "Yarı final"],c:1},
+{level:3,q:"Galatasaray, 2012-13 sezonunda Şampiyonlar Ligi’nde hangi aşamaya ulaştı?",a:["Son 16", "Çeyrek final", "Yarı final", "Final"],c:1},
+{level:3,q:"Galatasaray 2012-13 Şampiyonlar Ligi çeyrek finalinde hangi takımla eşleşti?",a:["Barcelona", "Real Madrid", "Bayern Münih", "Borussia Dortmund"],c:1},
+{level:3,q:"Galatasaray’ın Şampiyonlar Ligi tarihinde en çok gol atan oyuncusu kimdir?",a:["Metin Oktay", "Hakan Şükür", "Burak Yılmaz", "Arif Erdem"],c:1},
+{level:3,q:"Galatasaray’ın Şampiyonlar Ligi tarihinde en çok forma giyen oyuncusu kimdir?",a:["Bülent Korkmaz", "Hakan Şükür", "Fernando Muslera", "Arif Erdem"],c:0},
+{level:3,q:"Galatasaray’ın 2013-14 Şampiyonlar Ligi grubunda rakiplerinden biri hangisiydi?",a:["Juventus", "Liverpool", "Chelsea", "Ajax"],c:0},
+{level:3,q:"Galatasaray, 2013-14 sezonunda Şampiyonlar Ligi grubundan çıkmak için son maçta hangi takımı yendi?",a:["Real Madrid", "Juventus", "Copenhagen", "Arsenal"],c:1},
+{level:3,q:"Galatasaray’ın UEFA Kupası zaferiyle Türk futbolunda elde ettiği tarihî ilk nedir?",a:["Şampiyonlar Ligi’ni kazanan ilk Türk takımı", "Avrupa’da kupa kazanan ilk Türk takımı", "Kıtalararası kupa kazanan ilk takım", "Avrupa’da final oynayan ilk takım"],c:1},
+{level:3,q:"Wesley Sneijder Galatasaray’a hangi kulüpten transfer oldu?",a:["Inter", "Real Madrid", "Chelsea", "Ajax"],c:0},
+{level:3,q:"Didier Drogba Galatasaray’a gelmeden önce hangi kulüpteydi?",a:["Chelsea", "Shanghai Shenhua", "Marsilya", "Galatasaray"],c:1},
+{level:3,q:"Gheorghe Hagi, Galatasaray’a 1996’da hangi İspanyol kulübünden geldi?",a:["Real Madrid", "Barcelona", "Valencia", "Sevilla"],c:1},
+{level:3,q:"Mario Jardel, Galatasaray’a gelmeden önce hangi Portekiz kulübünde oynadı?",a:["Benfica", "Porto", "Sporting CP", "Boavista"],c:1},
+{level:4,q:"Galatasaray’ın Avrupa kupalarında ilk kez mücadele ettiği sezon hangisidir?",a:["1954-55", "1956-57", "1960-61", "1963-64"],c:1},
+{level:4,q:"UEFA’nın kulüp tarihçesinde Galatasaray’ın Şampiyon Kulüpler Kupası/Şampiyonlar Ligi yarı finaline çıktığı sezon hangisidir?",a:["1987-88", "1988-89", "1992-93", "1999-2000"],c:1},
+{level:4,q:"Galatasaray, 1963-64 sezonunda Avrupa Şampiyon Kulüpler Kupası’nda hangi aşamaya kadar ilerledi?",a:["İlk tur", "Çeyrek final", "Yarı final", "Final"],c:1},
+{level:4,q:"Galatasaray’ın 1993-94 sezonunda Şampiyonlar Ligi grup aşamasında yer almasını sağlayan tarihi eşleşmedeki rakibi kimdi?",a:["Arsenal", "Manchester United", "Barcelona", "Milan"],c:1},
+{level:4,q:"Galatasaray’ın 2000 UEFA Süper Kupa zaferi hangi açıdan tarihe geçti?",a:["İlk Türk takımı olarak UEFA Kupası şampiyonunu yendi", "UEFA Kupası şampiyonu olarak Şampiyonlar Ligi şampiyonunu yenip kupayı aldı", "Şampiyonlar Ligi’ni kazanan ilk Türk takımı oldu", "Finali penaltılarla kazanan ilk takım oldu"],c:1},
+{level:4,q:"Galatasaray’ın 2012-13 Şampiyonlar Ligi çeyrek finalinde Real Madrid’e karşı aldığı iç saha galibiyetinin skoru neydi?",a:["2-1", "3-2", "3-1", "4-2"],c:1},
+{level:4,q:"Galatasaray’ın Avrupa kupaları tarihinde “Kupa 1” olarak anılan organizasyonun eski adı nedir?",a:["UEFA Kupası", "Şampiyon Kulüpler Kupası", "Kupa Galipleri Kupası", "Intertoto Kupası"],c:1},
+{level:4,q:"Metin Oktay’ın Galatasaray dışında formasını giydiği İtalya kulübü hangisidir?",a:["Palermo", "Fiorentina", "Sampdoria", "Bologna"],c:0},
+{level:4,q:"Metin Oktay’ın meşhur parçalanan ağlar fotoğrafı hangi takıma karşı oynanan maçla özdeşleşmiştir?",a:["Fenerbahçe", "Beşiktaş", "Karşıyaka", "Altay"],c:0},
+{level:4,q:"Galatasaray’ın tarihî “Avrupa Fatihi” kimliği en çok hangi başarıyla özdeşleşir?",a:["1996 Kupa Galipleri Kupası", "2000 UEFA Kupası ve UEFA Süper Kupa", "2008 Şampiyonlar Ligi yarı finali", "2013 Şampiyonlar Ligi finali"],c:1},
+{level:5,q:"Galatasaray’ın 1988-89 Avrupa Şampiyon Kulüpler Kupası yolculuğunda çeyrek finalde elediği takım hangisiydi?",a:["Neuchâtel Xamax", "Monaco", "PSV", "Steaua Bükreş"],c:1},
+{level:5,q:"Galatasaray, 1988-89 yarı finalinde Steaua Bükreş’e elenmeden önce hangi turda Neuchâtel Xamax’ı geçmişti?",a:["İlk tur", "İkinci tur", "Çeyrek final", "Ön eleme"],c:1},
+{level:5,q:"Galatasaray’ın UEFA Kupası zaferinden sonra oynadığı 2000 UEFA Süper Kupa maçının uzatma formatında belirleyici kural neydi?",a:["Altın gol", "Gümüş gol", "Penaltı atışları", "Deplasman golü"],c:0},
+{level:5,q:"Galatasaray’ın Şampiyonlar Ligi’nde 2012-13 sezonunda çeyrek finale yükseldiği son 16 eşleşmesindeki rakibi kimdi?",a:["Schalke 04", "Shakhtar Donetsk", "Porto", "Celtic"],c:0},
+{level:5,q:"Galatasaray’ın Şampiyonlar Ligi’nde 2000-01 sezonunda çeyrek final oynadığı sezonun ikinci grup aşamasında grubunda hangi takım vardı?",a:["Real Madrid", "Barcelona", "Arsenal", "Manchester United"],c:0},
+{level:5,q:"Galatasaray’ın kulüp tarihinde Avrupa kupalarında ilk kez karşılaştığı İngiliz takımı hangisiydi?",a:["Manchester United", "Arsenal", "Leeds United", "Chelsea"],c:0},
+{level:5,q:"Ali Sami Yen’in kulübün kuruluş hedefini anlattığı sözde özellikle hangi iki unsur vurgulanır?",a:["Forma ve arma", "Renk ve isim", "Stadyum ve taraftar", "Lig ve kupa"],c:1},
+{level:5,q:"Metin Oktay’ın “Taçsız Kral” olarak anılması en çok hangi özelliğiyle ilişkilidir?",a:["Kaleciliği", "Golcülüğü ve futbolculuğu", "Teknik direktörlüğü", "Kulüp başkanlığı"],c:1},
+{level:5,q:"Galatasaray’ın 2000 UEFA Kupası finalinde Arsenal karşısında kazandığı maçın ardından penaltılarda kaç başarılı vuruş yaptı?",a:["3", "4", "5", "6"],c:1},
+{level:5,q:"Galatasaray’ın 2000 UEFA Süper Kupa finalinde Real Madrid karşısındaki galibiyet skoru nedir?",a:["1-0", "2-1", "3-2", "2-0"],c:1}
 ];
 
 let player="", questions=[], idx=0, correct=0, wrong=0, points=0;
 let timer=20, clock=null, pending=null, locked=false, sound=true, ctx=null;
 let musicTimer=null, musicStep=0, saved=false;
+let jokerUsed={fifty:false,phone:false,bench:false},phoneAnswerPending=false;
 
 function setStatus(message, good=false){
  $("connectionStatus").textContent=message;
@@ -308,8 +354,11 @@ function enterGame(){
 function startGame(){
  clearInterval(clock);stopMusic();
  idx=0;correct=0;wrong=0;points=0;locked=false;saved=false;
+ jokerUsed={fifty:false,phone:false,bench:false};phoneAnswerPending=false;
+ ["fiftyBtn","phoneBtn","benchBtn"].forEach(id=>$(id).disabled=false);
+ $("jokerStatus").textContent="Her joker bir kez kullanılabilir.";
  questions=shuffle(bank).slice(0,20);
- questions=shuffle(questions);
+ questions.sort((a,b)=>a.level-b.level);
  questions=questions.map(q=>{
   const options=shuffle(q.a.map((value,i)=>({value,correct:i===q.c})));
   return {...q,a:options.map(x=>x.value),c:options.findIndex(x=>x.correct)};
@@ -324,7 +373,7 @@ function renderQuestion(){
  locked=false;pending=null;timer=20;clearInterval(clock);
  const q=questions[idx];
  const level=Math.floor(idx/4);
- const levels=["ORTA","ZOR","ÇOK ZOR","UZMAN","TARİHİN DERİNLİKLERİ"];
+ const levels=["KOLAY","ORTA","ZOR","ÇOK ZOR","UZMAN"];
  $("qno").textContent=`SORU ${String(idx+1).padStart(2,"0")} / 20`;
  $("difficulty").textContent="ZORLUK: "+levels[level];
  $("question").textContent=q.q;
@@ -385,6 +434,51 @@ function confirmAnswer(){
  }
  continueGame();
 }
+
+function passQuestion(){
+ if(locked)return;clearInterval(clock);locked=true;wrong++;
+ $("jokerStatus").textContent="Pas geçildi • 0 puan";tone(330,.18);continueGame();
+}
+function payJoker(cost){points=Math.max(0,points-cost);$("score").textContent=points+" PUAN";}
+function useFifty(){
+ if(locked||jokerUsed.fifty)return;jokerUsed.fifty=true;$("fiftyBtn").disabled=true;payJoker(150);
+ const q=questions[idx],remove=shuffle([0,1,2,3].filter(i=>i!==q.c)).slice(0,2);
+ document.querySelectorAll(".answer").forEach((b,i)=>{if(remove.includes(i)){b.disabled=true;b.style.visibility="hidden";}});
+ $("jokerStatus").textContent="50:50 kullanıldı • 150 puan düşüldü.";tone(660,.2,"triangle");
+}
+function usePhone(){
+ if(locked||jokerUsed.phone)return;jokerUsed.phone=true;$("phoneBtn").disabled=true;payJoker(300);
+ clearInterval(clock);locked=true;phoneAnswerPending=true;
+ $("jokerModal").classList.remove("hidden");$("jokerIcon").textContent="☎";$("jokerIcon").className="phone-ring";
+ $("jokerTitle").textContent="TELEFON JOKERİ";$("jokerText").textContent="Numara aranıyor...";
+ $("pollGraph").classList.add("hidden");$("jokerClose").classList.add("hidden");tone(440,.15);
+ setTimeout(()=>{$("jokerText").textContent="Telefon çalıyor...";tone(520,.15);},850);
+ setTimeout(()=>{$("jokerText").textContent="omerbasgan'a bağlanılıyor...";tone(700,.2);},1750);
+ setTimeout(()=>{$("jokerText").innerHTML="<b style='color:#ffd43b'>omerbasgan:</b><br>“Bunun için mi rahatsız ettin beni hocam, söyleyeyim cevabı da arama bir daha ya! :)”";tone(620,.18);},2850);
+ setTimeout(()=>{const q=questions[idx];$("jokerText").innerHTML="<b style='color:#ffd43b'>omerbasgan'ın cevabı:</b><br><strong style='font-size:22px;color:#ffd43b'>"+("ABCD"[q.c]+") "+escapeHTML(q.a[q.c])+"</strong>";$("jokerClose").classList.remove("hidden");correctSound();},4800);
+}
+function useBench(){
+ if(locked||jokerUsed.bench)return;jokerUsed.bench=true;$("benchBtn").disabled=true;payJoker(100);
+ clearInterval(clock);locked=true;
+ let vals=[Math.random(),Math.random(),Math.random(),Math.random()],sum=vals.reduce((a,b)=>a+b,0);
+ vals=vals.map(v=>Math.round(v/sum*100));vals[3]+=100-vals.reduce((a,b)=>a+b,0);
+ const graph=$("pollGraph");
+ graph.innerHTML=["A","B","C","D"].map((l,i)=>`<div class="pollrow"><b>${l}</b><div class="polltrack"><div class="pollfill" id="poll${i}" style="width:0"></div></div><span>${vals[i]}%</span></div>`).join("");
+ $("jokerModal").classList.remove("hidden");$("jokerIcon").textContent="🪑";$("jokerIcon").className="";
+ $("jokerTitle").textContent="YEDEK KULÜBESİNE SOR";$("jokerText").textContent="Yedek kulübesi oy kullanıyor...";
+ graph.classList.remove("hidden");$("jokerClose").classList.remove("hidden");
+ vals.forEach((v,i)=>setTimeout(()=>{$("poll"+i).style.width=v+"%";},250+i*180));
+ $("jokerStatus").textContent="Yedek kulübesi jokeri kullanıldı • 100 puan düşüldü.";
+}
+function closeJoker(){
+ $("jokerModal").classList.add("hidden");
+ if(phoneAnswerPending){
+  phoneAnswerPending=false;const q=questions[idx];pending=q.c;locked=true;
+  document.querySelectorAll(".answer").forEach((b,i)=>{b.disabled=true;if(i===q.c)b.classList.add("selected");});
+  $("selectedText").textContent="Telefon jokerinin önerdiği cevap: "+("ABCD"[q.c]+") "+q.a[q.c]);
+  $("confirm").classList.remove("hidden");
+ }else{locked=false;startClock();}
+}
 function timeExpired(){
  if(locked)return;
  locked=true;wrong++;wrongSound();continueGame();
@@ -427,12 +521,12 @@ async function finishGame(){
  $("popupCorrect").textContent=correct+"/20";
  $("popupPosition").textContent="…";
  $("popupMessage").textContent=correct===20
-  ?"Muhteşem! 20 sorunun tamamını bildin. Ödül teslimi yönetici doğrulamasına tabidir."
+  ?"Muhteşem! 20 sorunun tamamını bildin. "
   :"Sınav tamamlandı. Puanın ortak tabloya kaydediliyor…";
  try{
   await saveResult();
   $("popupMessage").textContent=correct===20
-   ?"20/20! Batrakov tişörtü için yönetici doğrulaması gerekir."
+   ?"20/20! Kusursuz performans!"
    :"Sonucun ortak puan tablosuna kaydedildi.";
   await loadBoard(true);
  }catch(error){
@@ -536,6 +630,7 @@ window.backHome=backHome;
 window.cancelAnswer=cancelAnswer;
 window.confirmAnswer=confirmAnswer;
 window.soundToggle=soundToggle;
+window.useFifty=useFifty;window.usePhone=usePhone;window.useBench=useBench;window.closeJoker=closeJoker;window.passQuestion=passQuestion;
 </script>
 </body>
 </html>
