@@ -136,7 +136,7 @@ body{top:0!important}
  
  <input id="playerName" maxlength="18" placeholder="Yarışmacı adını gir...">
  <button class="btn" id="startBtn" onclick="enterGame()">YARIŞMAYA BAŞLA</button>
- <div id="connectionStatus" class="status">Firebase bağlantısı hazırlanıyor…</div>
+ <div id="connectionStatus" class="status" aria-hidden="true" style="display:none!important"></div>
  <button class="secondary" style="width:100%;margin-top:8px" onclick="showBoard()">🏆 ORTAK PUAN TABLOSU</button>
  <div class="scoreguide"><b style="color:var(--yellow)">PUAN SİSTEMİ</b><br>
 • Doğru cevap: soruya göre <b>100–1.050 puan</b> (ilerledikçe artar).<br>
@@ -218,13 +218,11 @@ function googleTranslateElementInit(){
 }
 </script>
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-import {
- getFirestore, collection, addDoc, getDocs, query, orderBy, limit,
- serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script>
+
 
 const firebaseConfig = {
  apiKey: "AIzaSyC59qq7JGlnih47iWIxKm8csYnoE2mSFo8",
@@ -236,9 +234,9 @@ const firebaseConfig = {
  measurementId: "G-L2SG09SQC4"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 let currentUser = null;
 let firebaseReady = false;
 
@@ -311,22 +309,27 @@ let musicTimer=null, musicStep=0, saved=false;
 let jokerUsed={fifty:false,phone:false,bench:false},phoneAnswerPending=false;
 
 function setStatus(message, good=false){
- $("connectionStatus").textContent=message;
- $("connectionStatus").style.color=good?"#6dffad":"#ffd43b";
+ const el=$("connectionStatus");
+ if(el){ el.textContent=message; el.style.display="none"; }
 }
 async function initFirebase(){
  try{
-  const credential=await signInAnonymously(auth);
+  const credential=await auth.signInAnonymously();
   currentUser=credential.user;
   firebaseReady=true;
   setStatus("✓ Ortak puan tablosuna bağlandı",true);
  }catch(error){
   console.error(error);
   firebaseReady=false;
-  setStatus("Firebase bağlantısı kurulamadı: "+error.code);
+  setStatus("Firebase bağlantısı kurulamadı: "+(error.code || error.message || "Bilinmeyen hata"));
  }
 }
 initFirebase();
+// Firebase durumu arayüzde gösterilmez; hata ayrıntıları konsolda tutulur.
+window.addEventListener("unhandledrejection",event=>{
+ console.error("GSHD yakalanmamış hata:",event.reason);
+ if(!firebaseReady) console.error("Firebase başlatma hatası:",event.reason);
+});
 
 function getRank(n){
  if(n===20)return "👑 GALATASARAY USTASI";
@@ -498,12 +501,12 @@ async function saveResult(){
   wrong,
   points,
   rank:getRank(correct),
-  createdAt:serverTimestamp(),
+  createdAt:firebase.firestore.FieldValue.serverTimestamp(),
   createdAtLocal:new Date().toISOString(),
   uid:currentUser?.uid||""
  };
  try{
-  const ref=await addDoc(collection(db,"quizScores"),entry);
+  const ref=await db.collection("quizScores").add(entry);
   return ref.id;
  }catch(error){
   console.error("Puan kaydedilemedi:",error);
@@ -538,8 +541,7 @@ async function finishGame(){
 async function loadBoard(updatePosition=false){
  $("leaderboard").innerHTML="<p class='center notice'>Liderlik tablosu yükleniyor…</p>";
  try{
-  const q=query(collection(db,"quizScores"),orderBy("points","desc"),limit(100));
-  const snap=await getDocs(q);
+  const snap=await db.collection("quizScores").orderBy("points","desc").limit(100).get();
   const rows=snap.docs.map(d=>({id:d.id,...d.data()}));
   if(updatePosition){
    const myIndex=rows.findIndex(x=>x.name===player && x.points===points && x.correct===correct);
