@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -7,21 +8,22 @@
 <title>GSHD VIP - Kelime Yarışması</title>
 <style>
 *{box-sizing:border-box}
-:root{--wine:#35000d;--gold:#f4c542;--blue:#173b92;--yellow:#ffdc19}
+:root{--gold:#f4c542}
 body{margin:0;min-height:100vh;color:white;font-family:Arial,sans-serif;background:radial-gradient(ellipse at 50% -10%,#79152c,transparent 55%),linear-gradient(145deg,#210008,#100006 70%)}
 button{font-family:inherit;cursor:pointer}
+.hidden{display:none!important}
 header{text-align:center;padding:13px 8px 10px}
 .logo{font-size:26px;font-weight:1000;letter-spacing:2px;color:var(--gold)}
 .logo span{color:white}
 .sub{font-size:9px;letter-spacing:3px;color:#d8b8a0;margin-top:4px}
 .container{max-width:510px;margin:auto;padding:8px 12px 18px}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.stat{padding:10px 4px;text-align:center;border-radius:12px;background:linear-gradient(145deg,#51101d,#260008);border:1px solid #a97832;box-shadow:inset 0 0 15px #0005;min-width:0}
+.stat{padding:10px 4px;text-align:center;border-radius:12px;background:linear-gradient(145deg,#51101d,#260008);border:1px solid #a97832}
 .stat small{display:block;font-size:9px;color:#d9bd9c;letter-spacing:1px}
 .stat b{display:block;font-size:19px;color:var(--gold);margin-top:4px;overflow:hidden;text-overflow:ellipsis}
-.score-button{width:100%;margin:10px 0 2px;padding:13px;border:1px solid #e7bd55;border-radius:11px;background:linear-gradient(110deg,#5a071b,#280008);color:#ffe39a;font-size:13px;font-weight:1000;letter-spacing:1px;box-shadow:0 0 15px #e6b83c22}
+.score-button{width:100%;margin:10px 0 2px;padding:13px;border:1px solid #e7bd55;border-radius:11px;background:linear-gradient(110deg,#5a071b,#280008);color:#ffe39a;font-size:13px;font-weight:1000;letter-spacing:1px}
 .score-button span{display:block;font-size:9px;color:#d4b78a;margin-top:4px;letter-spacing:2px}
-.card{margin-top:11px;padding:12px;border-radius:17px;border:1px solid #986c32;background:linear-gradient(145deg,#3d0814,#200008);box-shadow:0 10px 30px #0008,inset 0 0 25px #0004}
+.card{margin-top:11px;padding:12px;border-radius:17px;border:1px solid #986c32;background:linear-gradient(145deg,#3d0814,#200008);box-shadow:0 10px 30px #0008}
 .heading{text-align:center;font-size:11px;font-weight:900;letter-spacing:2px;color:var(--gold)}
 .progress{height:5px;border-radius:9px;background:#ffffff18;margin-top:10px;overflow:hidden}
 .progress div{height:100%;width:0;background:linear-gradient(90deg,#a80029,#ffe08a);transition:.4s}
@@ -33,10 +35,10 @@ header{text-align:center;padding:13px 8px 10px}
 .led:before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0px,transparent 3px,#ffffff08 4px)}
 .ledtop{text-align:center;font-size:9px;letter-spacing:3px;color:#a99564;margin-bottom:14px}
 .word{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:5px;min-height:43px;position:relative}
-.cell{width:clamp(21px,6vw,32px);height:39px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#172019,#070b08);border:1px solid #65512a;border-radius:4px;color:#ffe18a;font-size:clamp(15px,4.5vw,22px);font-weight:1000;text-shadow:0 0 8px #ffcf42;box-shadow:inset 0 0 9px #000;transition:.25s}
-.cell.space{width:10px;border:0;background:none;box-shadow:none}
-.cell.open{background:linear-gradient(145deg,#92701c,#3d2b05);color:#fff5bc;border-color:#ffe17a;box-shadow:0 0 9px #ffd34b,0 0 22px #e9b735,inset 0 0 10px #ffe6a0;animation:reveal .55s ease}
-@keyframes reveal{0%{transform:scale(.65);filter:brightness(2)}60%{transform:scale(1.14)}100%{transform:scale(1)}}
+.cell{width:clamp(21px,6vw,32px);height:39px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#172019,#070b08);border:1px solid #65512a;border-radius:4px;color:#ffe18a;font-size:clamp(15px,4.5vw,22px);font-weight:1000;text-shadow:0 0 8px #ffcf42}
+.cell.space{width:10px;border:0;background:none}
+.cell.open{background:linear-gradient(145deg,#92701c,#3d2b05);color:#fff5bc;border-color:#ffe17a;box-shadow:0 0 12px #ffd34b;animation:reveal .4s}
+@keyframes reveal{0%{transform:scale(.65)}60%{transform:scale(1.14)}100%{transform:scale(1)}}
 .category{text-align:center;color:#e2cba2;font-size:10px;margin-top:12px;letter-spacing:1px}
 .middle{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
 .panel{min-width:0;padding:9px;border-radius:12px;border:1px solid #76542e;background:#220810;text-align:center}
@@ -44,8 +46,8 @@ header{text-align:center;padding:13px 8px 10px}
 .hang{width:100%;height:125px;display:block}
 .hang line,.hang circle{fill:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
 .rope{stroke:#e5bd70}.scaffold{stroke:#a98954}
-.person{stroke:var(--blue);transition:opacity .3s,stroke .3s}
-.person.yellow{stroke:var(--yellow)}
+.person{stroke:#173b92;transition:opacity .3s}
+.person.yellow{stroke:#ffdc19}
 .missing{opacity:0}
 .wronglabel{font-size:10px;color:#d8c5a9}
 .infoicon{font-size:34px;margin:13px 0 9px}
@@ -53,12 +55,10 @@ header{text-align:center;padding:13px 8px 10px}
 .hints{font-size:11px;color:var(--gold);margin-top:9px}
 .lettersbox{margin-top:10px;padding:11px 8px}
 .letters{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-top:10px}
-.letter{height:35px;min-width:0;border:1px solid #9b7135;border-radius:6px;color:white;background:linear-gradient(145deg,#681328,#340713);font-size:14px;font-weight:900;transition:.2s}
-.letter:not(:disabled):active{transform:scale(.87)}
-.letter.good{background:linear-gradient(145deg,#b68b23,#59400c);color:#fff5b0;border-color:#ffe58b;box-shadow:0 0 10px #f3c64c;animation:reveal .5s}
-.letter.bad{background:#171014;color:#777;border-color:#49353a;animation:shake .35s}
+.letter{height:35px;min-width:0;border:1px solid #9b7135;border-radius:6px;color:white;background:linear-gradient(145deg,#681328,#340713);font-size:14px;font-weight:900}
+.letter.good{background:linear-gradient(145deg,#b68b23,#59400c);color:#fff5b0;border-color:#ffe58b;box-shadow:0 0 10px #f3c64c}
+.letter.bad{background:#171014;color:#777;border-color:#49353a}
 .letter:disabled{cursor:default;opacity:.8}
-@keyframes shake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
 .actions{display:flex;gap:8px;margin-top:10px}
 .btn{flex:1;padding:12px 5px;border:0;border-radius:9px;font-size:11px;font-weight:900}
 .goldbtn{background:linear-gradient(120deg,#b88621,#ffe49a);color:#30100a}
@@ -81,7 +81,7 @@ header{text-align:center;padding:13px 8px 10px}
 .leader-list{margin-top:15px}
 .leaderrow{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 9px;border-bottom:1px solid #ffffff17;border-radius:8px;font-size:12px}
 .leaderrow b{color:#f4c542;white-space:nowrap}
-.leaderrow.first{background:linear-gradient(90deg,#795314,#352006);border:1px solid #ffd76b;box-shadow:0 0 12px #ffcf4933;padding:15px 9px}
+.leaderrow.first{background:linear-gradient(90deg,#795314,#352006);border:1px solid #ffd76b;padding:15px 9px}
 .leaderrow.me{outline:1px solid #a78335;background:#ffd50016}
 .close-score{width:100%;padding:13px;margin-top:15px;border:0;border-radius:9px;background:linear-gradient(100deg,#b88621,#ffe49a);color:#30100a;font-weight:1000}
 </style>
@@ -120,6 +120,7 @@ header{text-align:center;padding:13px 8px 10px}
  </div>
 </div>
 
+<!-- Skor penceresi başlangıçta kesinlikle gizli -->
 <div class="score-modal hidden" id="scoreModal">
  <div class="score-content">
   <div class="score-header">
@@ -128,7 +129,7 @@ header{text-align:center;padding:13px 8px 10px}
    <p>HERKESİN GÖREBİLDİĞİ CANLI SIRALAMA</p>
   </div>
   <div id="leaderlist" class="leader-list">
-   <div style="text-align:center;color:#d8bd9c;font-size:11px">Sıralama yükleniyor...</div>
+   <div style="text-align:center;color:#d8bd9c;font-size:11px">Skor tablosunu açmak için bekleniyor.</div>
   </div>
   <button class="close-score" id="closeScore">KAPAT</button>
  </div>
@@ -214,10 +215,14 @@ header{text-align:center;padding:13px 8px 10px}
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 import {getAuth,signInAnonymously,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-import {getFirestore,doc,setDoc,getDoc,serverTimestamp,collection,query,orderBy,limit,onSnapshot,runTransaction} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+import {
+ getFirestore,doc,setDoc,getDoc,serverTimestamp,
+ collection,query,orderBy,limit,onSnapshot,runTransaction
+} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
+/* DOĞRU FIREBASE BİLGİLERİ */
 const firebaseConfig={
- apiKey:"AIzaSyC59qq7JGlnih47wIiKm8csYnoE2mSFo8",
+ apiKey:"AIzaSyC59qq7JGlnih47wiKm8csYnoE2mSFo8",
  authDomain:"gshd-d7843.firebaseapp.com",
  projectId:"gshd-d7843",
  storageBucket:"gshd-d7843.firebasestorage.app",
@@ -229,11 +234,14 @@ const firebaseConfig={
 const app=initializeApp(firebaseConfig);
 const auth=getAuth(app);
 const db=getFirestore(app);
-let user=null;
-let leaderStarted=false;
-let unsubscribeLeaderboard=null;
 
-onAuthStateChanged(auth,u=>{user=u});
+let user=null;
+let authReady=new Promise(resolve=>{
+ onAuthStateChanged(auth,u=>{
+  user=u;
+  resolve(u);
+ });
+});
 
 const players=[
  {n:"MUSLERA",h:"Uruguaylı efsane kaleci."},
@@ -260,6 +268,8 @@ const normalize=s=>s.trim().toLocaleUpperCase("tr-TR").replace(/\s+/g," ");
 let name="",order=[],idx=0,score=0,correct=0,wrong=0;
 let used=[],opened=[],hints=3,locked=false,seconds=30,roundPoints=0;
 let interval=null,audio=null,musicTimer=null,musicOsc=null,musicGain=null;
+let leaderboardUnsubscribe=null;
+let leaderboardLoading=false;
 
 function current(){return players[order[idx]]}
 function shuffle(){order=[...players.keys()].sort(()=>Math.random()-.5)}
@@ -280,17 +290,6 @@ function tone(freq=650,duration=.15,type="sine",volume=.12){
 }
 function soundApplause(){
  if(!audio)return;
- const duration=2.6;
- const buffer=audio.createBuffer(1,audio.sampleRate*duration,audio.sampleRate);
- const data=buffer.getChannelData(0);
- for(let i=0;i<data.length;i++){
-  const t=i/audio.sampleRate;
-  data[i]=(Math.random()*2-1)*(Math.random()>.45&&Math.sin(t*17)>-.3?1:0);
- }
- const source=audio.createBufferSource(),filter=audio.createBiquadFilter(),gain=audio.createGain();
- filter.type="highpass";filter.frequency.value=650;
- source.buffer=buffer;gain.gain.value=.3;
- source.connect(filter);filter.connect(gain);gain.connect(audio.destination);source.start();
  [523,659,784,1047,784,1047,1318].forEach((f,i)=>setTimeout(()=>tone(f,.32,"triangle",.13),i*160));
 }
 function soundSad(){
@@ -304,15 +303,26 @@ function soundHint(){tone(700,.2);setTimeout(()=>tone(950,.2),130)}
 
 function startMusic(){
  if(!audio||musicTimer)return;
- musicGain=audio.createGain();musicGain.gain.value=.025;musicGain.connect(audio.destination);
- musicOsc=audio.createOscillator();musicOsc.type="triangle";musicOsc.frequency.value=55;
- musicOsc.connect(musicGain);musicOsc.start();
- const notes=[110,130.8,98,146.8,110,82.4];let i=0;
+ musicGain=audio.createGain();
+ musicGain.gain.value=.025;
+ musicGain.connect(audio.destination);
+ musicOsc=audio.createOscillator();
+ musicOsc.type="triangle";
+ musicOsc.frequency.value=55;
+ musicOsc.connect(musicGain);
+ musicOsc.start();
+ const notes=[110,130.8,98,146.8,110,82.4];
+ let i=0;
  musicTimer=setInterval(()=>{
   const o=audio.createOscillator(),g=audio.createGain();
-  o.type="sine";o.frequency.value=notes[i++%notes.length];
-  g.gain.value=.035;o.connect(g);g.connect(audio.destination);
-  o.start();g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.5);o.stop(audio.currentTime+.55);
+  o.type="sine";
+  o.frequency.value=notes[i++%notes.length];
+  g.gain.value=.035;
+  o.connect(g);
+  g.connect(audio.destination);
+  o.start();
+  g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.5);
+  o.stop(audio.currentTime+.55);
  },650);
 }
 function stopMusic(){
@@ -321,10 +331,25 @@ function stopMusic(){
  if(musicGain){musicGain.disconnect();musicGain=null}
 }
 
-/* HERKESİN GÖREBİLDİĞİ CANLI İLK 10 */
-function startLeaderboard(){
- if(leaderStarted||!db)return;
- leaderStarted=true;
+/* SKOR TABLOSU: BUTONA BASILMADAN SORGU YOK */
+function showScores(){
+ $("scoreModal").classList.remove("hidden");
+ loadLeaderboard();
+}
+function hideScores(){
+ $("scoreModal").classList.add("hidden");
+}
+
+function loadLeaderboard(){
+ const list=$("leaderlist");
+
+ if(leaderboardUnsubscribe){
+  leaderboardUnsubscribe();
+  leaderboardUnsubscribe=null;
+ }
+
+ leaderboardLoading=true;
+ list.innerHTML='<div style="text-align:center;padding:22px;color:#e8d09c">⏳ Sıralama yükleniyor...</div>';
 
  const q=query(
   collection(db,"kelimeLiderlik"),
@@ -332,49 +357,39 @@ function startLeaderboard(){
   limit(10)
  );
 
- unsubscribeLeaderboard=onSnapshot(q,snapshot=>{
-  const list=$("leaderlist");
+ leaderboardUnsubscribe=onSnapshot(q,snapshot=>{
+  leaderboardLoading=false;
   list.innerHTML="";
 
   if(snapshot.empty){
-   const empty=document.createElement("div");
-   empty.style.cssText="text-align:center;padding:20px;color:#d8bd9c;font-size:12px";
-   empty.textContent="Henüz kayıtlı yarışmacı yok. İlk sen ol!";
-   list.appendChild(empty);
+   list.innerHTML='<div style="text-align:center;padding:22px;color:#e8d09c">Henüz kayıtlı skor bulunmuyor.<br>İlk yarışmacı sen ol! 🦁</div>';
    return;
   }
 
-  snapshot.docs.forEach((item,i)=>{
-   const d=item.data();
+  snapshot.docs.forEach((item,index)=>{
+   const data=item.data();
    const row=document.createElement("div");
-   row.className="leaderrow"+(i===0?" first":"")+(item.id===user?.uid?" me":"");
+   row.className="leaderrow"+(index===0?" first":"")+(user&&item.id===user.uid?" me":"");
 
-   const left=document.createElement("span");
-   const playerName=d.name||"Yarışmacı";
+   const player=document.createElement("span");
+   const playerName=String(data.name||"Yarışmacı").slice(0,24);
 
-   if(i===0)left.textContent="👑 🥇 "+playerName;
-   else if(i===1)left.textContent="🥈 "+playerName;
-   else if(i===2)left.textContent="🥉 "+playerName;
-   else left.textContent=(i+1)+". "+playerName;
+   if(index===0)player.textContent="👑 🥇 "+playerName;
+   else if(index===1)player.textContent="🥈 "+playerName;
+   else if(index===2)player.textContent="🥉 "+playerName;
+   else player.textContent=(index+1)+". "+playerName;
 
-   const right=document.createElement("b");
-   right.textContent=(Number(d.score)||0).toLocaleString("tr-TR")+" PUAN";
+   const points=document.createElement("b");
+   points.textContent=(Number(data.score)||0).toLocaleString("tr-TR")+" PUAN";
 
-   row.append(left,right);
+   row.append(player,points);
    list.appendChild(row);
   });
  },error=>{
-  console.error("Liderlik tablosu:",error);
-  $("leaderlist").textContent="Sıralama yüklenemedi. Firebase kurallarını kontrol et.";
+  leaderboardLoading=false;
+  console.error("Firestore skor tablosu hatası:",error);
+  list.innerHTML='<div style="text-align:center;padding:20px;color:#ffaaaa">Skorlar yüklenemedi.<br>Firebase Firestore Rules ayarını kontrol et.<br><small>'+String(error.code||error.message)+'</small></div>';
  });
-}
-
-async function waitForUser(){
- for(let i=0;i<50;i++){
-  if(user)return true;
-  await new Promise(r=>setTimeout(r,200));
- }
- return false;
 }
 
 async function loginGame(){
@@ -387,24 +402,30 @@ async function loginGame(){
  initAudio();
  name=n;
  $("loginbtn").disabled=true;
- $("loginmsg").textContent="Bağlantı kuruluyor...";
+ $("loginmsg").textContent="Firebase bağlantısı kuruluyor...";
 
  try{
-  if(!user)await signInAnonymously(auth);
-  if(!await waitForUser())throw new Error("Giriş yapılamadı");
+  let currentUser=await authReady;
+  if(!currentUser){
+   await signInAnonymously(auth);
+   currentUser=await new Promise((resolve,reject)=>{
+    const timeout=setTimeout(()=>reject(new Error("Giriş zaman aşımı")),10000);
+    const unsub=onAuthStateChanged(auth,u=>{
+     if(u){clearTimeout(timeout);unsub();resolve(u)}
+    });
+   });
+  }
+  user=currentUser;
 
   await loadProgress();
-
   $("login").classList.add("hidden");
   $("game").classList.remove("hidden");
   $("player").textContent=name;
-
-  startLeaderboard();
   startMusic();
   render();
  }catch(e){
   console.error(e);
-  $("loginmsg").textContent="Firebase bağlantısı kurulamadı. Ayarları kontrol et.";
+  $("loginmsg").textContent="Firebase giriş hatası: "+(e.code||e.message);
   $("loginbtn").disabled=false;
  }
 }
@@ -412,10 +433,8 @@ async function loginGame(){
 async function loadProgress(){
  try{
   const snap=await getDoc(doc(db,"kelimeYarismasi",user.uid));
-
   if(snap.exists()){
    const d=snap.data();
-
    if(d.name===name&&!d.finished&&Array.isArray(d.order)&&d.order.length===15){
     order=d.order;
     idx=d.idx||0;
@@ -429,47 +448,29 @@ async function loadProgress(){
     return;
    }
   }
- }catch(e){
-  console.error("İlerleme yüklenemedi:",e);
- }
+ }catch(e){console.error("İlerleme yüklenemedi:",e)}
 
  shuffle();
  idx=0;score=0;correct=0;wrong=0;
  used=[];opened=[];hints=3;roundPoints=0;
 }
 
-/*
-  KALICI REKOR:
-  Yeni puan eski puandan düşükse eski rekor korunur.
-  Oyuncu kendi rekorunu sadece yükseltebilir.
-*/
+/* REKORU KORU: ESKİ PUAN DÜŞÜRÜLMEZ */
 async function save(){
  if(!user||!db)return;
 
  try{
   await setDoc(doc(db,"kelimeYarismasi",user.uid),{
-   name,
-   score,
-   correct,
-   idx,
-   order,
-   used,
-   opened,
-   wrong,
-   hints,
-   roundPoints,
+   name,score,correct,idx,order,used,opened,wrong,hints,roundPoints,
    finished:idx>=15,
    updatedAt:serverTimestamp()
   },{merge:true});
 
   const leaderboardRef=doc(db,"kelimeLiderlik",user.uid);
 
-  await runTransaction(db,async(transaction)=>{
+  await runTransaction(db,async transaction=>{
    const oldDoc=await transaction.get(leaderboardRef);
-   const oldScore=oldDoc.exists()
-    ?Number(oldDoc.data().score)||0
-    :0;
-
+   const oldScore=oldDoc.exists()?Number(oldDoc.data().score)||0:0;
    const bestScore=Math.max(oldScore,score);
 
    transaction.set(leaderboardRef,{
@@ -479,10 +480,9 @@ async function save(){
     updatedAt:serverTimestamp()
    },{merge:true});
   });
-
  }catch(e){
-  console.error("Skor kaydedilemedi:",e);
-  $("message").textContent="Kayıt yapılamadı. İnternet bağlantını kontrol et.";
+  console.error("Skor kayıt hatası:",e);
+  $("message").textContent="Skor kaydedilemedi: "+(e.code||e.message);
  }
 }
 
@@ -519,7 +519,7 @@ function renderWord(){
  $("word").innerHTML=[...n].map((letter,index)=>{
   if(letter===" ")return '<div class="cell space"></div>';
   const open=opened.includes(index);
-  return `<div class="cell ${open?"open":""}" data-index="${index}">${open?letter:""}</div>`;
+  return `<div class="cell ${open?"open":""}">${open?letter:""}</div>`;
  }).join("");
 }
 function renderLetters(){
@@ -527,14 +527,12 @@ function renderLetters(){
   const cls=used.includes(l)?([...current().n].includes(l)?"good":"bad"):"";
   return `<button class="letter ${cls}" ${used.includes(l)?"disabled":""} data-letter="${l}">${l}</button>`;
  }).join("");
-
  $("letters").querySelectorAll("button").forEach(b=>{
   b.addEventListener("click",()=>pick(b.dataset.letter));
  });
 }
 function render(){
  if(idx>=15){finish();return}
-
  locked=false;
  stopTimer();
 
@@ -547,24 +545,19 @@ function render(){
  $("hintcount").textContent="KALAN İPUCU: "+hints;
  $("hintbtn").textContent="💡 İPUCU ("+hints+")";
  $("hintbtn").disabled=hints<=0;
-
  $("roundpoints").textContent="BU SORU: "+roundPoints+" PUAN · 2X ÇARPAN";
 
  renderWord();
  renderLetters();
 
- for(let i=1;i<=6;i++){
-  $("p"+i).classList.toggle("missing",i>wrong);
- }
+ for(let i=1;i<=6;i++)$("p"+i).classList.toggle("missing",i>wrong);
 
  timerStart();
  save();
 }
 
-/* DOĞRU CEVAP: KAZANILAN TUR PUANI İKİYE KATLANIR */
 function awardWin(){
  if(locked)return;
-
  locked=true;
  stopTimer();
 
@@ -579,21 +572,16 @@ function awardWin(){
  soundApplause();
  reveal();
  save();
-
  setTimeout(next,2300);
 }
 
 function pick(l){
  if(locked||used.includes(l))return;
-
  used.push(l);
  let count=0;
 
  [...current().n].forEach((c,i)=>{
-  if(c===l&&!opened.includes(i)){
-   opened.push(i);
-   count++;
-  }
+  if(c===l&&!opened.includes(i)){opened.push(i);count++}
  });
 
  const btn=$("letters").querySelector(`[data-letter="${l}"]`);
@@ -602,49 +590,36 @@ function pick(l){
   const earned=count*100;
   score+=earned;
   roundPoints+=earned;
-
   if(btn)btn.classList.add("good");
-
   soundCorrectLetter();
   $("message").textContent="✦ "+count+" HARF BULDUN! +"+earned;
  }else{
   wrong++;
   score=Math.max(0,score-50);
-
   if(btn)btn.classList.add("bad");
-
   soundLaugh();
   $("message").textContent="YANLIŞ HARF! -50 PUAN";
  }
 
  if(btn)btn.disabled=true;
-
  $("score").textContent=score;
  $("wrong").textContent=wrong+" / 6 YANLIŞ";
  $("roundpoints").textContent="BU SORU: "+roundPoints+" PUAN · 2X ÇARPAN";
 
  renderWord();
-
- for(let i=1;i<=6;i++){
-  $("p"+i).classList.toggle("missing",i>wrong);
- }
+ for(let i=1;i<=6;i++)$("p"+i).classList.toggle("missing",i>wrong);
 
  if([...current().n].every((c,i)=>c===" "||opened.includes(i))){
-  awardWin();
-  return;
+  awardWin();return;
  }
 
  if(wrong>=6){
-  locked=true;
-  stopTimer();
+  locked=true;stopTimer();
   $("message").textContent="CEVAP: "+current().n;
-  reveal();
-  soundSad();
-  save();
+  reveal();soundSad();save();
   setTimeout(next,2500);
   return;
  }
-
  save();
 }
 
@@ -652,25 +627,18 @@ function reveal(){
  opened=[...current().n].map((c,i)=>i);
  renderWord();
 }
-
 function useHint(){
  if(locked||hints<=0)return;
-
  hints--;
  score=Math.max(0,score-100);
-
  $("hinttext").textContent=current().h;
  $("hintmodal").classList.remove("hidden");
-
  $("hintcount").textContent="KALAN İPUCU: "+hints;
  $("hintbtn").textContent="💡 İPUCU ("+hints+")";
  $("hintbtn").disabled=hints<=0;
  $("score").textContent=score;
-
- soundHint();
- save();
+ soundHint();save();
 }
-
 function openGuess(){
  if(locked)return;
  $("answer").value="";
@@ -678,9 +646,7 @@ function openGuess(){
  $("guessmodal").classList.remove("hidden");
  $("answer").focus();
 }
-function closeGuess(){
- $("guessmodal").classList.add("hidden");
-}
+function closeGuess(){$("guessmodal").classList.add("hidden")}
 function checkAnswer(){
  if(locked)return;
 
@@ -695,113 +661,71 @@ function checkAnswer(){
   $("guessmsg").textContent="Yanlış tahmin! -100 puan.";
   soundLaugh();
 
-  for(let i=1;i<=6;i++){
-   $("p"+i).classList.toggle("missing",i>wrong);
-  }
+  for(let i=1;i<=6;i++)$("p"+i).classList.toggle("missing",i>wrong);
 
   if(wrong>=6){
-   locked=true;
-   stopTimer();
+   locked=true;stopTimer();
    $("guessmodal").classList.add("hidden");
    $("message").textContent="CEVAP: "+current().n;
-   soundSad();
-   reveal();
-   save();
+   soundSad();reveal();save();
    setTimeout(next,2500);
-  }else{
-   save();
-  }
+  }else save();
  }
 }
-
 function next(){
  stopTimer();
  idx++;
-
- if(idx>=15){
-  finish();
-  return;
- }
-
- wrong=0;
- used=[];
- opened=[];
- roundPoints=0;
+ if(idx>=15){finish();return}
+ wrong=0;used=[];opened=[];roundPoints=0;
  render();
 }
-
 async function finish(){
  stopTimer();
  stopMusic();
-
  $("game").classList.add("hidden");
  $("finish").classList.remove("hidden");
-
  $("finalscore").textContent=score+" PUAN";
- $("resulttext").textContent=
-  name+" · DOĞRU BİLİNEN: "+correct+"/15";
-
+ $("resulttext").textContent=name+" · DOĞRU BİLİNEN: "+correct+"/15";
  idx=15;
  await save();
 }
-
 async function restart(){
  shuffle();
-
- idx=0;
- score=0;
- correct=0;
- wrong=0;
- used=[];
- opened=[];
- hints=3;
- roundPoints=0;
-
+ idx=0;score=0;correct=0;wrong=0;
+ used=[];opened=[];hints=3;roundPoints=0;
  $("finish").classList.add("hidden");
  $("game").classList.remove("hidden");
-
  startMusic();
  render();
 }
 
-/* BUTONLAR */
 $("loginbtn").addEventListener("click",loginGame);
-$("username").addEventListener("keydown",e=>{
- if(e.key==="Enter")loginGame();
-});
+$("username").addEventListener("keydown",e=>{if(e.key==="Enter")loginGame()});
 $("hintbtn").addEventListener("click",useHint);
 $("openGuess").addEventListener("click",openGuess);
 $("answerbtn").addEventListener("click",checkAnswer);
 $("closeguess").addEventListener("click",closeGuess);
-$("closehint").addEventListener("click",()=>{
- $("hintmodal").classList.add("hidden");
-});
-$("answer").addEventListener("keydown",e=>{
- if(e.key==="Enter")checkAnswer();
-});
+$("closehint").addEventListener("click",()=>$("hintmodal").classList.add("hidden"));
+$("answer").addEventListener("keydown",e=>{if(e.key==="Enter")checkAnswer()});
 $("restart").addEventListener("click",restart);
-
-function showScores(){
- $("scoreModal").classList.remove("hidden");
-}
-function hideScores(){
- $("scoreModal").classList.add("hidden");
-}
 
 $("scoreButton").addEventListener("click",showScores);
 $("finishScoreButton").addEventListener("click",showScores);
 $("closeScore").addEventListener("click",hideScores);
-
 $("scoreModal").addEventListener("click",e=>{
  if(e.target===$("scoreModal"))hideScores();
 });
-
 document.addEventListener("keydown",e=>{
  if(e.key==="Escape"){
   hideScores();
   closeGuess();
   $("hintmodal").classList.add("hidden");
  }
+});
+
+/* Uygulama açılınca otomatik skor penceresi açılmaz. */
+signInAnonymously(auth).catch(error=>{
+ console.error("Anonim giriş hatası:",error);
 });
 </script>
 </body>
