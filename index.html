@@ -2,533 +2,410 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#100006">
-<title>GSHD VIP - Kelime Avı</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#090000">
+<title>GSHD | Galatasaray Milyoner</title>
 <style>
-:root{
---red:#ed1238;--dark:#100509;--gold:#ffd34e;
---green:#31e69a;--panel:#210d15;
-}
+:root{--gold:#f3c64e;--red:#9e1028;--dark:#09090d;--panel:#17121b}
 *{box-sizing:border-box}
-body{
-margin:0;background:
-radial-gradient(ellipse at 50% 0%,#741329,transparent 55%),
-linear-gradient(160deg,#100509,#080507);
-color:white;font-family:Arial,sans-serif;min-height:100vh;
-user-select:none;-webkit-user-select:none;
-}
-.app{max-width:560px;margin:auto;padding:14px 13px 30px}
-header{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 18px}
-.brand{display:flex;align-items:center;gap:10px}
-.logo{
-width:45px;height:45px;border-radius:14px;
-background:linear-gradient(135deg,#ffe27b,#e00035);
-display:grid;place-items:center;font-size:26px;
-box-shadow:0 0 20px #f0004055;
-}
-.brand b{font-size:18px;letter-spacing:1px}
-.brand small{display:block;color:var(--gold);font-size:10px;letter-spacing:2px;margin-top:4px}
-.vip{border:1px solid #a77b2e;color:var(--gold);background:#2b130c;padding:8px 12px;border-radius:30px;font-size:10px}
-.hero{
-position:relative;overflow:hidden;text-align:center;
-border:1px solid #7b2639;border-radius:21px;
-padding:21px 12px;background:linear-gradient(120deg,#580b20,#1d0910 65%,#4a100e);
-}
-.hero .lion{font-size:37px;filter:drop-shadow(0 0 10px #ffcc44)}
-.hero h1{font-size:25px;margin:7px 0}
-.hero h1 span{color:var(--gold)}
-.hero p{font-size:11px;color:#d7bdc4;margin:0;line-height:1.6}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:13px 0}
-.stat{padding:12px 4px;text-align:center;border:1px solid #592332;border-radius:13px;background:#200c14}
-.stat strong{display:block;color:var(--gold);font-size:21px}
-.stat small{font-size:9px;color:#bcaab0;display:block;margin-top:4px}
-.panel{
-background:linear-gradient(145deg,#250e18,#13090e);
-border:1px solid #682638;border-radius:19px;padding:15px 11px;
-}
-.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.panel-head b{font-size:12px;color:var(--gold);letter-spacing:1px}
-.badge{font-size:10px;background:#401421;color:#ffdb75;padding:7px 9px;border-radius:20px}
-.directions{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:12px 0}
-.direction{
-text-align:center;padding:8px 2px;background:#1a0a10;
-border:1px solid #48202e;border-radius:9px;font-size:10px;color:#e7d1d6;
-}
-.direction span{display:block;font-size:17px;margin-bottom:4px;color:var(--gold)}
-.board-wrap{
-width:100%;max-width:440px;margin:14px auto;
-padding:8px;border:1px solid #75402e;border-radius:14px;
-background:linear-gradient(135deg,#3b111e,#15090e);
-box-shadow:0 8px 25px #0007;
-touch-action:none;
-}
-.board{
-display:grid;grid-template-columns:repeat(12,minmax(0,1fr));
-gap:3px;touch-action:none;
-}
-.cell{
-aspect-ratio:1;min-width:0;padding:0;
-border:1px solid #57303a;border-radius:5px;
-background:linear-gradient(145deg,#32131e,#1b0b12);
-color:#f8df9a;font-size:clamp(11px,3.6vw,17px);
-font-weight:bold;display:grid;place-items:center;
-transition:background .12s,border .12s;
-}
-.cell.preview{
-background:#a96c17;color:white;border-color:#ffe17c;
-box-shadow:0 0 9px #ffca3c77;
-}
-.cell.found{
-background:linear-gradient(135deg,#ffd96b,#e6a400);
-color:#300d00;border-color:#fff0a0;
-box-shadow:0 0 10px #ffcb3977;
-}
-.words-title{font-size:12px;color:var(--gold);font-weight:bold;margin:17px 3px 10px}
-.word-list{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
-.word{
-padding:11px 9px;border:1px solid #542332;
-border-radius:10px;background:#1d0b12;
-font-size:11px;display:flex;justify-content:space-between;
-align-items:center;color:#e8d8dc;
-}
-.word.done{border-color:#268c62;color:#5aefad;background:#10251d}
-.word.done span:last-child{color:#54edaa}
-.word span:last-child{color:#927b82}
-.actions{display:flex;gap:8px;margin-top:13px}
-button{font-family:inherit;cursor:pointer}
-.btn{
-flex:1;border:0;border-radius:11px;padding:13px 7px;
-font-size:11px;font-weight:bold;
-}
-.gold{background:linear-gradient(135deg,#ffe58a,#e7a400);color:#240d00}
-.dark{background:#36131f;border:1px solid #713143;color:#ffd76a}
-.info{font-size:10px;text-align:center;color:#a9949b;line-height:1.6;margin-top:12px}
-.message{min-height:25px;text-align:center;font-size:12px;font-weight:bold;margin-top:12px}
-.good{color:var(--green)}.bad{color:#ff7084}
-.leader{margin-top:15px;padding:15px;border:1px solid #632538;border-radius:17px;background:#190a10}
-.leader h3{font-size:13px;color:var(--gold);margin:0 0 12px}
-.name{width:100%;padding:12px;background:#0d070a;border:1px solid #57303a;color:white;border-radius:10px;outline:none;margin-bottom:10px}
-.rank{display:flex;padding:10px 3px;border-bottom:1px solid #3a2029;font-size:11px;gap:10px}
-.rank:last-child{border:0}
-.rank b{color:var(--gold);width:23px}
-.rank span{flex:1}.rank strong{color:#ffda69}
-.footer{text-align:center;font-size:10px;color:#846c74;padding:20px}
-.modal{position:fixed;inset:0;background:#000c;z-index:5;display:grid;place-items:center;padding:20px}
-.modal-box{
-width:100%;max-width:330px;text-align:center;padding:25px 18px;
-background:linear-gradient(145deg,#54101f,#19090e);
-border:1px solid #d39b39;border-radius:22px;
-box-shadow:0 0 45px #e0003655;
-animation:pop .3s ease;
-}
-.modal-box .cup{font-size:52px}
-.modal-box h2{color:var(--gold)}
-.modal-box p{font-size:13px;color:#ead7da}
-.hidden{display:none!important}
-@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
-@media(max-width:370px){.app{padding:9px}.board-wrap{padding:5px}.board{gap:2px}.cell{border-radius:3px}}
+body{margin:0;background:radial-gradient(ellipse at top,#49101b,#10090e 55%,#050505);color:#fff;font-family:Arial,sans-serif;min-height:100vh}
+button,input{font:inherit}
+button{cursor:pointer}
+.page{display:none;min-height:100vh;padding:18px}
+.page.active{display:flex;align-items:center;justify-content:center}
+.wrap{width:100%;max-width:850px;margin:auto}
+.card{background:linear-gradient(145deg,#25121a,#100e15);border:1px solid #b88b39;border-radius:19px;padding:23px;box-shadow:0 15px 50px #0009}
+.brand{text-align:center;color:var(--gold);font-weight:1000;letter-spacing:4px;font-size:14px}
+h1{text-align:center;font-size:clamp(28px,6vw,45px);margin:16px 0;color:var(--gold)}
+.sub{text-align:center;color:#b7aeb4;font-size:11px;letter-spacing:3px}
+.host{width:85px;height:100px;margin:20px auto;position:relative;background:#030303;border-radius:50% 50% 10px 10px;box-shadow:0 0 30px #e6b84733}
+.host:before{content:"";position:absolute;top:0;left:20px;width:45px;height:53px;background:#000;border-radius:50%;box-shadow:0 0 0 1px #b88b39}
+.host:after{content:"";position:absolute;bottom:0;left:-12px;width:110px;height:55px;background:linear-gradient(#171313,#030303);border-radius:60px 60px 5px 5px}
+.hostname{text-align:center;color:var(--gold);font-weight:900;letter-spacing:3px}
+input{width:100%;padding:15px;border-radius:10px;background:#09090e;border:1px solid #75572c;color:white;margin:10px 0}
+.btn{width:100%;padding:15px;border:0;border-radius:10px;background:linear-gradient(120deg,#ffe28b,#b67c1c);color:#160e06;font-weight:900;margin-top:12px}
+.btn2{padding:12px;border-radius:10px;background:#24151b;color:white;border:1px solid #7d5632}
+.info{font-size:13px;line-height:1.8;color:#d1c7c9}
+.gold{color:var(--gold)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.tag{background:#281820;border:1px solid #8d6839;padding:9px 12px;border-radius:20px;font-size:12px}
+.timer{width:65px;height:65px;border:3px solid var(--gold);border-radius:50%;display:grid;place-items:center;font-size:24px;color:var(--gold);font-weight:900}
+.timer.danger{border-color:red;color:#ff5555}
+.progress{height:8px;background:#32232a;border-radius:20px;margin:20px 0;overflow:hidden}
+.progress div{height:100%;width:0;background:linear-gradient(90deg,#9d142d,#ffda68);transition:.3s}
+.progressText{display:flex;justify-content:space-between;color:#c9bdc2;font-size:12px}
+.question{background:linear-gradient(130deg,#421321,#17121d);border:1px solid #b78a40;border-radius:20px;min-height:145px;padding:25px 15px;display:grid;place-items:center;text-align:center;font-size:clamp(20px,4vw,30px);font-weight:900;line-height:1.4;margin:17px 0}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.answer{padding:17px 12px;min-height:65px;border:1px solid #745d46;border-radius:12px;background:#21151c;color:white;text-align:left;font-weight:700}
+.answer span{color:var(--gold);margin-right:9px}
+.answer:disabled{opacity:.3}
+.answer.correct{background:#12603e;border-color:#4affaa}
+.answer.wrong{background:#851c2c;border-color:#ff5c6d}
+.answer.selected{background:#88611f}
+.status{text-align:center;min-height:25px;margin:13px;color:var(--gold)}
+.jokers{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.joker{padding:13px 3px;border-radius:10px;border:1px solid #b88b39;background:#24151b;color:var(--gold);font-size:12px;font-weight:bold}
+.joker:disabled{opacity:.3}
+.multiplier{text-align:center;color:var(--gold);font-weight:900;font-size:13px;margin:10px}
+.modal{display:none;position:fixed;inset:0;background:#000e;z-index:5;align-items:center;justify-content:center;padding:18px}
+.modal.show{display:flex}
+.modalbox{background:#20131b;border:1px solid var(--gold);border-radius:20px;padding:25px;width:100%;max-width:420px;text-align:center}
+.bar{height:15px;background:#44313a;border-radius:20px;overflow:hidden;flex:1}
+.bar div{height:100%;background:linear-gradient(90deg,#ae172d,#f5d36d)}
+.aud{display:flex;align-items:center;gap:8px;margin:12px 0}
+.board{margin-top:15px}
+.boardrow{display:grid;grid-template-columns:35px 1fr 55px 65px;gap:5px;padding:13px 5px;border-bottom:1px solid #ffffff1b;font-size:13px;align-items:center}
+.boardhead{font-size:10px;color:#b9aeb4}
+.medal{text-align:center;font-size:19px}
+.small{font-size:11px;color:#bcb1b6}
+@media(max-width:520px){.page{padding:10px}.card{padding:15px}.answers{grid-template-columns:1fr}.answer{min-height:54px;padding:13px}.question{min-height:120px}.joker{font-size:10px}}
 </style>
 </head>
 <body>
-<div class="app">
 
-<header>
- <div class="brand">
-  <div class="logo">🦁</div>
-  <div><b>GSHD VIP</b><small>GAME CENTER</small></div>
- </div>
- <div class="vip">★ PREMIUM</div>
-</header>
-
-<section class="hero">
- <div class="lion">🦁</div>
- <h1>KELİME <span>AVI</span></h1>
- <p>Gizli kelimeleri bul, rekorunu geliştir!<br>Her yönde dikkatli ol, hiçbir harfi kaçırma.</p>
+<section class="page active" id="home">
+<div class="wrap">
+<div class="brand">GSHD VIP SUNAR</div>
+<div class="sub">GALATASARAY BİLGİ YARIŞMASI</div>
+<div class="host"></div>
+<div class="hostname">ÖMER BAŞKAN</div>
+<h1>KİM MİLYONER?</h1>
+<div class="card">
+<h3 class="gold">ASLANLARIN BİLGİSİ SINANIYOR!</h3>
+<p class="info">
+20 soru. Kolaydan zora. Galatasaray tarihi, efsaneler, futbolcular ve Avrupa zaferleri.
+</p>
+<p class="info">
+🟡 İlk 4 soru: 100 puan<br>
+🔴 5-8. sorular: 150 puan<br>
+🟡 9-12. sorular: 200 puan<br>
+🔴 13-16. sorular: 300 puan<br>
+🏆 Son 4 soru: 500 puan (5x)
+</p>
+<p class="info">50:50, telefon ve seyirci jokerleri vardır. Her doğru cevap ilerlemeni kaydeder. Aynı hesapla tekrar girdiğinde kaldığın yerden devam edebilirsin.</p>
+<input id="name" maxlength="20" placeholder="Yarışmacı adını yaz">
+<button class="btn" id="startBtn" onclick="start()">YARIŞMAYA BAŞLA</button>
+<button class="btn2" style="width:100%;margin-top:10px" onclick="showBoard()">🏆 CANLI PUAN TABLOSU</button>
+<p class="small" id="connection">Firebase bağlantısı hazırlanıyor...</p>
+</div>
+</div>
 </section>
 
-<div class="stats">
- <div class="stat"><strong id="score">0</strong><small>PUAN</small></div>
- <div class="stat"><strong id="timer">03:00</strong><small>KALAN SÜRE</small></div>
- <div class="stat"><strong id="foundCount">0/8</strong><small>BULUNAN</small></div>
+<section class="page" id="game">
+<div class="wrap">
+<div class="top">
+<div><div class="brand">GSHD VIP</div><div class="hostname">ÖMER BAŞKAN</div></div>
+<div class="tag" id="points">0 PUAN</div>
+<div class="timer" id="timer">30</div>
 </div>
-
-<section class="panel">
- <div class="panel-head">
-  <b>⚔ KELİME BULMACASI</b>
-  <span class="badge">12 × 12</span>
- </div>
-
- <div class="directions">
-  <div class="direction"><span>→</span>Sağa</div>
-  <div class="direction"><span>←</span>Sola</div>
-  <div class="direction"><span>↓</span>Aşağı</div>
-  <div class="direction"><span>↑</span>Yukarı</div>
-  <div class="direction"><span>↘</span>Çapraz</div>
-  <div class="direction"><span>↙</span>Çapraz</div>
-  <div class="direction"><span>↗</span>Çapraz</div>
-  <div class="direction"><span>↖</span>Çapraz</div>
- </div>
-
- <div class="board-wrap">
-  <div class="board" id="board"></div>
- </div>
-
- <div class="words-title">🔎 BULUNACAK KELİMELER</div>
- <div class="word-list" id="wordList"></div>
-
- <div class="info">
-  Parmağını ilk harfin üzerine koy ve son harfe kadar sürükle.<br>
-  Yatay, dikey ve çapraz yönlerde; ters kelimeler de gizlidir.
- </div>
-
- <div class="actions">
-  <button class="btn dark" id="newGame">↻ YENİ BULMACA</button>
-  <button class="btn gold" id="hint">💡 İPUCU</button>
- </div>
- <div class="message" id="message">Hazırsan kelimeleri bulmaya başla!</div>
+<div class="progress"><div id="progressBar"></div></div>
+<div class="progressText">
+<span id="qnum">SORU 1 / 20</span>
+<span id="correctCount">0 DOĞRU</span>
+</div>
+<div class="multiplier" id="multiplier">×1 | 100 PUAN</div>
+<div class="question" id="question">Soru hazırlanıyor...</div>
+<div class="answers" id="answers"></div>
+<div class="status" id="status"></div>
+<div class="jokers">
+<button class="joker" id="j50" onclick="fifty()">✂️ 50:50</button>
+<button class="joker" id="jPhone" onclick="phone()">📞 TELEFON</button>
+<button class="joker" id="jAudience" onclick="audience()">👥 SEYİRCİ</button>
+</div>
+<div style="display:flex;gap:10px;margin-top:15px">
+<button class="btn2" style="flex:1" onclick="showBoard()">🏆 SIRALAMA</button>
+<button class="btn2" style="flex:1" onclick="toggleSound()" id="soundBtn">🔊 SES</button>
+</div>
+<p class="small" id="saveStatus" style="text-align:center">İlerleme otomatik kaydediliyor.</p>
+</div>
 </section>
 
-<section class="leader">
- <h3>🏆 GSHD REKOR TABLOSU</h3>
- <input class="name" id="playerName" maxlength="18" placeholder="Oyuncu adını yaz">
- <div id="ranking"></div>
+<section class="page" id="board">
+<div class="wrap">
+<div class="brand">GSHD VIP</div>
+<h1>🏆 ASLANLARIN LİSTESİ</h1>
+<div class="card">
+<div class="boardrow boardhead"><span>SIRA</span><span>YARIŞMACI</span><span>DOĞRU</span><span>PUAN</span></div>
+<div id="boardList" class="board"></div>
+<p class="small">Altın, gümüş ve bronz sadece ilk üç yarışmacıya verilir. Diğer sıralamalarda madalya yoktur.</p>
+<button class="btn" onclick="back()">GERİ DÖN</button>
+</div>
+</div>
 </section>
 
-<div class="footer">GSHD VIP • SARI KIRMIZI TUTKU 🦁</div>
+<section class="page" id="finish">
+<div class="wrap card" style="text-align:center">
+<div class="brand">GSHD VIP</div>
+<h1>YARIŞMA BİTTİ</h1>
+<div class="hostname" id="finalName"></div>
+<h1 id="finalPoints">0 PUAN</h1>
+<p id="finalCorrect" class="gold"></p>
+<p class="info" id="finalText"></p>
+<button class="btn" onclick="showBoard()">PUAN TABLOSUNU GÖR</button>
+<button class="btn2" style="width:100%;margin-top:10px" onclick="home()">ANA SAYFA</button>
+</div>
+</section>
+
+<div class="modal" id="modal">
+<div class="modalbox" id="modalContent"></div>
 </div>
 
-<div class="modal hidden" id="modal">
- <div class="modal-box">
-  <div class="cup">🏆</div>
-  <h2 id="modalTitle">TEBRİKLER!</h2>
-  <p id="modalText"></p>
-  <button class="btn gold" id="playAgain">YENİ OYUN</button>
- </div>
-</div>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {getAuth,signInAnonymously,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {getFirestore,doc,setDoc,getDoc,collection,query,onSnapshot,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-<script>
-const SIZE=12;
-const WORDS=[
-"OSIMHEN","TORREIRA","MUSLERA","HAGI",
-"ASLAN","FLORYA","UEFA","DERBI"
-];
-const LABELS={
-OSIMHEN:"OSIMHEN",TORREIRA:"TORREIRA",
-MUSLERA:"MUSLERA",HAGI:"HAGI",
-ASLAN:"ASLAN",FLORYA:"FLORYA",
-UEFA:"UEFA",DERBI:"DERBİ"
+const firebaseConfig={
+ apiKey:"AIzaSyC59qq7JGlnih47iWIxKm8csYnoE2mSFo8",
+ authDomain:"gshd-d7843.firebaseapp.com",
+ projectId:"gshd-d7843",
+ storageBucket:"gshd-d7843.firebasestorage.app",
+ messagingSenderId:"458559276692",
+ appId:"1:458559276692:web:0a5711f682ff9241f65681",
+ measurementId:"G-L2SG09SQC4"
 };
-const DIRS=[
-[0,1],[0,-1],[1,0],[-1,0],
-[1,1],[1,-1],[-1,1],[-1,-1]
+
+let db,auth,user=null,connected=false;
+try{
+ const app=initializeApp(firebaseConfig);
+ auth=getAuth(app);
+ db=getFirestore(app);
+ signInAnonymously(auth).catch(e=>connectionError(e));
+ onAuthStateChanged(auth,async u=>{
+  if(!u)return;
+  user=u;connected=true;
+  document.getElementById("connection").textContent="✓ Firebase bağlantısı kuruldu";
+  listenBoard();
+ });
+}catch(e){connectionError(e)}
+
+function connectionError(e){
+ document.getElementById("connection").textContent="Firebase hatası: "+e.message;
+}
+
+const questions=[
+{q:"Galatasaray hangi yıl kurulmuştur?",a:["1903","1905","1907","1910"],c:1},
+{q:"Galatasaray'ın kurucusu kimdir?",a:["Ali Sami Yen","Metin Oktay","Faruk Süren","Gündüz Kılıç"],c:0},
+{q:"Galatasaray'ın renkleri hangileridir?",a:["Mavi-beyaz","Sarı-kırmızı","Yeşil-beyaz","Siyah-beyaz"],c:1},
+{q:"Galatasaray'ın simgesi hangi hayvandır?",a:["Kartal","Aslan","Boğa","Kurt"],c:1},
+{q:"Metin Oktay hangi lakapla tanınır?",a:["Kral","İmparator","Atom Karınca","Büyük Kaptan"],c:0},
+{q:"Galatasaray'ın 2000 yılındaki teknik direktörü kimdi?",a:["Mustafa Denizli","Fatih Terim","Mircea Lucescu","Jupp Derwall"],c:1},
+{q:"Galatasaray'ın UEFA Kupası finalindeki rakibi kimdi?",a:["Liverpool","Arsenal","Leeds United","Real Madrid"],c:1},
+{q:"Galatasaray'ın 2000 UEFA Kupası finali hangi şehirde oynandı?",a:["Paris","Londra","Kopenhag","Roma"],c:2},
+{q:"Galatasaray, 2000 UEFA Kupası finalinde Arsenal'i nasıl mağlup etti?",a:["Normal sürede 2-0","Uzatmada altın golle","Penaltılarda 4-1","Tekrar maçında"],c:2},
+{q:"2000 UEFA Kupası finalinde Galatasaray'ın kaptanı kimdi?",a:["Hakan Şükür","Bülent Korkmaz","Gheorghe Hagi","Okan Buruk"],c:1},
+{q:"2000 UEFA Kupası finalinde Galatasaray'ın penaltı golcülerinden biri kimdi?",a:["Ergün Penbe","Arif Erdem","Hasan Şaş","Suat Kaya"],c:0},
+{q:"Galatasaray, 2000 UEFA Süper Kupa finalinde hangi takımı yendi?",a:["Barcelona","Real Madrid","Manchester United","Bayern Münih"],c:1},
+{q:"2000 UEFA Süper Kupa maçının normal süresi hangi skorla bitti?",a:["0-0","1-0 Galatasaray","1-1","2-1 Real Madrid"],c:2},
+{q:"Real Madrid karşısında altın golü atan Galatasaraylı futbolcu kimdi?",a:["Hakan Şükür","Gheorghe Hagi","Mário Jardel","Hasan Şaş"],c:2},
+{q:"2000 UEFA Kupası finalinde Gheorghe Hagi hangi bölümde kırmızı kart gördü?",a:["İlk yarıda","İkinci yarıda","Uzatma bölümünde","Penaltılarda"],c:2},
+{q:"Galatasaray, 1999-2000 UEFA Kupası yolculuğuna Şampiyonlar Ligi'nde hangi takımı yenerek devam etti?",a:["Chelsea","Milan","Lazio","Barcelona"],c:1},
+{q:"Galatasaray'ın 1999-2000 UEFA Kupası yarı finalindeki rakibi kimdi?",a:["Bologna","Borussia Dortmund","Leeds United","Mallorca"],c:2},
+{q:"Galatasaray, 1999-2000 UEFA Kupası çeyrek finalinde hangi takımı eledi?",a:["Real Mallorca","Roma","Valencia","Ajax"],c:0},
+{q:"2000 UEFA Kupası finalinde Galatasaray'ın kalecisi kimdi?",a:["Mondragon","Fernando Muslera","Cláudio Taffarel","Faryd Mondragón"],c:2},
+{q:"Galatasaray'ın 1999-2000 UEFA Kupası finaline ulaşırken elediği takımların doğru sıralaması hangisidir?",a:["Bologna, Dortmund, Mallorca, Leeds United","Dortmund, Bologna, Leeds, Mallorca","Mallorca, Bologna, Dortmund, Leeds","Bologna, Mallorca, Leeds, Dortmund"],c:0}
 ];
-const $=id=>document.getElementById(id);
-let grid=[],placements={},found=new Set();
-let score=0,time=180,clock=null,active=false;
-let start=null,end=null,preview=[],pointerDown=false;
-let hintCount=0,player=localStorage.getItem("gshdWordName")||"Oyuncu";
 
-$("playerName").value=player;
+const pointsFor=i=>i<4?100:i<8?150:i<12?200:i<16?300:500;
+const multFor=i=>i<4?"×1":i<8?"×1.5":i<12?"×2":i<16?"×3":"×5";
 
-function normalize(s){
- return s.toLocaleUpperCase("tr-TR")
- .replace(/İ/g,"I").replace(/Ş/g,"S")
- .replace(/Ğ/g,"G").replace(/Ü/g,"U")
- .replace(/Ö/g,"O").replace(/Ç/g,"C");
+let index=0,score=0,correct=0,player="",seconds=30;
+let timer=null,selected=false,used={f:false,p:false,a:false};
+let startTime=0,totalTime=0,soundOn=true;
+let currentPage="home",boardData=[],answerHistory=[];
+
+function page(id){
+ document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+ document.getElementById(id).classList.add("active");currentPage=id;
 }
-
-function beep(good=true){
+window.start=async()=>{
+ player=document.getElementById("name").value.trim();
+ if(!player)return alert("İsmini yazmalısın.");
+ if(!connected||!user)return alert("Firebase bağlantısı henüz kurulmadı. Biraz bekle ve tekrar dene.");
  try{
- const ctx=new (window.AudioContext||window.webkitAudioContext)();
- const notes=good?[523,659,784,1047]:[200,150];
- notes.forEach((n,i)=>{
- const o=ctx.createOscillator();
- const g=ctx.createGain();
- o.type="sine";o.frequency.value=n;
- o.connect(g);g.connect(ctx.destination);
- const t=ctx.currentTime+i*.1;
- g.gain.setValueAtTime(.001,t);
- g.gain.exponentialRampToValueAtTime(.13,t+.03);
- g.gain.exponentialRampToValueAtTime(.001,t+.18);
- o.start(t);o.stop(t+.2);
+  const ref=doc(db,"galatasarayQuizProgress",user.uid);
+  const snap=await getDoc(ref);
+  if(snap.exists()&&!snap.data().finished&&snap.data().name===player){
+   const p=snap.data();
+   if(confirm("Kaldığın yerden devam etmek ister misin?")){
+    index=p.index||0;score=p.score||0;correct=p.correct||0;
+    used=p.used||{f:false,p:false,a:false};
+    totalTime=p.totalTime||0;
+    answerHistory=p.answerHistory||[];
+   }else reset();
+  }else reset();
+  page("game");render();
+ }catch(e){alert("İlerleme alınamadı: "+e.message)}
+};
+function reset(){index=0;score=0;correct=0;totalTime=0;used={f:false,p:false,a:false};answerHistory=[]}
+function render(){
+ clearInterval(timer);selected=false;
+ if(index>=20){finish();return}
+ seconds=30;
+ const q=questions[index];
+ document.getElementById("question").textContent=q.q;
+ document.getElementById("qnum").textContent=`SORU ${index+1} / 20`;
+ document.getElementById("correctCount").textContent=correct+" DOĞRU";
+ document.getElementById("points").textContent=score+" PUAN";
+ document.getElementById("multiplier").textContent=multFor(index)+" | "+pointsFor(index)+" PUAN";
+ document.getElementById("progressBar").style.width=(index/20*100)+"%";
+ document.getElementById("status").textContent="";
+ document.getElementById("timer").textContent=30;
+ document.getElementById("timer").classList.remove("danger");
+ let area=document.getElementById("answers");area.innerHTML="";
+ q.a.forEach((v,i)=>{
+  let b=document.createElement("button");b.className="answer";b.id="a"+i;
+  b.innerHTML=`<span>${"ABCD"[i]})</span>${v}`;
+  b.onclick=()=>choose(i);area.appendChild(b);
  });
- }catch(e){}
+ document.getElementById("j50").disabled=used.f;
+ document.getElementById("jPhone").disabled=used.p;
+ document.getElementById("jAudience").disabled=used.a;
+ startTime=Date.now();
+ timer=setInterval(()=>{
+  seconds--;document.getElementById("timer").textContent=seconds;
+  if(seconds<=10)document.getElementById("timer").classList.add("danger");
+  if(seconds<=0){clearInterval(timer);document.getElementById("status").textContent="SÜRE DOLDU!";setTimeout(finish,1000)}
+ },1000);
+ saveProgress();
 }
-
-function makeGrid(){
- grid=Array.from({length:SIZE},()=>Array(SIZE).fill(""));
- placements={};
- const shuffled=[...WORDS].sort(()=>Math.random()-.5);
-
- shuffled.forEach(word=>{
-  let placed=false;
-  for(let attempt=0;attempt<500&&!placed;attempt++){
-   let d=DIRS[Math.floor(Math.random()*DIRS.length)];
-   let r=Math.floor(Math.random()*SIZE);
-   let c=Math.floor(Math.random()*SIZE);
-   let er=r+d[0]*(word.length-1);
-   let ec=c+d[1]*(word.length-1);
-   if(er<0||er>=SIZE||ec<0||ec>=SIZE)continue;
-
-   let valid=true;
-   for(let i=0;i<word.length;i++){
-    let ch=grid[r+d[0]*i][c+d[1]*i];
-    if(ch!==""&&ch!==word[i]){valid=false;break;}
-   }
-   if(!valid)continue;
-
-   let cells=[];
-   for(let i=0;i<word.length;i++){
-    let rr=r+d[0]*i,cc=c+d[1]*i;
-    grid[rr][cc]=word[i];
-    cells.push(rr*SIZE+cc);
-   }
-   placements[word]=cells;
-   placed=true;
-  }
-  if(!placed){
-   // Yerleştirme başarısızsa yeni tablo oluşturulur.
-   throw new Error("Yerleştirme başarısız");
-  }
- });
-
- const alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
- for(let r=0;r<SIZE;r++){
-  for(let c=0;c<SIZE;c++){
-   if(!grid[r][c]){
-    grid[r][c]=alphabet[Math.floor(Math.random()*alphabet.length)];
-   }
-  }
- }
+async function saveProgress(finished=false){
+ if(!user)return;
+ try{
+  await setDoc(doc(db,"galatasarayQuizProgress",user.uid),{
+   uid:user.uid,name:player,index,score,correct,used,totalTime,
+   answerHistory,finished,updatedAt:serverTimestamp()
+  });
+  document.getElementById("saveStatus").textContent="✓ İlerlemen kaydedildi";
+ }catch(e){document.getElementById("saveStatus").textContent="Kayıt hatası: "+e.message}
 }
-
-function renderBoard(){
- $("board").innerHTML="";
- for(let r=0;r<SIZE;r++){
-  for(let c=0;c<SIZE;c++){
-   let index=r*SIZE+c;
-   let b=document.createElement("button");
-   b.className="cell";
-   b.textContent=grid[r][c];
-   b.dataset.index=index;
-   b.addEventListener("pointerdown",e=>{
-    if(!active)return;
-    e.preventDefault();
-    pointerDown=true;
-    start=index;
-    end=index;
-    updatePreview();
-   });
-   $("board").appendChild(b);
-  }
- }
-}
-
-function renderWords(){
- $("wordList").innerHTML="";
- WORDS.forEach(word=>{
-  let el=document.createElement("div");
-  el.className="word";
-  el.id="word_"+word;
-  let a=document.createElement("span");
-  a.textContent=LABELS[word];
-  let b=document.createElement("span");
-  b.textContent="○";
-  el.append(a,b);
-  $("wordList").appendChild(el);
- });
-}
-
-function getLine(a,b){
- let r1=Math.floor(a/SIZE),c1=a%SIZE;
- let r2=Math.floor(b/SIZE),c2=b%SIZE;
- let dr=r2-r1,dc=c2-c1;
- if(dr===0&&dc===0)return[a];
- if(dr!==0&&dc!==0&&Math.abs(dr)!==Math.abs(dc))return null;
- let steps=Math.max(Math.abs(dr),Math.abs(dc));
- let sr=Math.sign(dr),sc=Math.sign(dc);
- let result=[];
- for(let i=0;i<=steps;i++){
-  let r=r1+sr*i,c=c1+sc*i;
-  if(r<0||r>=SIZE||c<0||c>=SIZE)return null;
-  result.push(r*SIZE+c);
- }
- return result;
-}
-
-function updatePreview(){
- document.querySelectorAll(".cell.preview").forEach(x=>x.classList.remove("preview"));
- if(start===null||end===null)return;
- preview=getLine(start,end)||[];
- preview.forEach(i=>{
-  let el=$("board").children[i];
-  if(el&&!el.classList.contains("found"))el.classList.add("preview");
- });
-}
-
-function cellAtPoint(x,y){
- let el=document.elementFromPoint(x,y);
- if(!el)return null;
- let cell=el.closest(".cell");
- return cell&&$("board").contains(cell)?Number(cell.dataset.index):null;
-}
-
-document.addEventListener("pointermove",e=>{
- if(!pointerDown||!active)return;
- let index=cellAtPoint(e.clientX,e.clientY);
- if(index!==null&&index!==end){
-  end=index;
-  updatePreview();
- }
-});
-
-document.addEventListener("pointerup",()=>{
- if(!pointerDown)return;
- pointerDown=false;
- if(start!==null&&end!==null)checkSelection();
- start=null;end=null;
- document.querySelectorAll(".cell.preview").forEach(x=>x.classList.remove("preview"));
- preview=[];
-});
-
-function checkSelection(){
- let line=getLine(start,end);
- if(!line||line.length<2)return;
- let word=line.map(i=>grid[Math.floor(i/SIZE)][i%SIZE]).join("");
- let reverse=word.split("").reverse().join("");
- let foundWord=WORDS.find(w=>!found.has(w)&&(w===word||w===reverse));
- if(foundWord){
-  markFound(foundWord);
+async function choose(i){
+ if(selected)return;
+ selected=true;clearInterval(timer);
+ totalTime+=Math.round((Date.now()-startTime)/1000);
+ const q=questions[index];
+ document.querySelectorAll(".answer").forEach(b=>b.disabled=true);
+ if(i===q.c){
+  correct++;score+=pointsFor(index);
+  document.getElementById("a"+i).classList.add("correct");
+  document.getElementById("status").textContent="DOĞRU! +"+pointsFor(index)+" PUAN";
+  answerHistory.push({question:index,correct:true});
+  await saveProgress();
+  setTimeout(()=>{index++;render()},1400);
  }else{
-  beep(false);
-  $("message").textContent="Bu yönde bir kelime yok, tekrar dene!";
-  $("message").className="message bad";
+  document.getElementById("a"+i).classList.add("wrong");
+  document.getElementById("a"+q.c).classList.add("correct");
+  document.getElementById("status").textContent="YANLIŞ CEVAP!";
+  answerHistory.push({question:index,correct:false});
+  await saveProgress();
+  setTimeout(finish,1600);
  }
 }
-
-function markFound(word){
- found.add(word);
- let cells=placements[word];
- cells.forEach(i=>{
-  $("board").children[i].classList.add("found");
- });
- let chip=$("word_"+word);
- chip.classList.add("done");
- chip.children[1].textContent="✓";
- score+=100;
- $("score").textContent=score;
- $("foundCount").textContent=found.size+"/"+WORDS.length;
- beep(true);
- $("message").textContent="✓ "+LABELS[word]+" BULUNDU! +100 PUAN";
- $("message").className="message good";
- saveRanking();
-
- if(found.size===WORDS.length){
-  finish(true);
+window.fifty=()=>{
+ if(used.f||selected)return;
+ used.f=true;document.getElementById("j50").disabled=true;
+ let q=questions[index],wrong=[0,1,2,3].filter(x=>x!==q.c).sort(()=>Math.random()-.5);
+ wrong.slice(0,2).forEach(i=>{document.getElementById("a"+i).disabled=true;document.getElementById("a"+i).style.visibility="hidden"});
+ saveProgress();
+};
+window.phone=()=>{
+ if(used.p||selected)return;
+ used.p=true;document.getElementById("jPhone").disabled=true;
+ clearInterval(timer);
+ let q=questions[index];
+ document.getElementById("modalContent").innerHTML=`
+ <div style="font-size:38px">📞</div><h2 class="gold">ÖMER BAŞKAN ARANIYOR</h2>
+ <p>Bağlantı kuruluyor...</p>`;
+ document.getElementById("modal").classList.add("show");
+ setTimeout(()=>{
+ document.getElementById("modalContent").innerHTML=`
+ <h2 class="gold">ÖMER BAŞKAN</h2>
+ <p>Beni bu yüzden mi aradın hocam? Cevabı söyleyeyim de beni rahat bırak :)</p>
+ <h2 class="gold">CEVAP: ${"ABCD"[q.c]} - ${q.a[q.c]}</h2>
+ <button class="btn" onclick="closeModal()">DEVAM ET</button>`;
+ },2200);
+ saveProgress();
+};
+window.audience=()=>{
+ if(used.a||selected)return;
+ used.a=true;document.getElementById("jAudience").disabled=true;
+ let c=questions[index].c;
+ let wrong=[0,1,2,3].filter(x=>x!==c);
+ let vals=[39+Math.floor(Math.random()*8),24,21,16];
+ let correctPercent=vals[0];
+ let rest=[...vals.slice(1)];
+ let p=[0,0,0,0];p[c]=correctPercent;
+ wrong.forEach((v,j)=>p[v]=rest[j]);
+ let total=p.reduce((a,b)=>a+b,0);
+ p[wrong[2]]+=100-total;
+ let html="<h2 class='gold'>SEYİRCİ OYLAMASI</h2>";
+ p.forEach((v,i)=>html+=`<div class="aud"><b>${"ABCD"[i]}</b><div class="bar"><div style="width:${v}%"></div></div><b>${v}%</b></div>`);
+ html+=`<button class="btn" onclick="closeModal()">GERİ DÖN</button>`;
+ document.getElementById("modalContent").innerHTML=html;
+ document.getElementById("modal").classList.add("show");
+ saveProgress();
+};
+window.closeModal=()=>{
+ document.getElementById("modal").classList.remove("show");
+ if(currentPage==="game"&&!selected){
+  startTime=Date.now();
+  timer=setInterval(()=>{
+   seconds--;document.getElementById("timer").textContent=seconds;
+   if(seconds<=10)document.getElementById("timer").classList.add("danger");
+   if(seconds<=0){clearInterval(timer);finish()}
+  },1000);
  }
+};
+async function finish(){
+ clearInterval(timer);
+ await saveProgress(true);
+ try{
+  const ref=doc(db,"galatasarayQuizScores",user.uid);
+  const snap=await getDoc(ref);
+  let old=snap.exists()?snap.data():null;
+  let better=!old||correct>old.correct||
+   (correct===old.correct&&score>old.score)||
+   (correct===old.correct&&score===old.score&&totalTime<old.totalTime);
+  if(better){
+   await setDoc(ref,{
+    uid:user.uid,name:player,score,correct,totalTime,
+    completed:index>=20,updatedAt:serverTimestamp()
+   });
+  }
+ }catch(e){console.error(e)}
+ document.getElementById("finalName").textContent=player;
+ document.getElementById("finalPoints").textContent=score+" PUAN";
+ document.getElementById("finalCorrect").textContent=correct+" / 20 DOĞRU";
+ document.getElementById("finalText").textContent=correct===20?"MÜKEMMEL! TAM PUAN!":correct>=15?"EFSANE BİR PERFORMANS!":"Aslan gibi mücadele ettin!";
+ page("finish");
 }
-
-function updateTimer(){
- time--;
- let m=Math.floor(time/60);
- let s=time%60;
- $("timer").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
- if(time<=0)finish(false);
+function listenBoard(){
+ onSnapshot(collection(db,"galatasarayQuizScores"),snap=>{
+  boardData=snap.docs.map(d=>d.data()).sort((a,b)=>
+   b.correct-a.correct||b.score-a.score||a.totalTime-b.totalTime);
+  if(currentPage==="board")renderBoard();
+ },e=>console.error(e));
 }
-
-function finish(won){
- if(!active)return;
- active=false;
- clearInterval(clock);
- saveRanking();
- $("modalTitle").textContent=won?"MÜKEMMEL!":"SÜRE DOLDU!";
- $("modalText").textContent=won?
- "Bütün kelimeleri buldun! Toplam puanın: "+score:
- "Bulduğun kelime: "+found.size+"/"+WORDS.length+" | Puanın: "+score;
- $("modal").classList.remove("hidden");
- if(won)beep(true);
-}
-
-function newGame(){
- clearInterval(clock);
- score=0;time=180;found=new Set();hintCount=0;
- start=null;end=null;pointerDown=false;
- try{makeGrid()}catch(e){makeGrid()}
- $("score").textContent="0";
- $("foundCount").textContent="0/"+WORDS.length;
- $("timer").textContent="03:00";
- $("message").textContent="Kelime avı başladı! Hadi bakalım!";
- $("message").className="message";
- $("modal").classList.add("hidden");
- renderBoard();
- renderWords();
- active=true;
- clock=setInterval(updateTimer,1000);
-}
-
-function revealHint(){
- if(!active||hintCount>=3)return;
- let remaining=WORDS.filter(w=>!found.has(w));
- if(!remaining.length)return;
- let word=remaining[Math.floor(Math.random()*remaining.length)];
- let cells=placements[word];
- let cellIndex=cells[Math.floor(cells.length/2)];
- let el=$("board").children[cellIndex];
- el.classList.add("preview");
- setTimeout(()=>el.classList.remove("preview"),900);
- hintCount++;
- $("message").textContent="💡 İpucu: "+LABELS[word]+" kelimesinin bir harfine dikkat et!";
- $("message").className="message";
- $("hint").textContent="💡 İPUCU "+hintCount+"/3";
- if(hintCount===3)$("hint").disabled=true;
-}
-
-function saveRanking(){
- let data=JSON.parse(localStorage.getItem("gshdWordRanking")||"[]");
- let old=data.find(x=>x.name===player);
- if(old)old.score=Math.max(old.score,score);
- else data.push({name:player,score});
- data.sort((a,b)=>b.score-a.score);
- data=data.slice(0,10);
- localStorage.setItem("gshdWordRanking",JSON.stringify(data));
- renderRanking();
-}
-
-function renderRanking(){
- let data=JSON.parse(localStorage.getItem("gshdWordRanking")||"[]");
- $("ranking").innerHTML="";
- if(!data.length){
-  $("ranking").textContent="Henüz rekor yok. İlk sırayı sen al!";
-  return;
- }
- data.forEach((x,i)=>{
-  let row=document.createElement("div");
-  row.className="rank";
-  let rank=document.createElement("b");
-  rank.textContent=i===0?"👑":(i+1)+".";
-  let name=document.createElement("span");
-  name.textContent=x.name;
-  let pts=document.createElement("strong");
-  pts.textContent=x.score+" P";
-  row.append(rank,name,pts);
-  $("ranking").appendChild(row);
+function renderBoard(){
+ let area=document.getElementById("boardList");area.innerHTML="";
+ if(!boardData.length){area.textContent="Henüz yarışmacı yok.";return}
+ boardData.forEach((x,i)=>{
+  let row=document.createElement("div");row.className="boardrow";
+  let rank=document.createElement("span");rank.className="medal";
+  rank.textContent=i===0?"🥇":i===1?"🥈":i===2?"🥉":String(i+1);
+  let name=document.createElement("span");name.textContent=x.name;
+  let c=document.createElement("span");c.textContent=x.correct+"/20";
+  let s=document.createElement("span");s.className="gold";s.textContent=x.score;
+  row.append(rank,name,c,s);area.appendChild(row);
  });
 }
-
-$("playerName").addEventListener("change",()=>{
- player=$("playerName").value.trim().slice(0,18)||"Oyuncu";
- $("playerName").value=player;
- localStorage.setItem("gshdWordName",player);
- saveRanking();
-});
-
-$("newGame").onclick=newGame;
-$("playAgain").onclick=newGame;
-$("hint").onclick=revealHint;
-
-renderRanking();
-newGame();
+window.showBoard=()=>{page("board");renderBoard()};
+window.back=()=>page("game");
+window.home=()=>page("home");
+window.toggleSound=()=>{
+ soundOn=!soundOn;
+ document.getElementById("soundBtn").textContent=soundOn?"🔊 SES":"🔇 SES KAPALI";
+};
 </script>
 </body>
 </html>
