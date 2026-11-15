@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -128,93 +127,91 @@ header{text-align:center;padding:12px 8px 18px}
 
 <div class="wrap" id="appWrap" style="display:none">
 <header>
-<div class="eyebrow">GSHD VIP • ASLANIN HAFIZASI</div>
-<div class="brand"><span>GALATASARAY</span> KARE BULMACA</div>
-<div class="sub">Bilgini konuştur, kareleri sarı-kırmızı yak!</div>
-<div class="pills">
-<div class="pill">⬅ Soldan sağa</div>
-<div class="pill">⬇ Yukarıdan aşağıya</div>
-<div class="pill">✦ Her doğru kelimede ışık</div>
-<button class="pill sound-toggle" id="soundToggle" type="button">🔊 SES AÇIK</button>
-</div>
+  <div class="eyebrow">GSHD VIP • ASLANIN HAFIZASI</div>
+  <div class="brand"><span>GALATASARAY</span> KARE BULMACA</div>
+  <div class="sub">Bilgini konuştur, kareleri sarı-kırmızı yak!</div>
+  <div class="pills">
+    <div class="pill">⬅ Soldan sağa</div>
+    <div class="pill">⬇ Yukarıdan aşağıya</div>
+    <div class="pill">✦ Her doğru kelimede ışık</div>
+    <button class="pill sound-toggle" id="soundToggle" type="button">🔊 SES AÇIK</button>
+  </div>
 </header>
 
 <div class="gameColumn">
-<section class="panel" style="margin-bottom:12px">
-<h2>🧩 KELİME İPUÇLARI</h2>
-<div class="tabs">
-<button class="tab on" data-dir="A">SOLDAN SAĞA</button>
-<button class="tab" data-dir="D">YUKARIDAN AŞAĞIYA</button>
-</div>
-<div class="clues" id="clues"></div>
-</section>
+ <section class="panel" style="margin-bottom:12px">
+  <h2>🧩 KELİME İPUÇLARI</h2>
+  <div class="tabs">
+   <button class="tab on" data-dir="A">SOLDAN SAĞA</button>
+   <button class="tab" data-dir="D">YUKARIDAN AŞAĞIYA</button>
+  </div>
+  <div class="clues" id="clues"></div>
+ </section>
 
-<main class="panel">
-<h2>✦ BULMACA ALANI</h2>
-<div class="stats">
-<div class="stat"><b id="score">0</b><small>PUAN</small></div>
-<div class="stat"><b id="done">0/15</b><small>TAMAMLANAN</small></div>
-<div class="stat"><b id="timer">03:00</b><small>KALAN SÜRE</small></div>
-</div>
+ <main class="panel">
+  <h2>✦ BULMACA ALANI</h2>
+  <div class="stats">
+   <div class="stat"><b id="score">0</b><small>PUAN</small></div>
+   <div class="stat"><b id="done">0/15</b><small>TAMAMLANAN</small></div>
+   <div class="stat"><b id="timer">03:00</b><small>SÜRE</small></div>
+  </div>
+  <div class="grid-shell"><div class="crossword" id="crossword"></div></div>
 
-<div class="grid-shell"><div class="crossword" id="crossword"></div></div>
+  <div class="answer-card">
+   <div class="answer-head">
+    <div>
+      <div class="answer-kicker">🦁 ASLANIN TAHMİNİ</div>
+      <div class="answer-title" id="answerLabel">ÖNCE BİR KELİME SEÇ</div>
+    </div>
+    <div class="answer-count" id="letterCount">— HARF</div>
+   </div>
+   <div class="question-box">
+    <span>SEÇİLİ SORU</span>
+    <strong id="questionText">İstediğin ipucuna veya kareye dokunarak başla.</strong>
+   </div>
+   <label class="answer-label" for="answer">CEVABINI BURAYA YAZ</label>
+   <input class="answer-input" id="answer" autocomplete="off" autocapitalize="characters" placeholder="Tahminini yaz..." disabled>
+   <button class="btn submit-answer" id="checkBtn" disabled>TAHMİNİ GÖNDER <span>➜</span></button>
+   <div class="answer-actions">
+    <button class="btn secondary" id="clearBtn">⌫ TEMİZLE</button>
+    <button class="btn secondary" id="hintBtn">✦ İPUCU</button>
+   </div>
+   <div class="answer-feedback" id="hint" aria-live="polite">Bir kelime seçtiğinde tahmin alanı açılacak.</div>
+  </div>
+ </main>
 
-<div class="answer-card">
-<div class="answer-head">
-<div>
-<div class="answer-kicker">🦁 ASLANIN TAHMİNİ</div>
-<div class="answer-title" id="answerLabel">ÖNCE BİR KELİME SEÇ</div>
-</div>
-<div class="answer-count" id="letterCount">— HARF</div>
-</div>
-<div class="question-box">
-<span>SEÇİLİ SORU</span>
-<strong id="questionText">İstediğin ipucuna veya kareye dokunarak başla.</strong>
-</div>
-<label class="answer-label" for="answer">CEVABINI BURAYA YAZ</label>
-<input class="answer-input" id="answer" autocomplete="off" autocapitalize="characters" placeholder="Tahminini yaz..." disabled>
-<button class="btn submit-answer" id="checkBtn" disabled>TAHMİNİ GÖNDER <span>➜</span></button>
-<div class="answer-actions">
-<button class="btn secondary" id="clearBtn">⌫ TEMİZLE</button>
-<button class="btn secondary" id="hintBtn">✦ İPUCU</button>
-</div>
-<div class="answer-feedback" id="hint" aria-live="polite">Bir kelime seçtiğinde tahmin alanı açılacak.</div>
-</div>
-</main>
-
-<section class="panel" id="leaderboardPanel" style="margin-top:12px;display:none">
-<h2>🏆 OYUN SONU PUAN TABLOSU</h2>
-<div id="leaderboard"></div>
-<div class="status" id="fbStatus">Firebase bağlantısı hazırlanıyor...</div>
-<div style="margin-top:12px;color:#ffe8b0;font-size:12px" id="playerDisplay"></div>
-<button class="btn" id="saveBtn" style="width:100%;margin-top:12px">PUANIMI KAYDET</button>
-</section>
+ <section class="panel" id="leaderboardPanel" style="margin-top:12px;display:none">
+  <h2>🏆 OYUN SONU PUAN TABLOSU</h2>
+  <div id="leaderboard"></div>
+  <div class="status" id="fbStatus">Firebase bağlantısı hazırlanıyor...</div>
+  <div style="margin-top:12px;color:#ffe8b0;font-size:12px" id="playerDisplay"></div>
+  <button class="btn" id="saveBtn" style="width:100%;margin-top:12px">PUANIMI KAYDET</button>
+ </section>
 </div>
 
 <div class="footer">WE ARE GALA • GSHD VIP • SARI KIRMIZI AİLESİ</div>
 </div>
 
 <div class="modal" id="modal">
-<div class="modalbox">
-<h2 id="modalTitle">HARİKA!</h2>
-<p id="modalText"></p>
-<button class="btn" id="modalClose">DEVAM ET</button>
-</div>
+ <div class="modalbox">
+  <h2 id="modalTitle">HARİKA!</h2>
+  <p id="modalText"></p>
+  <button class="btn" id="modalClose">DEVAM ET</button>
+ </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
 <script>
 const firebaseConfig={
-apiKey:"AIzaSyC59qq7JGlnih47iWIxKm8csYnoE2mSFo8",
-authDomain:"gshd-d7843.firebaseapp.com",
-projectId:"gshd-d7843",
-storageBucket:"gshd-d7843.firebasestorage.app",
-messagingSenderId:"458559276692",
-appId:"1:458559276692:web:0a5711f682ff9241f65681",
-measurementId:"G-L2SG09SQC4"
+ apiKey:"AIzaSyC59qq7JGlnih47iWIxKm8csYnoE2mSFo8",
+ authDomain:"gshd-d7843.firebaseapp.com",
+ projectId:"gshd-d7843",
+ storageBucket:"gshd-d7843.firebasestorage.app",
+ messagingSenderId:"458559276692",
+ appId:"1:458559276692:web:0a5711f682ff9241f65681",
+ measurementId:"G-L2SG09SQC4"
 };
 
 const entries=[
@@ -224,449 +221,464 @@ const entries=[
 {w:"SARIKIRMIZI",r:8,c:6,d:"A",q:"Galatasaray'ın iki ana rengi.",level:"KOLAY"},
 {w:"TAKSIM",r:3,c:13,d:"D",q:"Galatasaray Lisesi'nin bulunduğu İstanbul semti.",level:"ORTA"},
 {w:"ASLAN",r:10,c:10,d:"A",q:"Galatasaray'ın simgesi olan hayvan.",level:"KOLAY"},
-{w:"TURKTELEKOM",r:2,c:0,d:"A",q:"Sarı-kırmızılıların eski stadının sponsorlu adındaki marka.",level:"ORTA"},
+{w:"TURKTELEKOM",r:2,c:0,d:"A",q:"2013–2017 arasında iç saha maçlarının oynandığı stadın isim sponsorluğu.",level:"ZOR"},
 {w:"FATIHTERIM",r:0,c:0,d:"D",q:"İmparator lakaplı efsane teknik direktör.",level:"KOLAY"},
 {w:"AVRUPA",r:10,c:13,d:"D",q:"Galatasaray'ın UEFA Kupası'nı kazandığı kıta.",level:"KOLAY"},
-{w:"CIMBOM",r:7,c:16,d:"D",q:"Taraftarın sık kullandığı takım tezahüratı.",level:"ORTA"},
-{w:"UEFA",r:12,c:6,d:"A",q:"Galatasaray'ın 2000 yılında kazandığı kupanın organizasyonu.",level:"ORTA"},
-{w:"MUSLERA",r:9,c:16,d:"A",q:"Uzun yıllar kaleyi koruyan Uruguaylı efsane kaleci.",level:"ORTA"},
+{w:"CIMBOM",r:7,c:16,d:"D",q:"Tribünlerde Galatasaray ile özdeşleşen, kulübün lakabı hâline gelen tezahürat.",level:"ORTA"},
+{w:"UEFA",r:12,c:6,d:"A",q:"2000 UEFA Kupası finalinde Arsenal’i penaltılarla geçince kazanılan kupanın konfederasyonu.",level:"ZOR"},
+{w:"MUSLERA",r:9,c:16,d:"A",q:"Sarı-kırmızılı kalede 14 sezon görev yapan Uruguaylı kaptanın soyadı.",level:"ZOR"},
 {w:"OSIMHEN",r:11,c:16,d:"A",q:"Nijeryalı yıldız santrforun soyadı.",level:"KOLAY"},
-{w:"FLORYA",r:0,c:0,d:"A",q:"Galatasaray'ın tarihi antrenman tesislerinin bulunduğu semt.",level:"ORTA"},
-{w:"NEF",r:11,c:22,d:"D",q:"Ali Sami Yen Spor Kompleksi'nin eski isim sponsorluğu.",level:"ZOR"}
+{w:"FLORYA",r:0,c:0,d:"A",q:"Metin Oktay Tesisleri’nin bulunduğu İstanbul semti.",level:"ORTA"},
+{w:"NEF",r:11,c:22,d:"D",q:"2021’de Ali Sami Yen Spor Kompleksi’nin isim sponsorluğunu alan marka.",level:"ZOR"}
 ];
 
 const rows=16,cols=23;
 const grid=Array.from({length:rows},()=>Array(cols).fill(null));
+const numbers={};
 
 entries.forEach((e,i)=>{
-e.id=i+1;
-for(let k=0;k<e.w.length;k++){
-let r=e.r+(e.d==="D"?k:0);
-let c=e.c+(e.d==="A"?k:0);
-if(!grid[r][c])grid[r][c]={entries:[],n:null};
-grid[r][c].entries.push(i);
-}
+ e.id=i+1;
+ for(let k=0;k<e.w.length;k++){
+  let r=e.r+(e.d==="D"?k:0),c=e.c+(e.d==="A"?k:0);
+  if(!grid[r][c])grid[r][c]={v:e.w[k],entries:[],n:null};
+  grid[r][c].entries.push(i);
+ }
 });
 
-let number=1;
+let n=1;
 entries.forEach(e=>{
-grid[e.r][e.c].n=number;
-e.num=number++;
+ let cell=grid[e.r][e.c];
+ cell.n=n++;
+ e.num=cell.n;
 });
 
 const board=document.getElementById("crossword");
 const cellEls={};
 
 for(let r=0;r<rows;r++){
-for(let c=0;c<cols;c++){
-let el=document.createElement("div");
-el.className="cell"+(grid[r][c]?"":" block");
-if(grid[r][c]){
-let k=r+"-"+c;
-cellEls[k]=el;
-if(grid[r][c].n){
-let n=document.createElement("span");
-n.className="num";
-n.textContent=grid[r][c].n;
-el.appendChild(n);
-}
-el.onclick=()=>{
-let choices=grid[r][c].entries;
-let idx=choices.includes(selected)?selected:choices[0];
-selectEntry(idx);
-focusCell(r,c);
-};
-}
-board.appendChild(el);
-}
+ for(let c=0;c<cols;c++){
+  let d=document.createElement("div");
+  d.className="cell"+(grid[r][c]?"":" block");
+  if(grid[r][c]){
+   let key=r+"-"+c;
+   cellEls[key]=d;
+   d.dataset.r=r;
+   d.dataset.c=c;
+   if(grid[r][c].n){
+    let s=document.createElement("span");
+    s.className="num";
+    s.textContent=grid[r][c].n;
+    d.appendChild(s);
+   }
+   d.addEventListener("click",()=>{
+    let cell=grid[r][c];
+    let idx=cell.entries.includes(selected)?selected:cell.entries[0];
+    selectEntry(idx);
+    focusCell(r,c);
+   });
+  }
+  board.appendChild(d);
+ }
 }
 
-let selected=-1;
-let dir="A";
-let solved=new Set();
-let values={};
-let seconds=180;
-let score=0;
-let started=false;
-let gameFinished=false;
-let db=null;
-let auth=null;
-let user=null;
-let playerChosenName="";
+let selected=-1,dir="A",solved=new Set(),values={},activePos=0;
+let seconds=180,score=0,started=false,gameFinished=false;
+let db=null,auth=null,user=null,playerChosenName="";
 
 function key(r,c){return r+"-"+c}
 
 function positions(e){
-return Array.from({length:e.w.length},(_,k)=>[
-e.r+(e.d==="D"?k:0),
-e.c+(e.d==="A"?k:0)
-]);
+ return Array.from({length:e.w.length},(_,k)=>[
+  e.r+(e.d==="D"?k:0),
+  e.c+(e.d==="A"?k:0)
+ ]);
 }
 
 function selectEntry(i){
-if(i<0||!entries[i]||gameFinished)return;
-selected=i;
-dir=entries[i].d;
-document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on",t.dataset.dir===dir));
-renderClues();
-highlight();
-document.getElementById("answer").disabled=false;
-document.getElementById("checkBtn").disabled=false;
-document.getElementById("answer").value=positions(entries[i]).map(([r,c])=>values[key(r,c)]||"").join("");
-document.getElementById("answerLabel").textContent=entries[i].num+". SORU • "+(dir==="A"?"SOLDAN SAĞA":"YUKARIDAN AŞAĞIYA");
-document.getElementById("letterCount").textContent=entries[i].w.length+" HARF";
-document.getElementById("questionText").textContent=entries[i].q;
-document.getElementById("hint").textContent="Tahminini yaz ve TAHMİNİ GÖNDER'e bas. Enter tuşunu da kullanabilirsin.";
-document.getElementById("hint").className="answer-feedback";
+ if(i<0||!entries[i]||gameFinished)return;
+ selected=i;
+ dir=entries[i].d;
+ document.querySelectorAll(".tab").forEach(t=>
+  t.classList.toggle("on",t.dataset.dir===dir)
+ );
+ renderClues();
+ highlight();
+ document.getElementById("answer").disabled=false;
+ document.getElementById("checkBtn").disabled=false;
+ document.getElementById("answer").value=
+  positions(entries[i]).map(([r,c])=>values[key(r,c)]||"").join("");
+ document.getElementById("answerLabel").textContent=
+  entries[i].num+". SORU • "+(dir==="A"?"SOLDAN SAĞA":"YUKARIDAN AŞAĞIYA");
+ document.getElementById("letterCount").textContent=entries[i].w.length+" HARF";
+ document.getElementById("questionText").textContent=entries[i].q;
+ document.getElementById("hint").textContent=
+  "Tahminini yaz ve TAHMİNİ GÖNDER'e bas. Enter tuşunu da kullanabilirsin.";
+ document.getElementById("hint").className="answer-feedback";
 }
 
 function renderClues(){
-let box=document.getElementById("clues");
-box.innerHTML="";
-entries.filter(e=>e.d===dir).forEach(e=>{
-let i=entries.indexOf(e);
-let b=document.createElement("button");
-b.className="clue"+(solved.has(i)?" done":"")+(selected===i?" selected":"");
-b.innerHTML="<strong>"+e.num+"</strong><span>"+e.q+"<br><i class='level-tag "+(e.level==="KOLAY"?"easy":e.level==="ORTA"?"medium":"hard")+"'>"+(e.level||"ORTA")+"</i></span>";
-b.onclick=()=>selectEntry(i);
-box.appendChild(b);
-});
+ let box=document.getElementById("clues");
+ box.innerHTML="";
+ entries.filter(e=>e.d===dir).forEach(e=>{
+  let i=entries.indexOf(e),b=document.createElement("button");
+  b.className="clue"+(solved.has(i)?" done":"")+(selected===i?" selected":"");
+  b.innerHTML="<strong>"+e.num+"</strong><span>"+e.q+
+   "<br><i class='level-tag "+(e.level==="KOLAY"?"easy":e.level==="ORTA"?"medium":"hard")+"'>"+
+   (e.level||"ORTA")+"</i></span>";
+  b.onclick=()=>selectEntry(i);
+  box.appendChild(b);
+ });
 }
 
 function highlight(){
-Object.values(cellEls).forEach(el=>el.classList.remove("active"));
-if(selected<0||!entries[selected])return;
-positions(entries[selected]).forEach(([r,c])=>cellEls[key(r,c)].classList.add("active"));
+ Object.values(cellEls).forEach(el=>el.classList.remove("active"));
+ if(selected<0||!entries[selected])return;
+ positions(entries[selected]).forEach(([r,c])=>
+  cellEls[key(r,c)].classList.add("active")
+ );
 }
 
 function focusCell(r,c){
-document.getElementById("answer").focus();
+ let p=positions(entries[selected]).findIndex(x=>x[0]===r&&x[1]===c);
+ if(p>=0)activePos=p;
+ document.getElementById("answer").focus();
 }
 
 function paint(){
-for(let r=0;r<rows;r++){
-for(let c=0;c<cols;c++){
-let el=cellEls[key(r,c)];
-if(!el)continue;
-let v=values[key(r,c)]||"";
-let num=el.querySelector(".num");
-el.textContent=v;
-if(num)el.appendChild(num);
-el.classList.toggle("solved",grid[r][c].entries.every(i=>solved.has(i)));
-}
-}
+ for(let r=0;r<rows;r++){
+  for(let c=0;c<cols;c++){
+   let el=cellEls[key(r,c)];
+   if(!el)continue;
+   let v=values[key(r,c)]||"";
+   let num=el.querySelector(".num");
+   el.textContent=v;
+   if(num)el.appendChild(num);
+   el.classList.toggle("solved",grid[r][c].entries.every(i=>solved.has(i)));
+  }
+ }
 }
 
 function normalize(s){
-return s.toLocaleUpperCase("tr-TR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/İ/g,"I").replace(/ı/g,"I").replace(/[^A-Z]/g,"");
+ return s.toLocaleUpperCase("tr-TR").normalize("NFD")
+  .replace(/[\u0300-\u036f]/g,"")
+  .replace(/İ/g,"I").replace(/ı/g,"I").replace(/[^A-Z]/g,"");
 }
 
 function check(){
-if(selected<0){
-document.getElementById("hint").textContent="Önce istediğin ipucunu veya kareyi seç.";
-return;
-}
-if(gameFinished)return;
+ if(selected<0){
+  document.getElementById("hint").textContent="Önce istediğin ipucunu veya kareyi seç.";
+  return;
+ }
+ if(gameFinished)return;
+ let e=entries[selected];
+ let answer=normalize(document.getElementById("answer").value);
 
-let e=entries[selected];
-let answer=normalize(document.getElementById("answer").value);
+ if(answer.length!==e.w.length){
+  document.getElementById("hint").textContent="Kelime "+e.w.length+" harf olmalı.";
+  return;
+ }
 
-if(answer.length!==e.w.length){
-document.getElementById("hint").textContent="Kelime "+e.w.length+" harf olmalı.";
-return;
-}
-
-if(answer===e.w){
-if(!solved.has(selected)){
-soundCorrect();
-solved.add(selected);
-let earned=e.w.length*20+(e.level==="ZOR"?300:e.level==="ORTA"?180:100);
-score+=earned;
-document.getElementById("score").textContent=score;
-document.getElementById("done").textContent=solved.size+"/15";
-
-positions(e).forEach(([r,c],i)=>values[key(r,c)]=e.w[i]);
-paint();
-renderClues();
-
-document.getElementById("hint").textContent="✦ HARİKA! Doğru cevap. +"+earned+" PUAN KAZANDIN!";
-document.getElementById("hint").className="answer-feedback good";
-document.getElementById("answer").value="";
-
-if(solved.size===entries.length)finish();
-}
-}else{
-soundWrong();
-positions(e).forEach(([r,c])=>{
-let el=cellEls[key(r,c)];
-el.classList.add("wrong");
-setTimeout(()=>el.classList.remove("wrong"),350);
-});
-document.getElementById("hint").textContent="✕ Bu tahmin doğru değil. Tekrar dene aslanım!";
-document.getElementById("hint").className="answer-feedback bad";
-}
+ if(answer===e.w){
+  if(!solved.has(selected)){
+   soundCorrect();
+   solved.add(selected);
+   score+=e.w.length*20+(e.level==="ZOR"?300:e.level==="ORTA"?180:100);
+   document.getElementById("score").textContent=score;
+   document.getElementById("done").textContent=solved.size+"/15";
+   positions(e).forEach(([r,c],i)=>values[key(r,c)]=e.w[i]);
+   paint();
+   renderClues();
+   document.getElementById("hint").textContent=
+    "✦ HARİKA! Doğru cevap. +"+
+    (e.w.length*20+(e.level==="ZOR"?300:e.level==="ORTA"?180:100))+
+    " PUAN KAZANDIN!";
+   document.getElementById("hint").className="answer-feedback good";
+   document.getElementById("answer").value="";
+   if(solved.size===entries.length)finish();
+  }else{
+   document.getElementById("hint").textContent="Bu kelime zaten tamamlandı.";
+  }
+ }else{
+  soundWrong();
+  positions(e).forEach(([r,c])=>{
+   let el=cellEls[key(r,c)];
+   el.classList.add("wrong");
+   setTimeout(()=>el.classList.remove("wrong"),350);
+  });
+  document.getElementById("hint").textContent=
+   "✕ Bu tahmin doğru değil. Tekrar dene aslanım!";
+  document.getElementById("hint").className="answer-feedback bad";
+ }
 }
 
 document.querySelectorAll(".tab").forEach(t=>{
-t.onclick=()=>{
-dir=t.dataset.dir;
-selected=-1;
-document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x===t));
-highlight();
-renderClues();
-document.getElementById("answer").value="";
-document.getElementById("answer").disabled=true;
-document.getElementById("checkBtn").disabled=true;
-document.getElementById("answerLabel").textContent="BİR KELİME SEÇ";
-document.getElementById("hint").textContent="İstediğin kelimeyi seçerek başlayabilirsin.";
-};
+ t.onclick=()=>{
+  dir=t.dataset.dir;
+  selected=-1;
+  document.querySelectorAll(".tab").forEach(x=>
+   x.classList.toggle("on",x===t)
+  );
+  highlight();
+  renderClues();
+  document.getElementById("answer").value="";
+  document.getElementById("answer").disabled=true;
+  document.getElementById("checkBtn").disabled=true;
+  document.getElementById("answerLabel").textContent="BİR KELİME SEÇ";
+  document.getElementById("hint").textContent=
+   "İstediğin kelimeyi seçerek başlayabilirsin.";
+ };
 });
 
 document.getElementById("answer").addEventListener("input",ev=>{
-if(selected<0||gameFinished)return;
-let e=entries[selected];
-let s=normalize(ev.target.value).slice(0,e.w.length);
-ev.target.value=s;
-positions(e).forEach(([r,c],i)=>{
-if(i<s.length)values[key(r,c)]=s[i];
-else if(!solved.has(selected))delete values[key(r,c)];
-});
-paint();
+ if(selected<0||gameFinished)return;
+ let e=entries[selected];
+ let s=normalize(ev.target.value).slice(0,e.w.length);
+ ev.target.value=s;
+ positions(e).forEach(([r,c],i)=>{
+  if(i<s.length)values[key(r,c)]=s[i];
+  else if(!solved.has(selected))delete values[key(r,c)];
+ });
+ paint();
 });
 
 document.getElementById("answer").addEventListener("keydown",ev=>{
-if(ev.key==="Enter")check();
+ if(ev.key==="Enter")check();
 });
 
 document.getElementById("checkBtn").onclick=check;
 
 document.getElementById("clearBtn").onclick=()=>{
-if(selected<0||gameFinished||solved.has(selected))return;
-positions(entries[selected]).forEach(([r,c])=>delete values[key(r,c)]);
-document.getElementById("answer").value="";
-paint();
-document.getElementById("hint").className="answer-feedback";
-document.getElementById("hint").textContent="Cevap alanı temizlendi.";
+ if(selected<0||gameFinished||solved.has(selected))return;
+ positions(entries[selected]).forEach(([r,c])=>delete values[key(r,c)]);
+ document.getElementById("answer").value="";
+ paint();
+ document.getElementById("hint").className="answer-feedback";
+ document.getElementById("hint").textContent="Cevap alanı temizlendi.";
 };
 
 document.getElementById("hintBtn").onclick=()=>{
-if(selected<0){
-document.getElementById("hint").textContent="Önce bir kelime seç.";
-return;
-}
-document.getElementById("hint").textContent="İPUCU: "+entries[selected].q+" ("+entries[selected].w.length+" harf)";
+ if(selected<0){
+  document.getElementById("hint").textContent="Önce bir kelime seç.";
+  return;
+ }
+ document.getElementById("hint").textContent=
+  "İPUCU: "+entries[selected].q+" ("+entries[selected].w.length+" harf)";
 };
 
-document.getElementById("modalClose").onclick=()=>{
-document.getElementById("modal").classList.remove("show");
-};
+document.getElementById("modalClose").onclick=()=>
+ document.getElementById("modal").classList.remove("show");
 
-// SES MOTORU
-let soundOn=true;
-let audioCtx=null;
-let lastTickSecond=-1;
+// SES MOTORU: Harici ses dosyası gerekmez.
+let soundOn=true,audioCtx=null,lastTickSecond=-1;
 
 function initAudio(){
-try{
-const AC=window.AudioContext||window.webkitAudioContext;
-if(!AC)return;
-if(!audioCtx)audioCtx=new AC();
-if(audioCtx.state==="suspended")audioCtx.resume();
-}catch(e){}
+ try{
+  const AC=window.AudioContext||window.webkitAudioContext;
+  if(!AC)return;
+  if(!audioCtx)audioCtx=new AC();
+  if(audioCtx.state==="suspended")audioCtx.resume();
+ }catch(e){}
 }
 
 function tone(freq,duration=.12,type="sine",volume=.04,delay=0){
-if(!soundOn||!audioCtx)return;
-const t=audioCtx.currentTime+delay;
-const osc=audioCtx.createOscillator();
-const gain=audioCtx.createGain();
-osc.type=type;
-osc.frequency.setValueAtTime(freq,t);
-gain.gain.setValueAtTime(.0001,t);
-gain.gain.exponentialRampToValueAtTime(volume,t+.012);
-gain.gain.exponentialRampToValueAtTime(.0001,t+duration);
-osc.connect(gain);
-gain.connect(audioCtx.destination);
-osc.start(t);
-osc.stop(t+duration+.03);
+ if(!soundOn||!audioCtx)return;
+ const t=audioCtx.currentTime+delay;
+ const osc=audioCtx.createOscillator();
+ const gain=audioCtx.createGain();
+ osc.type=type;
+ osc.frequency.setValueAtTime(freq,t);
+ gain.gain.setValueAtTime(.0001,t);
+ gain.gain.exponentialRampToValueAtTime(volume,t+.012);
+ gain.gain.exponentialRampToValueAtTime(.0001,t+duration);
+ osc.connect(gain);
+ gain.connect(audioCtx.destination);
+ osc.start(t);
+ osc.stop(t+duration+.03);
 }
 
 function soundCorrect(){
-tone(523,.12,"triangle",.05);
-tone(659,.14,"triangle",.05,.11);
-tone(784,.22,"sine",.06,.23);
+ tone(523,.12,"triangle",.05);
+ tone(659,.14,"triangle",.05,.11);
+ tone(784,.22,"sine",.06,.23);
 }
 
 function soundWrong(){
-tone(155,.22,"sawtooth",.04);
-tone(110,.28,"sawtooth",.035,.16);
+ tone(155,.22,"sawtooth",.04);
+ tone(110,.28,"sawtooth",.035,.16);
 }
 
 function soundTick(){
-if(seconds<=30&&seconds>0){
-tone(seconds<=10?880:620,.055,"square",seconds<=10?.025:.012);
-if(seconds%5===0){
-tone(92,.18,"sine",.035);
-tone(66,.22,"sine",.025,.20);
-}
-}
+ if(seconds<=30&&seconds>0){
+  tone(seconds<=10?880:620,.055,"square",seconds<=10?.025:.012);
+  if(seconds%5===0){
+   tone(92,.18,"sine",.035);
+   tone(66,.22,"sine",.025,.20);
+  }
+ }
 }
 
 function soundFinish(){
-tone(220,.35,"sawtooth",.04);
-tone(165,.45,"sawtooth",.035,.25);
-tone(110,.65,"triangle",.045,.55);
+ tone(220,.35,"sawtooth",.04);
+ tone(165,.45,"sawtooth",.035,.25);
+ tone(110,.65,"triangle",.045,.55);
 }
 
 document.getElementById("soundToggle").onclick=()=>{
-soundOn=!soundOn;
-const b=document.getElementById("soundToggle");
-b.textContent=soundOn?"🔊 SES AÇIK":"🔇 SES KAPALI";
-b.classList.toggle("off",!soundOn);
-if(soundOn){
-initAudio();
-tone(660,.12,"sine",.04);
-}
+ soundOn=!soundOn;
+ const b=document.getElementById("soundToggle");
+ b.textContent=soundOn?"🔊 SES AÇIK":"🔇 SES KAPALI";
+ b.classList.toggle("off",!soundOn);
+ if(soundOn){
+  initAudio();
+  tone(660,.12,"sine",.04);
+ }
 };
 
 function updateTimer(){
-document.getElementById("timer").textContent=
-String(Math.floor(seconds/60)).padStart(2,"0")+":"+
-String(seconds%60).padStart(2,"0");
+ document.getElementById("timer").textContent=
+  String(Math.floor(seconds/60)).padStart(2,"0")+":"+
+  String(seconds%60).padStart(2,"0");
 }
 
 function finish(reason){
-if(gameFinished)return;
-soundFinish();
-gameFinished=true;
-started=false;
-document.getElementById("leaderboardPanel").style.display="block";
-document.getElementById("modalTitle").textContent="OYUN TAMAMLANDI!";
-document.getElementById("modalText").textContent=
-(reason||"15 kelimenin tamamını buldun!")+
-" Puanın: "+score+" • Çözülen: "+solved.size+"/15";
-document.getElementById("modal").classList.add("show");
+ if(gameFinished)return;
+ soundFinish();
+ gameFinished=true;
+ started=false;
+ document.getElementById("leaderboardPanel").style.display="block";
+ document.getElementById("modalTitle").textContent="OYUN TAMAMLANDI!";
+ document.getElementById("modalText").textContent=
+  (reason||"15 kelimenin tamamını buldun!")+
+  " Puanın: "+score+" • Çözülen: "+solved.size+"/15";
+ document.getElementById("modal").classList.add("show");
 }
 
 updateTimer();
 
 setInterval(()=>{
-if(started&&!gameFinished&&selected>=0){
-if(seconds>0)seconds--;
-updateTimer();
-if(seconds<=30&&seconds!==lastTickSecond){
-lastTickSecond=seconds;
-soundTick();
-}
-if(seconds<=0)finish("Süren doldu! 3 dakikalık oyun sona erdi.");
-}
+ if(started&&!gameFinished&&selected>=0){
+  if(seconds>0)seconds--;
+  updateTimer();
+  if(seconds<=30&&seconds!==lastTickSecond){
+   lastTickSecond=seconds;
+   soundTick();
+  }
+  if(seconds<=0)finish("Süren doldu! 3 dakikalık oyun sona erdi.");
+ }
 },1000);
 
 function status(t,kind=""){
-let el=document.getElementById("fbStatus");
-el.textContent=t;
-el.className="status "+kind;
+ let el=document.getElementById("fbStatus");
+ el.textContent=t;
+ el.className="status "+kind;
 }
 
 async function initFirebase(){
-try{
-if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
-auth=firebase.auth();
-db=firebase.firestore();
-user=await auth.signInAnonymously().then(x=>x.user);
-status("Firebase bağlantısı aktif • Ortak skor tablosu açık","ok");
+ try{
+  if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
+  auth=firebase.auth();
+  db=firebase.firestore();
+  user=await auth.signInAnonymously().then(x=>x.user);
+  status("Firebase bağlantısı aktif • Ortak skor tablosu açık","ok");
 
-db.collection("quizScores")
-.where("game","==","galatasaray-kare-bulmaca")
-.limit(100)
-.onSnapshot(snap=>{
-let box=document.getElementById("leaderboard");
-let records=snap.docs.map(doc=>doc.data())
-.sort((a,b)=>(Number(b.points)||0)-(Number(a.points)||0))
-.slice(0,50);
+  db.collection("quizScores")
+   .where("game","==","galatasaray-kare-bulmaca")
+   .limit(100)
+   .onSnapshot(snap=>{
+    let box=document.getElementById("leaderboard");
+    let records=snap.docs.map(doc=>doc.data())
+     .sort((a,b)=>(Number(b.points)||0)-(Number(a.points)||0))
+     .slice(0,50);
 
-if(!records.length){
-box.innerHTML='<div class="status">Henüz bu oyunda kayıtlı puan yok.</div>';
-return;
-}
+    if(!records.length){
+     box.innerHTML='<div class="status">Henüz bu oyunda kayıtlı puan yok.</div>';
+     return;
+    }
 
-box.innerHTML="";
-records.forEach((d,i)=>{
-let row=document.createElement("div");
-row.className="leader-row";
-row.innerHTML='<span class="rank">#'+(i+1)+'</span><span></span><span class="points">'+(Number(d.points)||0).toLocaleString("tr-TR")+' P</span>';
-row.children[1].textContent=d.name||"Oyuncu";
-box.appendChild(row);
-});
-},err=>status("Puan tablosu okunamadı: "+err.message,"err"));
-}catch(e){
-status("Firebase bağlantı hatası: "+e.message,"err");
-}
+    box.innerHTML="";
+    records.forEach((d,i)=>{
+     let row=document.createElement("div");
+     row.className="leader-row";
+     row.innerHTML='<span class="rank">#'+(i+1)+
+      '</span><span></span><span class="points">'+
+      (Number(d.points)||0).toLocaleString("tr-TR")+' P</span>';
+     row.children[1].textContent=d.name||"Oyuncu";
+     box.appendChild(row);
+    });
+   },err=>status("Puan tablosu okunamadı: "+err.message,"err"));
+ }catch(e){
+  status("Firebase bağlantı hatası: "+e.message,"err");
+ }
 }
 
 document.getElementById("saveBtn").onclick=async()=>{
-if(!gameFinished){
-status("Puan tablosu oyun bitince açılır.","err");
-return;
-}
-let name=playerChosenName;
-if(!name){
-status("Oyuna girişte rumuz belirlemelisin.","err");
-return;
-}
-if(!db||!user){
-status("Firebase bağlantısı kurulamadı. Firebase ayarlarını kontrol et.","err");
-return;
-}
-try{
-await db.collection("quizScores").add({
-name:name.slice(0,18),
-points:score,
-correct:solved.size,
-wrong:0,
-game:"galatasaray-kare-bulmaca",
-createdAt:firebase.firestore.FieldValue.serverTimestamp(),
-uid:user.uid
-});
-status("Puanın ortak tabloya kaydedildi!","ok");
-document.getElementById("saveBtn").disabled=true;
-document.getElementById("saveBtn").textContent="PUAN KAYDEDİLDİ ✓";
-}catch(e){
-status("Kayıt hatası: "+e.message,"err");
-}
+ if(!gameFinished){
+  status("Puan tablosu oyun bitince açılır.","err");
+  return;
+ }
+ let name=playerChosenName;
+ if(!name){
+  status("Oyuna girişte rumuz belirlemelisin.","err");
+  return;
+ }
+ if(!db||!user){
+  status("Firebase bağlantısı kurulamadı. Firebase ayarlarını kontrol et.","err");
+  return;
+ }
+ try{
+  await db.collection("quizScores").add({
+   name:name.slice(0,18),
+   points:score,
+   correct:solved.size,
+   wrong:0,
+   game:"galatasaray-kare-bulmaca",
+   createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+   uid:user.uid
+  });
+  status("Puanın ortak tabloya kaydedildi!","ok");
+  document.getElementById("saveBtn").disabled=true;
+  document.getElementById("saveBtn").textContent="PUAN KAYDEDİLDİ ✓";
+ }catch(e){
+  status("Kayıt hatası: "+e.message,"err");
+ }
 };
 
 const entryNameInput=document.getElementById("entryName");
 
 function enterGame(){
-initAudio();
-const name=entryNameInput.value.trim().replace(/\s+/g," ");
-if(name.length<2||name.length>18){
-document.getElementById("entryError").textContent="Lütfen 2–18 karakter arasında bir rumuz gir.";
-entryNameInput.focus();
-return;
-}
-if(!/[A-Za-zÇĞİÖŞÜçğıöşü0-9]/.test(name)){
-document.getElementById("entryError").textContent="Geçerli bir rumuz gir.";
-entryNameInput.focus();
-return;
-}
-playerChosenName=name;
-document.getElementById("entryGate").style.display="none";
-document.getElementById("appWrap").style.display="block";
-started=true;
-document.getElementById("answer").disabled=true;
-document.getElementById("answerLabel").textContent="BİR KELİME SEÇ";
-document.getElementById("hint").textContent="İstediğin ipucuna veya kareye dokunarak başla. Süre ilk seçiminde başlar.";
+ initAudio();
+ const name=entryNameInput.value.trim().replace(/\s+/g," ");
+
+ if(name.length<2||name.length>18){
+  document.getElementById("entryError").textContent=
+   "Lütfen 2–18 karakter arasında bir rumuz gir.";
+  entryNameInput.focus();
+  return;
+ }
+
+ if(!/[A-Za-zÇĞİÖŞÜçğıöşü0-9]/.test(name)){
+  document.getElementById("entryError").textContent="Geçerli bir rumuz gir.";
+  entryNameInput.focus();
+  return;
+ }
+
+ playerChosenName=name;
+ document.getElementById("entryGate").style.display="none";
+ document.getElementById("appWrap").style.display="block";
+ started=true;
+ document.getElementById("answer").disabled=true;
+ document.getElementById("answerLabel").textContent="BİR KELİME SEÇ";
+ document.getElementById("hint").textContent=
+  "İstediğin ipucuna veya kareye dokunarak başla. Süre ilk seçiminde başlar.";
 }
 
 document.getElementById("entryStart").onclick=enterGame;
 entryNameInput.addEventListener("keydown",e=>{
-if(e.key==="Enter")enterGame();
+ if(e.key==="Enter")enterGame();
 });
-entryNameInput.addEventListener("input",()=>{
-document.getElementById("entryError").textContent="";
-});
+entryNameInput.addEventListener("input",()=>
+ document.getElementById("entryError").textContent=""
+);
 
 renderClues();
 initFirebase();
