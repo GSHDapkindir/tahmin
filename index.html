@@ -4,377 +4,814 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#16050b">
-<title>GSHD VIP Galatasaray Quiz</title>
+<meta name="theme-color" content="#120409">
+<title>GSHD VIP | Aslanın Hafızası</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Rajdhani:wght@500;600;700&display=swap');
-:root{--y:#ffd34f;--r:#9c092c;--bg:#110309}
+:root{
+ --gold:#ffd45c;
+ --gold2:#fff0a6;
+ --red:#c90036;
+ --wine:#4b0b26;
+ --dark:#100408;
+}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at 50% -15%,#8b1735 0%,#3a0b1c 34%,#100309 76%);color:#fff;font-family:Rajdhani,Arial;min-height:100vh;background-attachment:fixed}
-.wrap{max-width:900px;margin:auto;padding:18px;position:relative;z-index:1}
-.top{display:flex;justify-content:space-between;color:var(--y);font:700 13px Orbitron;letter-spacing:2px;margin:10px 4px 16px}
-.panel{background:linear-gradient(145deg,#541027f2,#1a0711f5 58%,#10050bfa);border:1px solid #d9ad4b66;border-radius:26px;box-shadow:0 24px 80px #000b,inset 0 1px #ffffff14;padding:25px;overflow:hidden;backdrop-filter:blur(14px);position:relative}
-.panel:before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,transparent,#ffd34f,transparent);opacity:.8}
-.hero{text-align:center;padding:28px 20px}
-.cup{font-size:56px;filter:drop-shadow(0 0 15px #ffcf5a88);animation:float 3s infinite ease-in-out}
-@keyframes float{50%{transform:translateY(-8px)}}
-h1{font:800 clamp(25px,6vw,42px) Orbitron;color:var(--y);line-height:1.25}
-.sub{font-size:20px;color:#e8d9de}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:20px 0}
-.stat{background:#17050b;border:1px solid #ffffff22;border-radius:13px;padding:13px 4px}
-.stat b{display:block;color:var(--y);font:800 21px Orbitron}
-.stat span{color:#cbb8bf}
-.input{width:100%;padding:15px;border-radius:13px;background:#16040a;border:1px solid #c29a43;color:white;font:700 19px Rajdhani;margin:12px 0}
-.btn{border:0;border-radius:13px;padding:15px;font:800 15px Orbitron;cursor:pointer}
-.main{width:100%;background:linear-gradient(100deg,#ffca3b,#fff0a4,#ffca3b);color:#2b0812}
-.subbtn{background:#220811;color:var(--y);border:1px solid #b78d3e}
-.rules{margin-top:16px;background:#1a060d;border:1px solid #ffffff1c;border-radius:14px;padding:14px;text-align:left;font-size:16px;line-height:1.5}
-.rules b,.gold{color:var(--y)}
+html{scroll-behavior:smooth}
+body{
+ margin:0;min-height:100dvh;color:white;
+ font-family:Rajdhani,Arial,sans-serif;
+ background:radial-gradient(ellipse at 50% -15%,#851537,#300a1c 42%,#100408 80%);
+ background-attachment:fixed;
+}
+button,input{font-family:inherit}
+button{cursor:pointer}
+button:disabled{cursor:not-allowed}
 .hidden{display:none!important}
-.head{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.timer{font:800 23px Orbitron;color:var(--y);border:1px solid #d6ad4b;border-radius:12px;padding:8px 13px}
-.timer.red{color:#ff5b72;animation:blink .5s infinite alternate}
-@keyframes blink{to{box-shadow:0 0 18px #f34}}
-.progress{height:6px;background:#ffffff1b;border-radius:9px;margin-top:14px;overflow:hidden}
-.bar{height:100%;background:linear-gradient(90deg,#a00a30,#ffe07b);width:0;transition:.4s}
-.qtag{color:var(--y);font:700 12px Orbitron;letter-spacing:1px}
-.question{font-size:clamp(23px,4vw,31px);line-height:1.28;font-weight:700;margin:22px 0;padding:21px;background:linear-gradient(110deg,#210914,#310d1d);border:1px solid #ffd34f2b;border-radius:18px;animation:appear .5s}
-@keyframes appear{from{opacity:0;transform:translateY(18px);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
-.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.answer{background:linear-gradient(120deg,#321020,#190710);border:1px solid #ffffff25;border-radius:15px;color:white;text-align:left;padding:17px;min-height:68px;font:700 18px Rajdhani;cursor:pointer;transition:.16s;box-shadow:0 7px 18px #0003}
-.answer:active{transform:scale(.985)}
-.answer:hover{border-color:#d9ad4b99}
-.answer strong{color:var(--y);margin-right:7px}
-.answer.good{background:linear-gradient(120deg,#075c3c,#103322);border:2px solid #68efae;box-shadow:0 0 24px #2de69a33}
-.answer.bad{background:linear-gradient(120deg,#75142c,#310817);border:2px solid #ff5b72;box-shadow:0 0 24px #ff315033}
-.answer.gone{opacity:.12;pointer-events:none}
-.jokers{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:18px 0 12px}
-.joker{background:linear-gradient(145deg,#2b0a18,#12040a);border:1px solid #c59a4380;color:var(--y);border-radius:14px;padding:13px 5px;font:700 15px Rajdhani;cursor:pointer;box-shadow:0 5px 15px #0004;transition:.2s}
-.joker small{display:block;color:#d6c4ca;font-size:11px}
-.joker:disabled{opacity:.3}
-.actions{display:flex;gap:10px}
-.actions button{flex:1}
-#confirm{display:none!important}
-#pass{min-height:52px;font-size:16px;letter-spacing:1px;background:linear-gradient(100deg,#ffd34f,#fff0a4);color:#2b0812;border:0;box-shadow:0 8px 22px #ffd34f22}
-.note{text-align:center;color:#f6e8ed;min-height:30px;margin:12px 0;font-size:18px;font-weight:700}
-.livecounts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:15px 0}
-.livecounts div{padding:9px;background:#11040a;border:1px solid #ffffff18;border-radius:12px;text-align:center;color:#d9c5cd;font-size:13px}
-.livecounts b{display:block;color:var(--y);font:800 18px Orbitron;margin-bottom:3px}
-.modal{position:fixed;inset:0;background:#050106ed;display:grid;place-items:center;padding:18px;z-index:10}
-.mbox{width:min(460px,100%);background:linear-gradient(145deg,#4a0d23,#14040a);border:1px solid var(--y);border-radius:20px;padding:24px;text-align:center;box-shadow:0 0 55px #ffcf4a33}
-.mbox h2{font:800 21px Orbitron;color:var(--y)}
+.wrap{max-width:930px;margin:auto;padding:15px}
+.top{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:10px;
+ color:var(--gold);font:700 11px Orbitron;
+ letter-spacing:1px;margin:8px 2px 17px;
+}
+.stars{white-space:nowrap;letter-spacing:2px}
+.panel{
+ position:relative;overflow:hidden;
+ background:linear-gradient(145deg,#4d1028,#200914 55%,#10050b);
+ border:1px solid #d9ad4b70;
+ border-radius:24px;padding:24px;
+ box-shadow:0 22px 75px #000a,inset 0 1px #ffffff15;
+}
+.panel:before{
+ content:"";position:absolute;top:0;left:10%;right:10%;height:2px;
+ background:linear-gradient(90deg,transparent,var(--gold),transparent);
+ box-shadow:0 0 17px var(--gold);
+}
+.hero{text-align:center;padding:30px 20px}
+.cup{font-size:54px;animation:float 3s infinite ease-in-out}
+@keyframes float{50%{transform:translateY(-8px)}}
+h1{
+ font:800 clamp(25px,5vw,42px) Orbitron;
+ color:var(--gold);line-height:1.3;
+}
+.sub{font-size:19px;color:#ead8e0}
+.stats,.livecounts{
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:9px;margin:20px 0;
+}
+.stat,.livecounts div{
+ background:#16050c;border:1px solid #ffffff25;
+ border-radius:13px;padding:13px 5px;text-align:center;
+}
+.stat b,.livecounts b{
+ display:block;color:var(--gold);
+ font:800 20px Orbitron;
+}
+.stat span,.livecounts div{font-size:13px}
+.input{
+ width:100%;padding:15px;margin:12px 0;
+ border-radius:13px;background:#12040a;
+ border:1px solid #c69a47;color:white;
+ font:700 19px Rajdhani;outline:none;
+}
+.btn{
+ border:0;border-radius:13px;padding:15px;
+ font:800 14px Orbitron;transition:.2s;
+}
+.btn:active{transform:scale(.98)}
+.main{
+ width:100%;
+ background:linear-gradient(100deg,#ffc43d,#fff0a6,#ffc43d);
+ color:#2d0713;
+ box-shadow:0 8px 25px #ffd34f22;
+}
+.rules{
+ text-align:left;margin-top:18px;padding:17px;
+ background:#15050c;border:1px solid #ffffff20;
+ border-radius:15px;font-size:16px;line-height:1.6;
+}
+.rules b{color:var(--gold)}
+.head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.qtag{font:700 12px Orbitron;color:var(--gold);letter-spacing:.5px}
+.timer{
+ border:1px solid var(--gold);border-radius:13px;
+ padding:10px 14px;color:var(--gold);
+ font:800 24px Orbitron;
+}
+.timer.red{color:#ff667c;border-color:#ff667c;animation:blink .45s infinite alternate}
+@keyframes blink{to{box-shadow:0 0 19px #ff315077}}
+.progress{
+ height:6px;background:#ffffff20;border-radius:20px;
+ margin:17px 0 20px;overflow:hidden;
+}
+.bar{
+ width:0;height:100%;transition:width .4s;
+ background:linear-gradient(90deg,#b70d3b,#ffe27d);
+}
+.joker-heading{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:8px;margin-bottom:10px;
+}
+.joker-heading span{font:700 12px Orbitron;color:var(--gold)}
+.joker-heading small{color:#d8bec8}
+.jokers{
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:9px;margin-bottom:22px;
+}
+.joker{
+ min-height:106px;padding:12px 5px;
+ border-radius:15px;border:1px solid #c69a47;
+ background:linear-gradient(145deg,#481128,#18060f);
+ display:flex;flex-direction:column;
+ align-items:center;justify-content:center;gap:7px;
+ color:white;transition:.2s;
+ box-shadow:0 7px 18px #0005;
+}
+.joker:hover:not(:disabled){transform:translateY(-3px);border-color:var(--gold2)}
+.joker:disabled{opacity:.35;filter:grayscale(.6)}
+.jicon{font:800 25px Orbitron;color:var(--gold)}
+.jname{font-size:13px;font-weight:700}
+.jcost{font:700 10px Orbitron;color:var(--gold)}
+.question{
+ padding:22px;margin:12px 0 15px;
+ border:1px solid #ffd45c3b;border-radius:18px;
+ background:linear-gradient(110deg,#2c0b1c,#190710);
+ font-size:clamp(22px,3.5vw,30px);
+ font-weight:700;line-height:1.3;
+ animation:appear .45s;
+}
+@keyframes appear{
+ from{opacity:0;transform:translateY(14px)}
+ to{opacity:1;transform:none}
+}
+.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.answer{
+ display:flex;align-items:center;gap:12px;
+ min-height:74px;padding:13px;
+ background:linear-gradient(120deg,#351020,#18070f);
+ border:1px solid #ffffff30;border-radius:15px;
+ color:white;text-align:left;font:700 18px Rajdhani;
+ transition:.2s;
+}
+.answer:hover:not(:disabled){border-color:var(--gold)}
+.letter{
+ width:36px;height:36px;flex-shrink:0;
+ display:grid;place-items:center;
+ background:#ffd45c17;border:1px solid #ffd45c77;
+ border-radius:10px;color:var(--gold);
+ font:800 15px Orbitron;
+}
+.answer.good{
+ background:linear-gradient(120deg,#075d3a,#103322);
+ border:2px solid #68efae;
+}
+.answer.bad{
+ background:linear-gradient(120deg,#75142c,#310817);
+ border:2px solid #ff5b72;
+}
+.answer.gone{opacity:.1;pointer-events:none}
+.note{
+ text-align:center;color:#f5e5ec;
+ min-height:28px;margin:15px 0;
+ font-size:18px;font-weight:700;
+}
+.score{
+ font:800 clamp(28px,6vw,43px) Orbitron;
+ color:var(--gold);margin:23px 0;
+}
+.modal{
+ position:fixed;inset:0;z-index:20;
+ display:grid;place-items:center;padding:18px;
+ background:#050106ed;backdrop-filter:blur(9px);
+}
+.mbox{
+ width:min(460px,100%);padding:24px;
+ background:linear-gradient(145deg,#4a0d23,#14040a);
+ border:1px solid var(--gold);border-radius:21px;
+ box-shadow:0 0 55px #ffcf4a33;text-align:center;
+}
+.mbox h2{font:800 20px Orbitron;color:var(--gold)}
 .mbox p{font-size:19px}
-.bars{display:flex;align-items:end;justify-content:center;gap:14px;height:150px;margin:15px}
-.col{width:20%;display:flex;flex-direction:column;align-items:center;gap:5px}
-.fill{width:100%;background:linear-gradient(#ffe27d,#a20b30);border-radius:7px 7px 0 0;min-height:4px;transform:scaleY(0);transform-origin:bottom;animation:barRise .8s ease forwards}
-@keyframes barRise{to{transform:scaleY(1)}}
-.silhouette{width:92px;height:112px;margin:0 auto 12px;position:relative;filter:drop-shadow(0 0 16px #ffd34f55)}
-.silhouette:before{content:"";position:absolute;width:45px;height:45px;border-radius:50%;background:#09050a;left:24px;top:2px;border:2px solid #b58b43}
-.silhouette:after{content:"";position:absolute;width:82px;height:64px;border-radius:42px 42px 12px 12px;background:linear-gradient(135deg,#09050a,#32101e);left:5px;bottom:0;border:2px solid #b58b43}
-.callwave{animation:callwave 1s infinite alternate}
-@keyframes callwave{to{filter:drop-shadow(0 0 22px #ffcf4a);transform:scale(1.04)}}
-.sound{position:fixed;bottom:12px;right:12px;background:#210711;border:1px solid #c59a43;border-radius:99px;color:var(--y);padding:11px;z-index:4}
-.score{font:800 42px Orbitron;color:var(--y);margin:20px}
-.rankrow{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 7px;border-bottom:1px solid #ffffff20;font-size:17px}
-.rankleft{display:flex;align-items:center;gap:9px;min-width:0}
-.ranknum{width:27px;color:#d8c5cb;font-weight:700}
-.medal{font-size:20px;filter:drop-shadow(0 0 7px currentColor)}
-.goldrank{color:#ffe27a;text-shadow:0 0 7px #ffd34f,0 0 16px #ffbd28;font-weight:800}
-.silverrank{color:#e9edf4;text-shadow:0 0 8px #dce6f3;font-weight:800}
-.bronzerank{color:#e9a46c;text-shadow:0 0 8px #cd7c3c;font-weight:800}
-.rankpoints{color:var(--y);font:700 14px Orbitron;white-space:nowrap}
-@media(max-width:560px){.jokers{grid-template-columns:repeat(2,1fr)}.answers{grid-template-columns:1fr}.panel{padding:16px}.hero{padding:22px 14px}.question{font-size:23px}.joker{font-size:12px}}
+.silhouette{
+ width:92px;height:112px;margin:0 auto 12px;
+ position:relative;animation:callwave 1s infinite alternate;
+}
+.silhouette:before{
+ content:"";position:absolute;top:2px;left:24px;
+ width:45px;height:45px;border-radius:50%;
+ background:#09050a;border:2px solid #b58b43;
+}
+.silhouette:after{
+ content:"";position:absolute;bottom:0;left:5px;
+ width:82px;height:64px;border-radius:42px 42px 12px 12px;
+ background:#180710;border:2px solid #b58b43;
+}
+@keyframes callwave{
+ to{filter:drop-shadow(0 0 23px #ffcf4a);transform:scale(1.04)}
+}
+.bars{
+ display:flex;align-items:end;justify-content:center;
+ gap:14px;height:150px;margin:17px 0;
+}
+.col{
+ width:20%;display:flex;flex-direction:column;
+ align-items:center;gap:5px;
+}
+.fill{
+ width:100%;min-height:3px;
+ background:linear-gradient(#ffe27d,#a20b30);
+ border-radius:7px 7px 0 0;transition:height .3s;
+}
+.rankrow{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:8px;padding:10px 4px;
+ border-bottom:1px solid #ffffff20;font-size:17px;
+}
+.rankleft{display:flex;align-items:center;gap:9px;min-width:0;overflow:hidden}
+.playername{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ranknum{width:26px;flex-shrink:0}
+.medal{font-size:20px}
+.goldrank{color:#ffe27a;text-shadow:0 0 10px #ffd34f}
+.silverrank{color:#e9edf4;text-shadow:0 0 8px #dce6f3}
+.bronzerank{color:#e9a46c;text-shadow:0 0 8px #cd7c3c}
+.rankpoints{color:var(--gold);font:700 13px Orbitron;white-space:nowrap}
+.sound{
+ position:fixed;bottom:12px;right:12px;z-index:5;
+ background:#210711;border:1px solid #c59a43;
+ border-radius:99px;color:var(--gold);padding:11px 14px;
+ font:700 12px Rajdhani;
+}
+@media(max-width:560px){
+ .panel{padding:16px}
+ .hero{padding:24px 14px}
+ .answers{grid-template-columns:1fr}
+ .jokers{gap:6px}
+ .joker{min-height:94px;padding:9px 3px}
+ .jicon{font-size:21px}
+ .jname{font-size:11px}
+ .jcost{font-size:9px}
+ .question{font-size:23px;padding:17px}
+ .top{font-size:10px}
+}
+@media(max-width:340px){
+ .jokers{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
-<div class="top"><span>GSHD VIP • ASLANIN HAFIZASI</span><span>★ ★ ★ ★ ★</span></div>
+<div class="top">
+ <span>GSHD VIP • ASLANIN HAFIZASI</span>
+ <span class="stars">★★★★★</span>
+</div>
 
 <section id="home" class="panel hero">
-<div class="cup">🏆</div>
-<h1>NE KADAR<br>GALATASARAYLISIN?</h1>
-<div class="sub">20 zor soru • 30 saniye • 4 özel joker • Çarpanlı puan sistemi</div>
-<div class="stats">
-<div class="stat"><b>20</b><span>SORU</span></div>
-<div class="stat"><b>30 SN</b><span>SÜRE</span></div>
-<div class="stat"><b>×1–×5</b><span>PUAN ÇARPANI</span></div>
-</div>
-<input id="name" class="input" maxlength="18" value="Omerbasgan" placeholder="Taraftar adın">
-<button id="start" class="btn main">YARIŞMAYA BAŞLA</button>
-<div class="rules">
-<b>🏆 YARIŞMA VE PUAN KURALLARI</b><br>
-20 soru sorulur. Her soru için 30 saniye vardır. Doğru cevap 100 temel puandır: 1–4. sorular ×1 = 100, 5–8. sorular ×2 = 200, 9–12. sorular ×3 = 300, 13–16. sorular ×4 = 400, 17–20. sorular ×5 = 500 puan.<br>
-Yanlış cevap ve pas 0 puandır; yarışma sona ermez. Süre biterse soru pas geçilmiş sayılır. Joker cezaları toplam puandan düşer; puan sıfırın altına inmez.<br><br>
-<b>⚡ DÖRT JOKER</b><br>
-½ %50: İki yanlış şık silinir (−150 puan).<br>
-☎ Telefon: omerbasgan'a animasyonlu bağlantı kurulur; esprili mesajın ardından doğru cevap gösterilir (−300 puan).<br>
-▥ Seyirciye sor: Animasyonlu seyirci grafiği doğru cevabı en yüksek oyla gösterir (−100 puan).<br>
-⏱ Süre uzat: Süreye 15 saniye ekler (−100 puan).<br><br>
-Her joker yarışma boyunca yalnızca bir kez kullanılabilir. Şıkkı seçtiğinde cevap kısa bir animasyon ve ses efektiyle hemen değerlendirilir. Yanlış cevapta yarışma bitmez. Pas hakkını istediğin soruda kullanabilirsin.<br><br>
-<b>🥇 LİDERLİK TABLOSU</b><br>
-Firebase puan tablosunda en yüksek puanlı ilk 100 yarışmacı listelenir; ilk üç sırada altın, gümüş ve bronz madalya gösterilir.
-</div>
+ <div class="cup">🏆</div>
+ <h1>NE KADAR<br>GALATASARAYLISIN?</h1>
+ <div class="sub">EFSANE ZORLUK • Gerilimli Quiz Deneyimi</div>
+ <div class="stats">
+  <div class="stat"><b>20</b><span>SORU</span></div>
+  <div class="stat"><b>30 SN</b><span>SÜRE</span></div>
+  <div class="stat"><b>×1–×5</b><span>ÇARPAN</span></div>
+ </div>
+ <input id="name" class="input" maxlength="18" value="Omerbasgan" placeholder="Taraftar adın">
+ <button id="start" class="btn main">YARIŞMAYA BAŞLA</button>
+ <div class="rules">
+  <b>🏆 EFSANE ZORLUK</b><br>
+  20 soru, her soruda 30 saniye. Sorular rastgele seçilir ve şıklar karıştırılır.<br><br>
+  <b>PUAN SİSTEMİ</b><br>
+  1–4: 100 puan<br>
+  5–8: 200 puan<br>
+  9–12: 300 puan<br>
+  13–16: 400 puan<br>
+  17–20: 500 puan<br><br>
+  Yanlış ve pas 0 puan. Yarışma devam eder. Jokerler tek kullanımlıktır.<br><br>
+  <b>⚡ JOKERLER</b><br>
+  ½ %50: İki yanlış seçenek silinir (−150).<br>
+  ☎ Telefon: Omerbasgan farklı konuşmalarla doğru cevabı verir (−300).<br>
+  ▥ Seyirci: Anket doğru cevabı gösterir (−100).<br>
+  ⏱ Süre: 15 saniye eklenir (−100).<br><br>
+  <b>🎵 GERİLİM ATMOSFERİ</b><br>
+  Yarışma başlayınca özgün gerilim müziği çalar. Son saniyelerde tempo artar. Ses butonuyla kapatılabilir.<br><br>
+  <b>🥇 LİDERLİK</b><br>
+  Firebase üzerinde en yüksek 100 skor listelenir.
+ </div>
 </section>
 
 <section id="game" class="panel hidden">
-<div class="head">
-<div>
-<div class="qtag" id="count">SORU 01 / 20</div>
-<div>GSHD • TARİH & AVRUPA SERÜVENİ</div>
-<div class="qtag" id="multiplier" style="margin-top:7px">KAZANÇ ×1 • 100 PUAN</div>
-</div>
-<div class="timer" id="timer">30</div>
-</div>
-<div class="progress"><div class="bar" id="bar"></div></div>
-<div class="qtag" style="margin-top:18px">ZORLUK • UZMAN</div>
-<div id="question" class="question"></div>
-<div id="answers" class="answers"></div>
-<div class="jokers">
-<button class="joker" id="half">½ %50<small>−150 PUAN</small></button>
-<button class="joker" id="phone">☎ TELEFON<small>−300 PUAN</small></button>
-<button class="joker" id="bench">▥ SEYİRCİ<small>−100 PUAN</small></button>
-<button class="joker" id="extend">⏱ SÜRE UZAT<small>+15 SN • −100 PUAN</small></button>
-</div>
-<div class="livecounts">
-<div><b id="correctNow">0</b>DOĞRU</div>
-<div><b id="wrongNow">0</b>YANLIŞ</div>
-<div><b id="passNow">0</b>PAS</div>
-</div>
-<div class="note" id="note">Bir şık seç; cevabın hemen değerlendirilsin.</div>
-<div class="actions">
-<button class="btn main" id="pass">↷ PAS GEÇ</button>
-<button class="btn main" id="confirm" disabled>CEVABI ONAYLA</button>
-</div>
+ <div class="head">
+  <div>
+   <div class="qtag" id="count">SORU 01 / 20</div>
+   <div style="margin-top:6px">GSHD • GALATASARAY TARİHİ</div>
+   <div class="qtag" id="multiplier" style="margin-top:8px">KAZANÇ ×1</div>
+  </div>
+  <div class="timer" id="timer">30</div>
+ </div>
+
+ <div class="progress"><div class="bar" id="bar"></div></div>
+
+ <div class="joker-heading">
+  <span>⚡ ÖZEL JOKERLER</span>
+  <small>Tek kullanımlık</small>
+ </div>
+ <div class="jokers">
+  <button class="joker" id="half">
+   <span class="jicon">½</span><span class="jname">%50</span><span class="jcost">−150 PUAN</span>
+  </button>
+  <button class="joker" id="phone">
+   <span class="jicon">☎</span><span class="jname">TELEFON</span><span class="jcost">−300 PUAN</span>
+  </button>
+  <button class="joker" id="bench">
+   <span class="jicon">▥</span><span class="jname">SEYİRCİ</span><span class="jcost">−100 PUAN</span>
+  </button>
+  <button class="joker" id="extend">
+   <span class="jicon">⏱</span><span class="jname">SÜRE UZAT</span><span class="jcost">−100 PUAN</span>
+  </button>
+ </div>
+
+ <div class="qtag">ZORLUK • EFSANE</div>
+ <div id="question" class="question"></div>
+ <div id="answers" class="answers"></div>
+ <div id="note" class="note">Cevabını seç.</div>
+ <button id="pass" class="btn main">↷ PAS GEÇ</button>
 </section>
 
 <section id="result" class="panel hidden" style="text-align:center">
-<h1>YARIŞMA TAMAMLANDI</h1>
-<div id="resultText" class="sub"></div>
-<div id="score" class="score"></div>
-<div class="livecounts">
-<div><b id="finalCorrect">0</b>DOĞRU</div>
-<div><b id="finalWrong">0</b>YANLIŞ</div>
-<div><b id="finalPass">0</b>PAS</div>
-</div>
-<div id="board" class="rules"></div>
-<button id="again" class="btn main" style="margin-top:18px">YENİDEN YARIŞ</button>
+ <div class="cup">🏆</div>
+ <h1>YARIŞMA TAMAMLANDI</h1>
+ <div id="resultText" class="sub"></div>
+ <div id="score" class="score"></div>
+ <div class="livecounts">
+  <div><b id="finalCorrect">0</b>DOĞRU</div>
+  <div><b id="finalWrong">0</b>YANLIŞ</div>
+  <div><b id="finalPass">0</b>PAS</div>
+ </div>
+ <div id="board" class="rules">Liderlik tablosu yükleniyor...</div>
+ <button id="again" class="btn main" style="margin-top:18px">YENİDEN YARIŞ</button>
 </section>
 </div>
 
 <div id="modal" class="modal hidden"><div class="mbox" id="mbox"></div></div>
-<button id="sound" class="sound">♫ SES EFEKTLERİ AÇIK</button>
+<button id="sound" class="sound">♫ SES AÇIK</button>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
 <script>
-const firebaseConfig={
-apiKey:"AIzaSyC59qq7JGlnih47iWIxKm8csYnoE2mSFo8",
-authDomain:"gshd-d7843.firebaseapp.com",
-projectId:"gshd-d7843",
-storageBucket:"gshd-d7843.firebasestorage.app",
-messagingSenderId:"458559276692",
-appId:"1:458559276692:web:0a5711f682ff9241f65681"
-};
-let db=null,uid=null;
-try{
-firebase.initializeApp(firebaseConfig);
-db=firebase.firestore();
-firebase.auth().signInAnonymously().then(c=>uid=c.user.uid).catch(e=>console.warn(e));
-}catch(e){console.warn("Firebase başlatılamadı",e)}
-const $=id=>document.getElementById(id);
-function shuffle(a){return a.map(x=>[Math.random(),x]).sort((a,b)=>a[0]-b[0]).map(x=>x[1])}
+"use strict";
 
+const firebaseConfig={
+ apiKey:"AIzaSyC59qq7JGlnih47iWIxKm8csYnoE2mSFo8",
+ authDomain:"gshd-d7843.firebaseapp.com",
+ projectId:"gshd-d7843",
+ storageBucket:"gshd-d7843.firebasestorage.app",
+ messagingSenderId:"458559276692",
+ appId:"1:458559276692:web:0a5711f682ff9241f65681"
+};
+let db=null,uid=null,authReady=Promise.resolve();
+try{
+ firebase.initializeApp(firebaseConfig);
+ db=firebase.firestore();
+ authReady=firebase.auth().signInAnonymously()
+ .then(c=>uid=c.user.uid).catch(console.warn);
+}catch(e){console.warn(e)}
+
+const $=id=>document.getElementById(id);
+function shuffle(a){
+ a=[...a];
+ for(let j=a.length-1;j>0;j--){
+  let k=Math.floor(Math.random()*(j+1));
+  [a[j],a[k]]=[a[k],a[j]];
+ }
+ return a;
+}
+
+/*
+ EFSANE SEVİYE SORU BANKASI
+ Her kayıt: soru, 4 şık, doğru şık indeksi.
+ 20 soru rastgele seçilir.
+*/
 const bank=[
-["Galatasaray Spor Kulübü hangi yıl kuruldu?",["1905","1903","1907","1911"],0],
-["Galatasaray'ın kurucusu olarak kabul edilen isim kimdir?",["Ali Sami Yen","Asım Tevfik Sonumut","Hasan Şaş","Refik Cevdet Kalpakçıoğlu"],0],
-["Galatasaray hangi okulun öğrencileri tarafından kuruldu?",["Mekteb-i Sultani","İstanbul Erkek Lisesi","Robert Kolej","Darüşşafaka"],0],
-["Galatasaray'ın kuruluş amacıyla ilgili Ali Sami Yen'in meşhur ifadesi hangi hedefi anlatır?",["Türk olmayan takımları yenmek","İstanbul'un en büyük kulübü olmak","Sadece okul takımı olarak kalmak","Olimpiyatlara katılmak"],0],
-["Galatasaray'ın ilk renkleri hangileriydi?",["Kırmızı-beyaz","Sarı-kırmızı","Siyah-beyaz","Lacivert-beyaz"],0],
-["Galatasaray'ın bugünkü sarı-kırmızı renkleri hangi dönemde benimsendi?",["1908","1905","1910","1923"],0],
-["Galatasaray'ın ilk ambleminde hangi figür bulunuyordu?",["Ağzında futbol topu taşıyan kartal","Aslan","G harfi","Meşale"],0],
-["Galatasaray'ın ilk yurt dışı futbol karşılaşması hangi ülke takımıyla oynandı?",["Bükreş'ten bir takım","İngiltere'den bir takım","Fransa'dan bir takım","Yunanistan'dan bir takım"],0],
-["Metin Oktay'ın Galatasaray'daki lakabı nedir?",["Taçsız Kral","Büyük Kaptan","İmparator","Kral"],0],
-["Metin Oktay'ın futbol tarihindeki simgeleşmiş hareketi hangisidir?",["Ağları delen şut","Röveşata golü","Kornerden gol","Orta sahadan gol"],0],
-["Galatasaray'ın Avrupa'da kazandığı ilk büyük kupa hangisidir?",["UEFA Kupası","Şampiyonlar Ligi","Kupa Galipleri Kupası","Süper Kupa"],0],
-["Galatasaray 2000 UEFA Kupası finalinde hangi takımı yendi?",["Arsenal","Real Madrid","Leeds United","Valencia"],0],
-["2000 UEFA Kupası finalinde Galatasaray'ın rakibi Arsenal'in teknik direktörü kimdi?",["Arsène Wenger","Alex Ferguson","José Mourinho","Claudio Ranieri"],0],
-["Galatasaray'ın 2000 UEFA Kupası finalinde normal süre ve uzatma sonunda skor nasıldı?",["0-0","1-1","2-1 Galatasaray","1-0 Arsenal"],0],
-["Galatasaray 2000 UEFA Kupası finalini hangi yöntemle kazandı?",["Penaltı atışları","Altın gol","Tekrar maçı","Deplasman golü"],0],
-["Galatasaray'ın 2000 UEFA Süper Kupa finalindeki rakibi kimdi?",["Real Madrid","Barcelona","Manchester United","Bayern Münih"],0],
-["Galatasaray 2000 UEFA Süper Kupa finalinde hangi oyuncunun altın golüyle kazandı?",["Mario Jardel","Hakan Şükür","Gheorghe Hagi","Ümit Davala"],0],
-["Galatasaray'ın 1999-2000 UEFA Kupası yarı finalinde karşılaştığı İngiliz takımı hangisiydi?",["Leeds United","Arsenal","Chelsea","Liverpool"],0],
-["Galatasaray'ın 2000 UEFA Kupası'nı kazandığı final hangi şehirde oynandı?",["Kopenhag","Amsterdam","Paris","Roma"],0],
-["2000 UEFA Kupası finalinin oynandığı stadyum hangisiydi?",["Parken","Wembley","San Siro","De Kuip"],0],
-["Galatasaray başkanları resmî listesine göre Faruk Süren hangi yıllar arasında başkanlık yaptı?",["1996-2001","1992-1996","2001-2002","2002-2008"],0],
-["Özhan Canaydın, Galatasaray başkanlığına ilk kez hangi yıl seçildi?",["2002","1996","2008","2011"],0],
-["Ünal Aysal'ın Galatasaray başkanlığı hangi dönemi kapsar?",["2011-2014","2008-2011","2014-2015","2015-2018"],0],
-["Galatasaray'ın 2000 UEFA Kupası zaferinde takım kaptanı kimdi?",["Bülent Korkmaz","Hakan Şükür","Gheorghe Hagi","Claudio Taffarel"],0],
-["2000 UEFA Kupası finalinde Galatasaray'ın teknik direktörü kimdi?",["Fatih Terim","Mircea Lucescu","Mustafa Denizli","Gheorghe Hagi"],0],
-["Galatasaray'ın 2000 UEFA Kupası zaferi, kulüp düzeyinde Türkiye'ye hangi ilki getirdi?",["Avrupa kupası kazanan ilk Türk takımı olma başarısı","Şampiyonlar Ligi'ni kazanan ilk Türk takımı olma","Kıtalararası Kupa'yı kazanan ilk Türk takımı olma","Avrupa Ligi'nde namağlup şampiyon olma"],0],
-["Galatasaray'ın resmî tarihçesine göre 1905'te kurulan kulübün ilk spor şubesi hangisiydi?",["Futbol","Basketbol","Voleybol","Atletizm"],0],
-["Galatasaray'ın 1905'teki kuruluşundan sonra yasal kimlik kazanmasını sağlayan tescil hangi yıl yapıldı?",["1913","1905","1910","1920"],0],
-["Galatasaray'ın 2000 UEFA Kupası finalinde Arsenal karşısındaki penaltı serisinde kaleyi koruyan kaleci kimdi?",["Cláudio Taffarel","Faryd Mondragón","Brad Friedel","Rüştü Reçber"],0],
-["Galatasaray'ın 2000 UEFA Kupası finalinde kaptan olarak kupayı kaldıran futbolcu kimdi?",["Bülent Korkmaz","Gheorghe Hagi","Hakan Şükür","Ümit Davala"],0]
+["1988-89 Avrupa Şampiyon Kulüpler Kupası'nda Neuchâtel Xamax rövanşında Galatasaray'ın ilk golünü kim attı?",["Tanju Çolak","Uğur Tütüneker","Prekazi","İsmail Demiriz"],0],
+["1988-89 Avrupa Şampiyon Kulüpler Kupası çeyrek finalinde Galatasaray hangi takımı eledi?",["Monaco","Neuchâtel Xamax","Steaua Bükreş","Rapid Wien"],0],
+["1988-89 sezonunda Monaco deplasmanında Galatasaray'ın tek golünü kim attı?",["Tanju Çolak","Prekazi","Uğur Tütüneker","Cüneyt Tanman"],0],
+["1988-89 Avrupa Şampiyon Kulüpler Kupası yarı finalinde Galatasaray'ı eleyen takım hangisiydi?",["Steaua Bükreş","Benfica","Milan","PSV"],0],
+["Galatasaray'ın 1988-89 Avrupa yarı finaline yükseldiği sezon teknik direktörü kimdi?",["Mustafa Denizli","Jupp Derwall","Fatih Terim","Feldkamp"],0],
+["Galatasaray 1999-2000 UEFA Kupası üçüncü turunda hangi takımı eledi?",["Borussia Dortmund","Bologna","Mallorca","Leeds United"],0],
+["Galatasaray'ın 1999-2000 UEFA Kupası dördüncü turundaki rakibi hangisiydi?",["Mallorca","Bologna","Leeds United","Arsenal"],0],
+["1999-2000 UEFA Kupası son 32 turunda Galatasaray hangi İtalyan takımıyla karşılaştı?",["Bologna","Parma","Roma","Fiorentina"],0],
+["2000 UEFA Kupası finalinde Galatasaray'ın penaltı serisindeki son vuruşunu kim yaptı?",["Gheorghe Popescu","Ümit Davala","Hakan Şükür","Ergün Penbe"],0],
+["2000 UEFA Kupası finalinde Arsenal adına penaltı kaçıran ilk futbolcu kimdi?",["Davor Šuker","Patrick Vieira","Thierry Henry","Ray Parlour"],0],
+["2000 UEFA Kupası finalinde Arsenal adına penaltı kaçıran ikinci futbolcu kimdi?",["Patrick Vieira","Davor Šuker","Freddie Ljungberg","Nwankwo Kanu"],0],
+["2000 UEFA Kupası finalinde uzatmalarda kırmızı kart gören Galatasaraylı futbolcu kimdi?",["Gheorghe Hagi","Bülent Korkmaz","Ümit Davala","Hakan Şükür"],0],
+["2000 UEFA Süper Kupa maçında Real Madrid'in tek golünü kim attı?",["Raúl","Luís Figo","Roberto Carlos","Guti"],0],
+["2000 UEFA Süper Kupa finalinde Galatasaray'ın iki golünü de atan futbolcu kimdi?",["Mario Jardel","Hakan Şükür","Gheorghe Hagi","Arif Erdem"],0],
+["2000-01 Şampiyonlar Ligi çeyrek finalinde Galatasaray'ın İstanbul'da Real Madrid'e attığı üçüncü golü kim kaydetti?",["Mario Jardel","Ümit Davala","Hasan Şaş","Hakan Şükür"],0],
+["2000-01 Şampiyonlar Ligi çeyrek finalinde Real Madrid'e karşı İstanbul'daki maç kaç kaç bitti?",["3-2","2-1","3-1","4-2"],0],
+["2000-01 Şampiyonlar Ligi çeyrek finalinde Galatasaray'ın rakibi kimdi?",["Real Madrid","Deportivo La Coruña","Valencia","Bayern Münih"],0],
+["1993'te Manchester United deplasmanında Galatasaray'ın 3-3'lük maçındaki son golünü kim attı?",["Arif Erdem","Hakan Şükür","Kub il ay Türkyılmaz","Tugay Kerimoğlu"],0],
+["1993-94 Şampiyonlar Ligi'ne katılma yolunda Manchester United'a karşı İstanbul'daki rövanş kaç kaç bitti?",["0-0","1-1","2-2","1-0"],0],
+["1993-94 Şampiyonlar Ligi grup aşamasında Galatasaray'ın rakiplerinden biri hangisiydi?",["Barcelona","Arsenal","Juventus","Ajax"],0],
+["2012-13 Şampiyonlar Ligi son 16 turunda Schalke 04 deplasmanında Galatasaray'ın ilk golünü kim attı?",["Hamit Altıntop","Burak Yılmaz","Umut Bulut","Selçuk İnan"],0],
+["2012-13 Şampiyonlar Ligi son 16 turunda Schalke 04 deplasmanında galibiyet golünü kim attı?",["Umut Bulut","Burak Yılmaz","Didier Drogba","Hamit Altıntop"],0],
+["2012-13 Şampiyonlar Ligi çeyrek finalinde Galatasaray Real Madrid'i İstanbul'da kaç kaç yendi?",["3-2","2-1","4-3","3-1"],0],
+["2012-13 Şampiyonlar Ligi'nde Real Madrid'e karşı İstanbul'daki 3-2'lik maçın ilk golünü kim attı?",["Emmanuel Eboué","Wesley Sneijder","Didier Drogba","Burak Yılmaz"],0],
+["2013-14 Şampiyonlar Ligi'nde Juventus'a karşı İstanbul'daki maçın tek golünü kim attı?",["Wesley Sneijder","Didier Drogba","Burak Yılmaz","Selçuk İnan"],0],
+["2013-14 Şampiyonlar Ligi'nde Juventus'a karşı Sneijder'in golünün asistini kim yaptı?",["Didier Drogba","Felipe Melo","Selçuk İnan","Burak Yılmaz"],0],
+["2013-14 Şampiyonlar Ligi'nde Juventus maçının ikinci bölümü neden ertesi gün oynandı?",["Yoğun kar yağışı","Elektrik kesintisi","Saha protestosu","Sis"],0],
+["2013-14 Şampiyonlar Ligi son 16 turunda Galatasaray hangi takıma elendi?",["Chelsea","Real Madrid","Juventus","Manchester United"],0],
+["Galatasaray'ın 1986-87 sezonunda lig şampiyonluğuna ulaştığı teknik direktör kimdi?",["Jupp Derwall","Mustafa Denizli","Brian Birch","Feldkamp"],0],
+["Galatasaray'ın 1987-88 sezonunda 39 golle gol kralı olan oyuncusu kimdi?",["Tanju Çolak","Prekazi","Uğur Tütüneker","Hakan Şükür"],0],
+["Galatasaray'ın 1992-93 sezonundaki teknik direktörü kimdi?",["Karl-Heinz Feldkamp","Mustafa Denizli","Fatih Terim","Reinhard Saftig"],0],
+["Galatasaray'ın 1996-97 sezonunda göreve gelen teknik direktörü kimdi?",["Fatih Terim","Graeme Souness","Mustafa Denizli","Jupp Derwall"],0],
+["Galatasaray 2011-12 sezonu Süper Final şampiyonluğunu hangi deplasmanda kesinleştirdi?",["Fenerbahçe","Beşiktaş","Trabzonspor","Bursaspor"],0],
+["Galatasaray 2014-15 sezonunda dördüncü yıldızı kazanırken teknik direktörü kimdi?",["Hamza Hamzaoğlu","Roberto Mancini","Cesare Prandelli","Fatih Terim"],0],
+["Galatasaray 2023-24 Süper Lig sezonunda kaç puan topladı?",["102","99","100","105"],0],
+["Galatasaray 2023-24 Süper Lig sezonunda kaç galibiyet aldı?",["33","32","34","31"],0],
+["Galatasaray'ın 2022-23 sezonundaki üst üste lig galibiyeti serisi kaç maçtı?",["14","13","15","12"],0],
+["2023'te Old Trafford'da Manchester United'a karşı Galatasaray'ın galibiyet golünü kim attı?",["Mauro Icardi","Kerem Aktürkoğlu","Wilfried Zaha","Dries Mertens"],0],
+["2023'te Manchester United deplasmanında Galatasaray'ın ikinci golünü kim attı?",["Kerem Aktürkoğlu","Wilfried Zaha","Mauro Icardi","Hakim Ziyech"],0],
+["2023-24 Şampiyonlar Ligi'nde Galatasaray'ın Bayern Münih deplasmanındaki golünü kim attı?",["Cédric Bakambu","Mauro Icardi","Kerem Aktürkoğlu","Hakim Ziyech"],0],
+["2023-24 Şampiyonlar Ligi'nde Kopenhag'a karşı İstanbul'daki 2-2'lik maçın eşitlik golünü kim attı?",["Tetê","Sacha Boey","Kerem Aktürkoğlu","Mauro Icardi"],0],
+["2023-24 Şampiyonlar Ligi'nde Manchester United ile İstanbul'da 3-3 biten maçta Galatasaray'ın üçüncü golünü kim attı?",["Kerem Aktürkoğlu","Hakim Ziyech","Mauro Icardi","Dries Mertens"],0],
+["2023-24 Şampiyonlar Ligi'nde Manchester United'a karşı İstanbul'da iki gol atan futbolcu kimdi?",["Hakim Ziyech","Mauro Icardi","Wilfried Zaha","Kerem Aktürkoğlu"],0],
+["Galatasaray'ın 2000 UEFA Kupası yarı finalinde Leeds United ile deplasmandaki maçının skoru neydi?",["2-2","1-1","2-1","0-0"],0],
+["Galatasaray'ın 2000 UEFA Kupası yarı finalinde Leeds United ile İstanbul'daki maçının skoru neydi?",["2-0","3-1","1-0","2-1"],0],
+["Galatasaray 1999-2000 UEFA Kupası finalini hangi stadyumda oynadı?",["Parken","Wembley","De Kuip","San Siro"],0],
+["Galatasaray'ın 2000 UEFA Kupası zaferinde takım kaptanı kimdi?",["Bülent Korkmaz","Gheorghe Hagi","Hakan Şükür","Cláudio Taffarel"],0],
+["Galatasaray'ın 2000 UEFA Süper Kupa zaferinde teknik direktörü kimdi?",["Mircea Lucescu","Fatih Terim","Mustafa Denizli","Gheorghe Hagi"],0]
 ];
 
-let qs=[],i=0,points=0,correctCount=0,wrongCount=0,selected=null,sec=30,timer=null,used={half:false,phone:false,bench:false,extend:false},name="Taraftar",passCount=0,answerLocked=false;
-function multiplierFor(n){return Math.floor(n/4)+1}
-function rewardFor(n){return 100*multiplierFor(n)}
-let ctx=null,soundOn=true;
-function audio(){try{ctx=ctx||new(window.AudioContext||window.webkitAudioContext)();if(ctx.state==="suspended")ctx.resume();return ctx}catch(e){return null}}
-function tone(freq,duration,type="sine",volume=.08,delay=0){let c=audio();if(!c||!soundOn)return;let o=c.createOscillator(),g=c.createGain(),t=c.currentTime+delay;o.type=type;o.frequency.setValueAtTime(freq,t);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(volume,t+.025);g.gain.exponentialRampToValueAtTime(.0001,t+duration);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+duration+.03)}
-function answerSound(ok){if(ok){tone(660,.18,"triangle",.10);tone(880,.28,"triangle",.09,.16);tone(1175,.38,"sine",.08,.34)}else{tone(220,.24,"sawtooth",.065);tone(165,.42,"triangle",.07,.22)}}
-$("sound").onclick=()=>{soundOn=!soundOn;$("sound").textContent=soundOn?"♫ SES EFEKTLERİ AÇIK":"♫ SES EFEKTLERİ KAPALI";if(soundOn)audio()};
+/* OMERBASGAN: HER ARAMADA FARKLI DİYALOG */
+const phoneDialogues=[
+[
+ "Alo hocam? Yine mi sen? 😄",
+ "Ben burada Galatasaray arşivi karıştırıyorum, sen joker peşindesin!",
+ "Tamam, kıramam seni. Ama bu yardımın bedeli var!",
+ "Cevap {A}. Bunu da unutma!"
+],
+[
+ "Omerbasgan konuşuyor, buyur aslanım!",
+ "Daha yarışma bitmeden yardım mı istedin?",
+ "Belli ki sorular biraz ağır geldi. 😎",
+ "Cevap {A}. Bu seferlik benden!"
+],
+[
+ "Alooo! Kim arıyor böyle kritik dakikada?",
+ "Hocam, yine Galatasaray tarihiyle sınanıyorsun!",
+ "Bu soruyu bilmek için arşiv tozu yutmak lazım.",
+ "Cevap {A}. Hadi devam!"
+],
+[
+ "Buyur hocam, GSHD gizli bilgi hattı!",
+ "Sana bir soru: Bu kadar joker kullanılır mı? 😂",
+ "Şaka bir yana, sana kıyamam.",
+ "Doğru seçenek {A}. Aslan gibi devam!"
+],
+[
+ "Omerbasgan burada, sesim geliyor mu?",
+ "Yine sen! Telefon rehberime 'Jokerci' diye kaydedeceğim.",
+ "Bakalım bugün hangi soruda takıldın.",
+ "Cevap {A}. Sonra çay ısmarlarsın!"
+],
+[
+ "Alo! Bu hat yalnızca gerçek Galatasaraylılara açık.",
+ "Kimlik kontrolü: 1905'i biliyorsun, tamamdır!",
+ "Ama bu soru biraz farklıymış hocam.",
+ "Doğru cevap {A}. Güle güle kullan!"
+],
+[
+ "Omerbasgan'ın özel hattına hoş geldin!",
+ "Bir dakika, arşivde doğru sayfayı buluyorum...",
+ "Buldum! Bunu bilmeyen çok kişi var.",
+ "Cevap {A}. Tarihe not düş!"
+],
+[
+ "Hocam, sen yine beni mi aradın? 😂",
+ "Yarışma yeniden başlamış, ben yine telefondayım.",
+ "Sana özel Galatasaray istihbaratı geldi.",
+ "Cevap {A}. Hadi kupaya!"
+],
+[
+ "Alo, Omerbasgan konuşuyor!",
+ "Bu sefer gerçekten zor bir soru seçmişsin.",
+ "Ben de az kalsın yanlış söyleyecektim!",
+ "Ama kontrol ettim: {A}. Güven bana."
+],
+[
+ "Buyur kral, yardım masası burada!",
+ "Galatasaray tarihi şakaya gelmez hocam.",
+ "Arşivden kesin bilgi geldi.",
+ "Doğru şık {A}. Başarılar!"
+],
+[
+ "Hocam, telefonum yine çalıyor!",
+ "Böyle giderse beni quiz danışmanı yapacaksın. 😄",
+ "Neyse, sana özel ipucunu veriyorum.",
+ "Cevap {A}. Şimdi göster kendini!"
+],
+[
+ "Alooo, efsane taraftar hattı!",
+ "Sana cevap vermeden önce bir tezahürat beklerdim.",
+ "Ama süre akıyor, uzatmayalım.",
+ "Doğru cevap {A}. Haydi Aslan!"
+]
+];
 
-$("start").onclick=()=>{
-name=$("name").value.trim()||"Taraftar";
-audio();
-qs=shuffle(bank).slice(0,20).map(q=>({q:q[0],opts:shuffle(q[1].map((v,j)=>({v,ok:j===q[2]})))}));
-i=0;points=0;used={half:false,phone:false,bench:false,extend:false};correctCount=0;wrongCount=0;passCount=0;
-$("home").classList.add("hidden");$("result").classList.add("hidden");$("game").classList.remove("hidden");show()
+let phonePool=[];
+function getPhoneDialogue(){
+ if(!phonePool.length)phonePool=shuffle([...phoneDialogues]);
+ return phonePool.pop();
+}
+
+let qs=[],i=0,points=0,correctCount=0,wrongCount=0,passCount=0;
+let sec=30,timer=null,locked=false,name="Taraftar",gameToken=0;
+let used={half:false,phone:false,bench:false,extend:false};
+let ctx=null,soundOn=true,musicTimer=null,musicStep=0;
+
+function audio(){
+ if(!soundOn)return null;
+ try{
+  ctx=ctx||new(window.AudioContext||window.webkitAudioContext)();
+  if(ctx.state==="suspended")ctx.resume();
+  return ctx;
+ }catch(e){return null}
+}
+function tone(freq,duration,type="sine",volume=.06,delay=0){
+ let c=audio();if(!c)return;
+ let o=c.createOscillator(),g=c.createGain(),t=c.currentTime+delay;
+ o.type=type;o.frequency.setValueAtTime(freq,t);
+ g.gain.setValueAtTime(.0001,t);
+ g.gain.exponentialRampToValueAtTime(volume,t+.025);
+ g.gain.exponentialRampToValueAtTime(.0001,t+duration);
+ o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+duration+.03);
+}
+function answerSound(ok){
+ if(ok){
+  tone(660,.18,"triangle",.10);
+  tone(880,.28,"triangle",.09,.16);
+  tone(1175,.38,"sine",.08,.34);
+ }else{
+  tone(220,.24,"sawtooth",.06);
+  tone(165,.42,"triangle",.07,.22);
+ }
+}
+
+/* ÖZGÜN GERİLİM MÜZİĞİ */
+function musicPulse(){
+ if(!soundOn||$("game").classList.contains("hidden")||locked)return;
+ const notes=[110,116.54,130.81,123.47,110,103.83,116.54,98];
+ const n=notes[musicStep%notes.length];
+ tone(n,.29,"triangle",.018);
+ tone(n/2,.42,"sine",.025);
+ if(musicStep%4===0)tone(n*2,.12,"sine",.012,.12);
+ if(sec<=10){
+  tone(880,.07,"square",.018,.06);
+ }
+ musicStep++;
+}
+function stopMusic(){
+ clearInterval(musicTimer);musicTimer=null;
+}
+function startMusic(){
+ stopMusic();
+ if(!soundOn)return;
+ musicPulse();
+ musicTimer=setInterval(musicPulse,360);
+}
+$("sound").onclick=()=>{
+ soundOn=!soundOn;
+ $("sound").textContent=soundOn?"♫ SES AÇIK":"♫ SES KAPALI";
+ if(soundOn&&!$("game").classList.contains("hidden"))startMusic();
+ else stopMusic();
 };
 
-function updateCounts(){
-$("correctNow").textContent=correctCount;
-$("wrongNow").textContent=wrongCount;
-$("passNow").textContent=passCount
+function mult(n){return Math.floor(n/4)+1}
+function reward(n){return 100*mult(n)}
+function charge(n){points=Math.max(0,points-n)}
+function modal(html){$("mbox").innerHTML=html;$("modal").classList.remove("hidden")}
+function closeModal(){$("modal").classList.add("hidden")}
+function pauseTimer(){clearInterval(timer);timer=null}
+function pauseGame(){pauseTimer();stopMusic()}
+function updateJokers(){
+ ["half","phone","bench","extend"].forEach(k=>{
+  $(k).disabled=used[k]||locked;
+ });
 }
-function modal(s){$("mbox").innerHTML=s;$("modal").classList.remove("hidden")}
-function close(){$("modal").classList.add("hidden")}
+function startTimer(){
+ pauseTimer();
+ timer=setInterval(()=>{
+  if(locked)return;
+  sec--;
+  $("timer").textContent=sec;
+  $("timer").classList.toggle("red",sec<=8);
+  if(sec<=0)passQuestion(true);
+ },1000);
+}
+
+$("start").onclick=()=>{
+ name=$("name").value.trim().slice(0,18)||"Taraftar";
+ audio();gameToken++;
+ qs=shuffle(bank).slice(0,20).map(q=>({
+  q:q[0],opts:shuffle(q[1].map((v,j)=>({v,ok:j===q[2]})))
+ }));
+ i=0;points=0;correctCount=0;wrongCount=0;passCount=0;
+ used={half:false,phone:false,bench:false,extend:false};
+ $("home").classList.add("hidden");
+ $("result").classList.add("hidden");
+ $("game").classList.remove("hidden");
+ show();window.scrollTo(0,0);
+};
 
 function show(){
-selected=null;answerLocked=false;sec=30;$("timer").textContent=30;$("timer").classList.remove("red");
-$("count").textContent=`SORU ${String(i+1).padStart(2,"0")} / 20`;
-$("multiplier").textContent=`KAZANÇ ×${multiplierFor(i)} • ${rewardFor(i)} PUAN`;
-$("bar").style.width=(i/20*100)+"%";
-$("question").textContent=qs[i].q;$("answers").innerHTML="";
-qs[i].opts.forEach((o,j)=>{
-let b=document.createElement("button");b.className="answer";
-b.innerHTML=`<strong>${"ABCD"[j]}.</strong>${o.v}`;
-b.onclick=()=>answerQuestion(j);$("answers").appendChild(b)
-});
-$("note").textContent="Bir şık seç; cevabın hemen değerlendirilsin.";
-$("pass").disabled=false;
-["half","phone","bench","extend"].forEach(k=>$(k).disabled=used[k]);
-updateCounts();clearInterval(timer);
-timer=setInterval(()=>{
-sec--;$("timer").textContent=sec;
-if(sec<=8)$("timer").classList.add("red");
-if(sec<=0){clearInterval(timer);passQuestion(true)}
-},1000)
+ locked=false;sec=30;
+ $("timer").textContent=30;$("timer").classList.remove("red");
+ $("count").textContent=`SORU ${String(i+1).padStart(2,"0")} / 20`;
+ $("multiplier").textContent=`KAZANÇ ×${mult(i)} • ${reward(i)} PUAN`;
+ $("bar").style.width=(i/20*100)+"%";
+ $("question").textContent=qs[i].q;
+ $("answers").innerHTML="";
+ qs[i].opts.forEach((o,j)=>{
+  let b=document.createElement("button");
+  b.className="answer";
+  let l=document.createElement("span");l.className="letter";l.textContent="ABCD"[j];
+  let t=document.createElement("span");t.textContent=o.v;
+  b.append(l,t);b.onclick=()=>answerQuestion(j);
+  $("answers").appendChild(b);
+ });
+ $("note").textContent="Cevabını seç. Süre işliyor...";
+ $("pass").disabled=false;
+ updateJokers();startTimer();startMusic();
 }
 
 function answerQuestion(j){
-if(answerLocked)return;
-answerLocked=true;selected=j;clearInterval(timer);$("pass").disabled=true;
-let ok=qs[i].opts[j].ok;
-document.querySelectorAll(".answer").forEach((b,k)=>{
-b.disabled=true;
-if(qs[i].opts[k].ok)b.classList.add("good");
-else if(k===j)b.classList.add("bad")
-});
-$("note").textContent="CEVAP KONTROL EDİLİYOR...";
-setTimeout(()=>{
-if(ok){
-let add=rewardFor(i);points+=add;correctCount++;
-$("note").textContent=`✓ DOĞRU! +${add} PUAN • ×${multiplierFor(i)}`
-}else{
-wrongCount++;
-$("note").textContent="✕ YANLIŞ CEVAP! Doğru cevap: "+ "ABCD"[qs[i].opts.findIndex(x=>x.ok)]+" • DEVAM!"
+ if(locked)return;
+ locked=true;pauseGame();
+ $("pass").disabled=true;updateJokers();
+ const token=gameToken,ok=qs[i].opts[j].ok;
+ document.querySelectorAll(".answer").forEach((b,k)=>{
+  b.disabled=true;
+  if(qs[i].opts[k].ok)b.classList.add("good");
+  else if(k===j)b.classList.add("bad");
+ });
+ $("note").textContent="CEVAP KONTROL EDİLİYOR...";
+ setTimeout(()=>{
+  if(token!==gameToken)return;
+  if(ok){
+   const add=reward(i);points+=add;correctCount++;
+   $("note").textContent=`✓ DOĞRU! +${add} PUAN`;
+  }else{
+   wrongCount++;
+   const right=qs[i].opts.findIndex(x=>x.ok);
+   $("note").textContent=`✕ YANLIŞ! DOĞRU CEVAP: ${"ABCD"[right]}`;
+  }
+  answerSound(ok);
+  setTimeout(()=>{if(token===gameToken)next()},1400);
+ },450);
 }
-answerSound(ok);updateCounts();setTimeout(next,1250)
-},450)
-}
-
 function passQuestion(timeout=false){
-if(answerLocked)return;
-answerLocked=true;clearInterval(timer);passCount++;$("pass").disabled=true;
-$("note").textContent=timeout?"SÜRE DOLDU • PAS GEÇİLDİ":"PAS GEÇİLDİ • SONRAKİ SORU";
-updateCounts();setTimeout(next,650)
+ if(locked)return;
+ locked=true;pauseGame();passCount++;
+ $("pass").disabled=true;updateJokers();
+ $("note").textContent=timeout?"SÜRE DOLDU • PAS":"PAS GEÇİLDİ";
+ const token=gameToken;
+ setTimeout(()=>{if(token===gameToken)next()},750);
 }
-$("pass").onclick=()=>passQuestion(false);
-
-function next(){clearInterval(timer);i++;if(i>=20)finish();else show()}
-function charge(n){points=Math.max(0,points-n)}
+$("pass").onclick=()=>passQuestion();
+function next(){i++;if(i>=20)finish();else show()}
 
 $("half").onclick=()=>{
-if(used.half)return;used.half=true;charge(150);
-let wrong=[...document.querySelectorAll(".answer")].map((b,j)=>({b,j})).filter(x=>!qs[i].opts[x.j].ok);
-shuffle(wrong).slice(0,2).forEach(x=>x.b.classList.add("gone"));
-$("half").disabled=true;$("note").textContent="İki yanlış seçenek silindi. −150 puan."
+ if(used.half||locked)return;
+ used.half=true;charge(150);
+ const wrong=[...document.querySelectorAll(".answer")]
+ .map((b,j)=>({b,j})).filter(x=>!qs[i].opts[x.j].ok);
+ shuffle(wrong).slice(0,2).forEach(x=>{
+  x.b.classList.add("gone");x.b.disabled=true;
+ });
+ updateJokers();
+ $("note").textContent="İki yanlış şık silindi. −150 puan.";
 };
 
 $("phone").onclick=()=>{
-if(used.phone)return;used.phone=true;charge(300);$("phone").disabled=true;
-let idx=qs[i].opts.findIndex(x=>x.ok),correct="ABCD"[idx];
-modal(`<div class="silhouette callwave"></div><h2>OMERBASGAN ARANIYOR...</h2><p id="call">Telefon çalıyor...</p><div class="qtag">GSHD GİZLİ HAT</div>`);
-let phases=["Telefon çalıyor...","omerbasgan'a güvenli bağlantı kuruluyor...","Hep işin düşünce ara zaten 😀 Sana son kez yardım edeyim :)","Yine mi quiz hocam? Bu seferlik söyleyeyim, sonra beni arama!","Cevap "+correct+" şıkkı. Bunu da bildin, helal!"];
-let k=0;
-let it=setInterval(()=>{
-k++;$("call").textContent=phases[k];
-if(k===phases.length-1){
-clearInterval(it);close();answerQuestion(idx);
-$("note").textContent="omerbasgan doğru cevabı verdi."
-}
-},1250)
+ if(used.phone||locked)return;
+ used.phone=true;charge(300);updateJokers();pauseGame();
+ const token=gameToken;
+ const idx=qs[i].opts.findIndex(x=>x.ok);
+ const correct="ABCD"[idx];
+ const lines=getPhoneDialogue().map(s=>s.replaceAll("{A}",correct));
+ modal(`<div class="silhouette"></div><h2>OMERBASGAN ARANIYOR...</h2>
+ <p id="call">Telefon çalıyor...</p><div class="qtag">GSHD GİZLİ HAT</div>`);
+ let k=0;
+ const it=setInterval(()=>{
+  if(token!==gameToken){clearInterval(it);return}
+  $("call").textContent=lines[k];
+  tone(440,.1,"sine",.04);
+  k++;
+  if(k>=lines.length){
+   clearInterval(it);
+   setTimeout(()=>{
+    if(token!==gameToken)return;
+    closeModal();answerQuestion(idx);
+   },1200);
+  }
+ },1600);
 };
 
 $("bench").onclick=()=>{
-if(used.bench)return;used.bench=true;charge(100);$("bench").disabled=true;
-let right=qs[i].opts.findIndex(x=>x.ok),v=[9,14,18,12];v[right]=59;
-let others=[0,1,2,3].filter(x=>x!==right),vals=[9,14,18];
-others.forEach((x,j)=>v[x]=vals[j]);
-modal(`<h2>📣 SEYİRCİYE SOR</h2><p>Tribünler oy kullanıyor...</p><div class="bars" id="pollbars">${v.map((n,j)=>`<div class="col"><b>0%</b><div class="fill" style="height:0px"></div><span>${"ABCD"[j]}</span></div>`).join("")}</div><p id="pollnote">Oylar toplanıyor...</p><button class="btn main" id="closeBench" disabled>SONUCU GÖR</button>`);
-let cols=[...$("pollbars").children],step=0;
-let it=setInterval(()=>{
-step++;
-cols.forEach((c,j)=>{
-let shown=Math.round(v[j]*step/5);
-c.querySelector("b").textContent=shown+"%";
-c.querySelector(".fill").style.height=(shown*1.25)+"px"
-});
-if(step>=5){
-clearInterval(it);
-$("pollnote").textContent=`Tribünlerin favorisi: ${"ABCD"[right]} şıkkı! Doğru cevap.`;
-$("closeBench").disabled=false;
-$("closeBench").onclick=()=>{close();answerQuestion(right)}
-}
-},260)
+ if(used.bench||locked)return;
+ used.bench=true;charge(100);updateJokers();pauseGame();
+ const token=gameToken;
+ const right=qs[i].opts.findIndex(x=>x.ok);
+ const v=[0,0,0,0];v[right]=59;
+ const others=[0,1,2,3].filter(x=>x!==right);
+ shuffle([9,14,18]).forEach((n,j)=>v[others[j]]=n);
+ modal(`<h2>📣 SEYİRCİYE SOR</h2><p>Tribünler oy kullanıyor...</p>
+ <div class="bars" id="pollbars">
+ ${v.map((n,j)=>`<div class="col"><b>0%</b><div class="fill" style="height:3px"></div><span>${"ABCD"[j]}</span></div>`).join("")}
+ </div><p id="pollnote">Oylar toplanıyor...</p>
+ <button class="btn main" id="closeBench" disabled>SONUCU GÖR</button>`);
+ const cols=[...$("pollbars").children];let step=0;
+ const it=setInterval(()=>{
+  if(token!==gameToken){clearInterval(it);return}
+  step++;
+  cols.forEach((c,j)=>{
+   const n=Math.round(v[j]*step/5);
+   c.querySelector("b").textContent=n+"%";
+   c.querySelector(".fill").style.height=(n*1.3+3)+"px";
+  });
+  if(step>=5){
+   clearInterval(it);
+   $("pollnote").textContent=`Tribünlerin favorisi: ${"ABCD"[right]} şıkkı!`;
+   $("closeBench").disabled=false;
+   $("closeBench").onclick=()=>{closeModal();answerQuestion(right)};
+  }
+ },300);
 };
 
 $("extend").onclick=()=>{
-if(used.extend)return;used.extend=true;charge(100);sec+=15;
-$("timer").textContent=sec;$("extend").disabled=true;
-$("note").textContent="⏱ Süreye 15 saniye eklendi. −100 puan."
+ if(used.extend||locked)return;
+ used.extend=true;charge(100);sec+=15;
+ $("timer").textContent=sec;
+ $("timer").classList.toggle("red",sec<=8);
+ updateJokers();
+ $("note").textContent="15 saniye eklendi. −100 puan.";
 };
 
 async function finish(){
-clearInterval(timer);$("game").classList.add("hidden");$("result").classList.remove("hidden");
-$("resultText").textContent=name+", 20 soruyu tamamladın. Doğru: "+correctCount+" • Yanlış: "+wrongCount+" • Pas: "+passCount;
-$("score").textContent=points.toLocaleString("tr-TR")+" PUAN";
-$("finalCorrect").textContent=correctCount;$("finalWrong").textContent=wrongCount;$("finalPass").textContent=passCount;
-if(db&&uid){
-try{
-await db.collection("quizScores").add({uid,name,correct:correctCount,wrong:wrongCount,points,rank:"VIP",createdAt:firebase.firestore.FieldValue.serverTimestamp()})
-}catch(e){console.warn("Skor kayıt hatası",e)}
-}
-board()
+ pauseGame();
+ $("game").classList.add("hidden");
+ $("result").classList.remove("hidden");
+ $("resultText").textContent=`${name}, 20 soruyu tamamladın!`;
+ $("score").textContent=points.toLocaleString("tr-TR")+" PUAN";
+ $("finalCorrect").textContent=correctCount;
+ $("finalWrong").textContent=wrongCount;
+ $("finalPass").textContent=passCount;
+ $("board").textContent="Liderlik tablosu yükleniyor...";
+ window.scrollTo(0,0);
+ await authReady;
+ if(db&&uid){
+  try{
+   await db.collection("quizScores").add({
+    uid,name,correct:correctCount,wrong:wrongCount,
+    pass:passCount,points,rank:"VIP",
+    createdAt:firebase.firestore.FieldValue.serverTimestamp()
+   });
+  }catch(e){console.warn("Skor kayıt hatası",e)}
+ }
+ board();
 }
 
-async function board(){
-if(!db)return;
-try{
-let s=await db.collection("quizScores").orderBy("points","desc").limit(100).get();
-$("board").innerHTML="<b>🏆 GSHD VIP • İLK 100</b>"+s.docs.map((d,j)=>{
-const medal=j===0?"🥇":j===1?"🥈":j===2?"🥉":"";
-const cls=j===0?"goldrank":j===1?"silverrank":j===2?"bronzerank":"";
-return `<div class="rankrow"><div class="rankleft"><span class="ranknum">${j<3?"":(j+1)+"."}</span><span class="medal">${medal}</span><span class="${cls}">${escapeHTML(d.data().name||"Taraftar")}</span></div><b class="rankpoints">${Number(d.data().points||0).toLocaleString("tr-TR")}</b></div>`
-}).join("")||"<p>Henüz kayıtlı skor yok.</p>"
-}catch(e){$("board").textContent="Puan tablosu şu anda yüklenemedi."}
+function escapeHTML(v){
+ return String(v).replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
 }
-function escapeHTML(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-$("again").onclick=()=>{$("result").classList.add("hidden");$("home").classList.remove("hidden")};
+async function board(){
+ if(!db){$("board").textContent="Firebase bağlantısı yok.";return}
+ try{
+  const s=await db.collection("quizScores").orderBy("points","desc").limit(100).get();
+  let html="<b>🏆 GSHD VIP • İLK 100</b>";
+  if(s.empty)html+="<p>Henüz kayıtlı skor yok.</p>";
+  s.docs.forEach((d,j)=>{
+   const x=d.data(),medal=j===0?"🥇":j===1?"🥈":j===2?"🥉":"";
+   const cls=j===0?"goldrank":j===1?"silverrank":j===2?"bronzerank":"";
+   html+=`<div class="rankrow"><div class="rankleft">
+   <span class="ranknum">${j<3?"":(j+1)+"."}</span>
+   <span class="medal">${medal}</span>
+   <span class="playername ${cls}">${escapeHTML(x.name||"Taraftar")}</span>
+   </div><b class="rankpoints">${Number(x.points||0).toLocaleString("tr-TR")}</b></div>`;
+  });
+  $("board").innerHTML=html;
+ }catch(e){
+  $("board").textContent="Puan tablosu yüklenemedi.";
+ }
+}
+$("again").onclick=()=>{
+ gameToken++;pauseGame();closeModal();
+ $("result").classList.add("hidden");
+ $("home").classList.remove("hidden");
+ window.scrollTo(0,0);
+};
 </script>
 </body>
 </html>
